@@ -1,0 +1,7 @@
+{
+  "name": "L3-Projet-SeriesFilms",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
