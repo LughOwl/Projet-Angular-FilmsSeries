@@ -13,5 +13,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <div style="padding: 16px;">
+    <h3>Test API TMDb</h3>
+    <p>Recherche: "Terminator"</p>
+    <p>{{ _listeFilms.length }} films trouvés.</p>
+  </div>
+
+  @for (item of _listeFilms; track item) {
+    <app-card-film [film]="item"></app-card-film>
+  }
 </ion-content>
