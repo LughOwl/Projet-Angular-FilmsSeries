@@ -1,7 +1,7 @@
 import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Bddfilms } from '../services/stockageFilmAPI';
+import { StockageFilmAPI } from '../services/stockageFilmAPI';
 import { UnFilm } from '../modeles/unFilm';
 
 @Component({
@@ -14,20 +14,18 @@ export class HomePage implements OnInit {
   listeFilms: UnFilm[] = [];
   listeSeries: UnFilm[] = [];
 
-
-  public bddFilms = inject(Bddfilms)
+  public bddFilms = inject(StockageFilmAPI)
 
   constructor(){}
 
   ngOnInit() {
-    // On déclenche le chargement si les listes sont vides
-    if (this.bddFilms.listeFilms.length === 0) {
-      this.bddFilms.chargerFilmsPopulaires();
-    }
-    if (this.bddFilms.listeSeries.length === 0) {
-      this.bddFilms.chargerSeriesPopulaires();
-    }
+    // S'abonner aux Observables pour remplir les listes
+    this.bddFilms.getFilmsPopulaires().subscribe(films => {
+      this.listeFilms = films;
+    });
+
+    this.bddFilms.getSeriesPopulaires().subscribe(series => {
+      this.listeSeries = series;
+    });
   }
-
 }
-

@@ -1,82 +1,130 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { UnFilm } from '../modeles/unFilm';
-import {BehaviorSubject} from "rxjs";
+import { FiltresRecherche } from '../modeles/filtresRecherche';
+
+// Structure d'un film tel qu'il est sauvegardé dans le localStorage
+interface FilmStocke {
+  id: number;
+  title: string;
+  poster_path: string;
+  statut: 'en_cours' | 'termine' | 'a_voir';
+  favori: boolean;
+}
 
 @Injectable({ providedIn: 'root' })
 export class StockageFilmLocal {
   private STORAGE_KEY = 'mes_films_data';
 
-  listeFavoris: UnFilm[] = [];
-  listeEnCours: UnFilm[] = [];
-  listeTermine: UnFilm[] = [];
-  listeAVoir: UnFilm[] = [];
-
-  private filmsSubject = new BehaviorSubject<{
-    favoris: UnFilm[],
-    enCours: UnFilm[],
-    termine: UnFilm[],
-    aVoir: UnFilm[]
-  }>({ favoris: [], enCours: [], termine: [], aVoir: [] });
-
+  // Observable : les composants s'y abonnent pour être notifiés des changements
+  private filmsSubject = new BehaviorSubject<UnFilm[]>([]);
   films$ = this.filmsSubject.asObservable();
 
   constructor() {
-    this.rafraichirListes();
+    this.notifierChangement();
   }
 
-  modifierFilm(film: UnFilm, statut: string, estFavori: boolean) {
-    let collection = this.getTouteLaCollection();
+  // ─── ÉCRITURE ────────────────────────────────────────────────────────────────
 
+  /**
+   * Ajoute ou met à jour un film dans le stockage local.
+   * Si statut = 'non_vu' et pas favori → on supprime le film du stockage.
+   */
+  modifierFilm(film: UnFilm, statut: string, estFavori: boolean) {
+    const collection = this.lireCollection();
     const index = collection.findIndex(item => item.id === film.id);
 
     if (statut === 'non_vu' && !estFavori) {
+      // Plus de statut ni favori → on retire le film
       if (index > -1) collection.splice(index, 1);
     } else {
-      const filmData = {
+      const filmAStocke: FilmStocke = {
         id: film.id,
         title: film.titre,
         poster_path: film.urlImage,
-        statut: statut,
+        statut: statut as FilmStocke['statut'],
         favori: estFavori
       };
-      if (index > -1) collection[index] = filmData;
-      else collection.push(filmData);
+      if (index > -1) collection[index] = filmAStocke;
+      else collection.push(filmAStocke);
     }
 
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collection));
-    this.rafraichirListes();
+    this.notifierChangement();
   }
 
-  private rafraichirListes() {
-    const collection = this.getTouteLaCollection();
+  // ─── LECTURE ─────────────────────────────────────────────────────────────────
 
-    this.listeFavoris = collection.filter(f => f.favori).map(f => new UnFilm(f));
-    this.listeEnCours = collection.filter(f => f.statut === 'en_cours').map(f => new UnFilm(f));
-    this.listeTermine = collection.filter(f => f.statut === 'termine').map(f => new UnFilm(f));
-    this.listeAVoir = collection.filter(f => f.statut === 'a_voir').map(f => new UnFilm(f));
+  /** Retourne les films filtrés et triés selon les filtres donnés */
+  rechercherEnLocal(terme: string, filtres: FiltresRecherche): UnFilm[] {
+    let resultats = this.lireCollection().map(f => new UnFilm(f));
 
-    this.filmsSubject.next({
-      favoris: this.listeFavoris,
-      enCours: this.listeEnCours,
-      termine: this.listeTermine,
-      aVoir: this.listeAVoir
-    });
+    // Filtre par statut
+    if (filtres.statut !== 'tous') {
+      resultats = resultats.filter(f => f.statut === filtres.statut);
+    }
+
+    // Filtre favoris
+    if (filtres.favoris === 'favoris') {
+      resultats = resultats.filter(f => f.estFavori);
+    }
+
+    // Filtre par type
+    if (filtres.type === 'films') {
+      resultats = resultats.filter(f => f.type === 'film');
+    } else if (filtres.type === 'series') {
+      resultats = resultats.filter(f => f.type === 'serie');
+    }
+
+    // Filtre par terme de recherche
+    if (terme && terme.trim()) {
+      const termeLower = terme.toLowerCase();
+      resultats = resultats.filter(f => f.titre.toLowerCase().includes(termeLower));
+    }
+
+    // Tri
+    return this.trier(resultats, filtres.tri);
   }
-  private getTouteLaCollection(): any[] {
+
+  /** Films par statut (pour la page Films) */
+  getFilmsParStatut(statut: 'en_cours' | 'termine' | 'a_voir'): UnFilm[] {
+    return this.lireCollection()
+      .filter(f => f.statut === statut)
+      .map(f => new UnFilm(f));
+  }
+
+  /** Films favoris (pour la page Films) */
+  getFavoris(): UnFilm[] {
+    return this.lireCollection()
+      .filter(f => f.favori)
+      .map(f => new UnFilm(f));
+  }
+
+  // ─── TRI ─────────────────────────────────────────────────────────────────────
+
+  trier(resultats: UnFilm[], tri: FiltresRecherche['tri']): UnFilm[] {
+    const copie = [...resultats];
+    switch (tri) {
+      case 'titre_az':
+        return copie.sort((a, b) => a.titre.localeCompare(b.titre));
+      case 'popularite':
+        return copie.sort((a, b) => b.note - a.note);
+      default:
+        return copie;
+    }
+  }
+
+  // ─── PRIVÉ ───────────────────────────────────────────────────────────────────
+
+  /** Lit la collection brute depuis le localStorage */
+  private lireCollection(): FilmStocke[] {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data ? JSON.parse(data) : [];
   }
 
-  // Récupérer les films pour la page "Films"
-  getFilmsParStatut(statut: string): UnFilm[] {
-    return this.getTouteLaCollection()
-      .filter(film => film.statut === statut)
-      .map(film => new UnFilm(film)); // On recrée des objets UnFilm
-  }
-
-  getFavoris(): UnFilm[] {
-    return this.getTouteLaCollection()
-      .filter(film => film.favori)
-      .map(film => new UnFilm(film));
+  /** Notifie les abonnés que les données ont changé */
+  private notifierChangement() {
+    const films = this.lireCollection().map(f => new UnFilm(f));
+    this.filmsSubject.next(films);
   }
 }

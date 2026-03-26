@@ -33,7 +33,7 @@
         slides-offset-before="16"
         slides-offset-after="16">
 
-        @for (film of bddFilms.listeFilms; track film.id) {
+        @for (film of listeFilms; track film.id) {
           <swiper-slide style="width: 120px;">
             <div class="movie-card">
               <img [src]="film.cheminAffiche" [alt]="film.titre" class="poster-img" />
@@ -65,7 +65,7 @@
         slides-offset-before="16"
         slides-offset-after="16">
 
-        @for (serie of bddFilms.listeSeries; track serie.id) {
+        @for (serie of listeSeries; track serie.id) {
           <swiper-slide style="width: 120px;">
             <div class="movie-card">
               <img [src]="serie.cheminAffiche" [alt]="serie.titre" class="poster-img" />

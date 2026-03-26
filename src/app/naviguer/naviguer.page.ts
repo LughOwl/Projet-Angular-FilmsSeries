@@ -1,11 +1,11 @@
-import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { Bddfilms, FiltresRecherche, ResultatRecherche } from '../services/stockageFilmAPI';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UnFilm } from '../modeles/unFilm';
-import { GENRES_MAP } from '../services/stockageFilmAPI';
+import { FiltresRecherche, ResultatRecherche } from '../modeles/filtresRecherche';
+import { StockageFilmAPI } from '../services/stockageFilmAPI';
+import { StockageFilmLocal } from '../services/stockageFilmLocal';
 
 @Component({
   selector: 'app-naviguer',
@@ -15,42 +15,38 @@ import { GENRES_MAP } from '../services/stockageFilmAPI';
 })
 export class NaviguerPage implements OnInit {
   formulaireRecherche!: FormGroup;
-  termeRecherche: string = '';
+
   listeResultats: UnFilm[] = [];
-  totalResultatsFiltres: number = 0; // Changé: total réel avec filtres
+  totalResultatsFiltres: number = 0;  // Renommé pour correspondre au template
   chargementEnCours: boolean = false;
   afficherFiltres: boolean = false;
+
+  // Pagination (uniquement pour les recherches API)
   pageActuelle: number = 1;
   totalPages: number = 1;
   aPlusDeResultats: boolean = true;
-  tailleLot: number = 50;
-  nombrePagesParLot: number = 3;
 
-  // Filtres actifs
+  // Filtres appliqués
   filtresActifs: FiltresRecherche = {
     tri: 'titre_az',
     statut: 'tous',
     type: 'tous',
-    favoris: 'tous',
-    sortie: 'deja_sorti',
-    genres: []
+    favoris: 'tous'
   };
 
-  // Copie temporaire des filtres pour l'édition
+  // Copie temporaire dans la modale (avant validation)
   filtresTemp: FiltresRecherche = { ...this.filtresActifs };
 
-  // Liste des filtres pour l'affichage
-  listeFiltresAffichage: { key: string, valeur: string }[] = [];
+  // Pillules affichées sous la barre de recherche
+  listeFiltresAffichage: { key: string, valeur: string }[] = []; // Renommé pour correspondre au template
 
+  private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-  private abonnementRecherche!: Subscription;
+  private router = inject(Router);
+  private api = inject(StockageFilmAPI);
+  private local = inject(StockageFilmLocal);
 
-  constructor(
-    private constructeurFormulaire: FormBuilder,
-    private bddFilms: Bddfilms,
-    private detecteurChangements: ChangeDetectorRef,
-    private router: Router
-  ) {
+  constructor(private constructeurFormulaire: FormBuilder) {
     this.formulaireRecherche = this.constructeurFormulaire.group({
       texteRecherche: ['']
     });
@@ -60,21 +56,83 @@ export class NaviguerPage implements OnInit {
     this.effectuerRecherche();
   }
 
+  // ─── RECHERCHE ───────────────────────────────────────────────────────────────
+
   onRechercher() {
-    this.termeRecherche = this.formulaireRecherche.value.texteRecherche;
-    this.reinitialiserRecherche();
+    this.reinitialiserResultats();
     this.effectuerRecherche();
   }
 
-  reinitialiserRecherche() {
-    this.listeResultats = [];
-    this.totalResultatsFiltres = 0;
-    this.pageActuelle = 1;
-    this.aPlusDeResultats = true;
+  /** Lance la recherche selon le statut : local ou API */
+  effectuerRecherche() {
+    if (this.chargementEnCours) return;
+
+    const terme = this.formulaireRecherche.value.texteRecherche || '';
+    this.chargementEnCours = true;
+    this.mettreAJourFiltresAffichage();
+
+    // Statut spécifique ou favoris → stockage local
+    if (this.filtresActifs.statut !== 'tous' || this.filtresActifs.favoris === 'favoris') {
+      this.rechercherEnLocal(terme);
+    } else {
+      this.rechercherSurAPI(terme);
+    }
   }
 
+  /** Résultats immédiats depuis le localStorage, pas de pagination */
+  private rechercherEnLocal(terme: string) {
+    // Simuler un délai pour l'expérience utilisateur (optionnel)
+    setTimeout(() => {
+      const resultats = this.local.rechercherEnLocal(terme, this.filtresActifs);
+      this.listeResultats = resultats;
+      this.totalResultatsFiltres = resultats.length;
+      this.aPlusDeResultats = false;
+      this.chargementEnCours = false;
+      this.cdr.detectChanges();
+    }, 300);
+  }
+
+  /** Résultats paginés depuis l'API TMDB */
+  private rechercherSurAPI(terme: string) {
+    this.api.rechercherSurAPI(terme, this.filtresActifs, this.pageActuelle)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (resultat: ResultatRecherche) => {
+          if (this.pageActuelle === 1) {
+            this.totalResultatsFiltres = resultat.total;
+            this.totalPages = resultat.totalPages;
+          }
+
+          // Fusionner les nouveaux résultats avec les existants
+          if (this.pageActuelle === 1) {
+            this.listeResultats = resultat.resultats;
+          } else {
+            this.listeResultats = [...this.listeResultats, ...resultat.resultats];
+          }
+
+          this.pageActuelle++;
+          this.aPlusDeResultats = this.pageActuelle <= this.totalPages;
+          this.chargementEnCours = false;
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Erreur lors de la recherche API:', err);
+          this.chargementEnCours = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  chargerPlus() {
+    if (!this.chargementEnCours && this.aPlusDeResultats) {
+      this.effectuerRecherche();
+    }
+  }
+
+  // ─── FILTRES ─────────────────────────────────────────────────────────────────
+
   ouvrirFiltres() {
-    this.filtresTemp = JSON.parse(JSON.stringify(this.filtresActifs));
+    this.filtresTemp = { ...this.filtresActifs };
     this.afficherFiltres = true;
   }
 
@@ -87,8 +145,8 @@ export class NaviguerPage implements OnInit {
   }
 
   validerFiltres() {
-    this.filtresActifs = JSON.parse(JSON.stringify(this.filtresTemp));
-    this.reinitialiserRecherche();
+    this.filtresActifs = { ...this.filtresTemp };
+    this.reinitialiserResultats();
     this.effectuerRecherche();
     this.fermerFiltres();
   }
@@ -98,162 +156,42 @@ export class NaviguerPage implements OnInit {
       tri: 'titre_az',
       statut: 'tous',
       type: 'tous',
-      favoris: 'tous',
-      sortie: 'deja_sorti',
-      genres: []
+      favoris: 'tous'
     };
   }
 
-  appliquerTri() {
-    this.listeResultats = this.bddFilms.trierResultats(this.listeResultats, this.filtresActifs.tri);
-    this.detecteurChangements.detectChanges();
-  }
-
-  effectuerRecherche() {
-    if (this.chargementEnCours || !this.aPlusDeResultats) return;
-
-    this.chargementEnCours = true;
-    this.mettreAJourAffichageFiltres();
-
-    if (this.abonnementRecherche) {
-      this.abonnementRecherche.unsubscribe();
-    }
-
-    const pagesACharger = Math.min(this.nombrePagesParLot, this.totalPages - this.pageActuelle + 1);
-    const requetes: Observable<ResultatRecherche>[] = [];
-
-    for (let i = 0; i < pagesACharger; i++) {
-      const page = this.pageActuelle + i;
-      requetes.push(this.bddFilms.rechercherAvecFiltres(this.termeRecherche, this.filtresActifs, page));
-    }
-
-    Promise.all(requetes.map(r => r.toPromise())).then(resultats => {
-      let tousLesResultats: UnFilm[] = [];
-      let premierTotal = 0;
-
-      resultats.forEach((resultat, index) => {
-        if (index === 0) {
-          premierTotal = resultat!.total;
-          this.totalPages = resultat!.totalPages;
-        }
-        tousLesResultats = [...tousLesResultats, ...resultat!.resultats];
-      });
-
-      // Mettre à jour le total des résultats avec filtres
-      if (this.pageActuelle === 1) {
-        this.totalResultatsFiltres = premierTotal;
-      }
-
-      // Ajouter les nouveaux résultats
-      const nouveauxResultats = [...this.listeResultats, ...tousLesResultats];
-      this.listeResultats = nouveauxResultats;
-
-      // Appliquer le tri
-      this.appliquerTri();
-
-      // Mettre à jour l'état de pagination
-      this.pageActuelle += pagesACharger;
-      this.aPlusDeResultats = this.pageActuelle <= this.totalPages && tousLesResultats.length > 0;
-
-      this.chargementEnCours = false;
-      this.detecteurChangements.detectChanges();
-
-      console.log(`Total avec filtres: ${this.totalResultatsFiltres} | Affichés: ${this.listeResultats.length} | Page: ${this.pageActuelle - 1}/${this.totalPages}`);
-    }).catch(erreur => {
-      console.error('Erreur lors de la recherche:', erreur);
-      this.chargementEnCours = false;
-      this.detecteurChangements.detectChanges();
-    });
-  }
-
-  chargerPlus() {
-    if (!this.chargementEnCours && this.aPlusDeResultats) {
-      this.effectuerRecherche();
-    }
-  }
-
-  mettreAJourAffichageFiltres() {
-    const filtresMap: { [key: string]: string } = {
-      tri: this.getLibelleTri(),
-      statut: this.getLibelleStatut(),
-      type: this.getLibelleType(),
-      favoris: this.getLibelleFavoris(),
-      sortie: this.getLibelleSortie(),
-      genres: this.getLibelleGenres()
-    };
-
-    this.listeFiltresAffichage = Object.entries(filtresMap)
-      .filter(([_, valeur]) => valeur && valeur !== '' && valeur !== 'Tous')
-      .map(([key, valeur]) => ({ key, valeur }));
-  }
-
-  getLibelleTri(): string {
-    const triMap: { [key: string]: string } = {
-      'titre_az': 'Titre A/Z',
-      'titre_za': 'Titre Z/A',
-      'note': 'Note',
-      'ajout': 'Ajout',
-      'popularite': 'Popularité',
-      'recent': 'Récent'
-    };
-    return triMap[this.filtresActifs.tri] || 'Titre A/Z';
-  }
-
-  getLibelleStatut(): string {
-    const statutMap: { [key: string]: string } = {
-      'tous': 'Tous',
-      'non_vu': 'Non vu',
-      'en_cours': 'En cours',
-      'termine': 'Terminé',
-      'a_voir': 'À voir'
-    };
-    return statutMap[this.filtresActifs.statut] || 'Tous';
-  }
-
-  getLibelleType(): string {
-    const typeMap: { [key: string]: string } = {
-      'tous': 'Tous',
-      'films': 'Films',
-      'series': 'Séries'
-    };
-    return typeMap[this.filtresActifs.type] || 'Tous';
-  }
-
-  getLibelleFavoris(): string {
-    const favorisMap: { [key: string]: string } = {
-      'tous': 'Tous',
-      'favoris': 'Favoris',
-      'non_favoris': 'Non favoris'
-    };
-    return favorisMap[this.filtresActifs.favoris] || 'Tous';
-  }
-
-  getLibelleSortie(): string {
-    const sortieMap: { [key: string]: string } = {
-      'deja_sorti': 'Déjà sorti',
-      'prochainement': 'Prochainement',
-      'tous': ''
-    };
-    return sortieMap[this.filtresActifs.sortie] || '';
-  }
-
-  getLibelleGenres(): string {
-    if (this.filtresActifs.genres.length === 0) return '';
-    if (this.filtresActifs.genres.length === 1) {
-      return GENRES_MAP[this.filtresActifs.genres[0]] || 'Genre';
-    }
-    return `${this.filtresActifs.genres.length} genres`;
-  }
+  // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 
   voirDetails(oeuvre: UnFilm) {
-    if (oeuvre.type === 'film') {
-      console.log('Voir détails film:', oeuvre.id);
-    } else {
-      console.log('Voir détails série:', oeuvre.id);
-    }
+    this.router.navigate(['/detail-film'], { state: { film: oeuvre } });
   }
 
-  ngOnDestroy() {
-    if (this.abonnementRecherche) this.abonnementRecherche.unsubscribe();
+  // ─── PRIVÉ ───────────────────────────────────────────────────────────────────
+
+  private reinitialiserResultats() {
+    this.listeResultats = [];
+    this.totalResultatsFiltres = 0;
+    this.pageActuelle = 1;
+    this.aPlusDeResultats = true;
+  }
+
+  private mettreAJourFiltresAffichage() {
+    const libelles: { [key: string]: string } = {
+      'titre_az': 'Titre A/Z',
+      'popularite': 'Popularité',
+      'en_cours': 'En cours',
+      'termine': 'Terminé',
+      'a_voir': 'À voir',
+      'films': 'Films',
+      'series': 'Séries',
+      'favoris': 'Favoris'
+    };
+
+    this.listeFiltresAffichage = Object.entries(this.filtresActifs)
+      .filter(([key, valeur]) => valeur !== 'tous' && valeur !== '' && libelles[valeur])
+      .map(([key, valeur]) => ({
+        key: key,
+        valeur: libelles[valeur] || valeur
+      }));
   }
 }

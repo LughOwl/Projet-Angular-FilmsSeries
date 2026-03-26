@@ -1,102 +1,76 @@
 <div class="filtres-container">
 
-  <!-- TRI -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">TRI :</h3>
-    <div class="options-grid">
-      @for (option of optionsTri; track option.valeur) {
-        <div
-          class="option-pill"
-          [class.active]="filtres.tri === option.valeur"
-          (click)="selectionnerTri(option.valeur)">
-          {{ option.label }}
-        </div>
-      }
+  <!-- HEADER -->
+  <div class="filtres-header">
+    <ion-button fill="clear" class="close-button" (click)="valider()">
+      <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    <div class="header-title">
+      <ion-icon name="options-outline"></ion-icon>
+      <h2>Filtres & Tri</h2>
     </div>
+    <div class="header-spacer"></div>
   </div>
 
-  <!-- STATUT -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">STATUT :</h3>
-    <div class="options-grid">
-      @for (option of optionsStatut; track option.valeur) {
-        <div
-          class="option-pill"
-          [class.active]="filtres.statut === option.valeur"
-          (click)="selectionnerStatut(option.valeur)">
-          {{ option.label }}
-        </div>
-      }
+  <!-- CONTENU SCROLLABLE -->
+  <div class="filtres-scrollable">
+
+    <div class="categorie-filtre">
+      <h3 class="categorie-titre">TRI :</h3>
+      <div class="options-grid">
+        @for (option of optionsTri; track option.valeur) {
+          <div class="option-pill" [class.active]="filtres.tri === option.valeur" (click)="selectionnerTri(option.valeur)">
+            {{ option.label }}
+          </div>
+        }
+      </div>
     </div>
+
+    <div class="categorie-filtre">
+      <h3 class="categorie-titre">STATUT :</h3>
+      <div class="options-grid">
+        @for (option of optionsStatut; track option.valeur) {
+          <div class="option-pill" [class.active]="filtres.statut === option.valeur" (click)="selectionnerStatut(option.valeur)">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="categorie-filtre">
+      <h3 class="categorie-titre">TYPE :</h3>
+      <div class="options-grid">
+        @for (option of optionsType; track option.valeur) {
+          <div class="option-pill" [class.active]="filtres.type === option.valeur" (click)="selectionnerType(option.valeur)">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="categorie-filtre">
+      <h3 class="categorie-titre">FAVORIS :</h3>
+      <div class="options-grid">
+        @for (option of optionsFavoris; track option.valeur) {
+          <div class="option-pill" [class.active]="filtres.favoris === option.valeur" (click)="selectionnerFavoris(option.valeur)">
+            {{ option.label }}
+          </div>
+        }
+      </div>
+    </div>
+
   </div>
 
-  <!-- TYPE -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">TYPE :</h3>
-    <div class="options-grid">
-      @for (option of optionsType; track option.valeur) {
-        <div
-          class="option-pill"
-          [class.active]="filtres.type === option.valeur"
-          (click)="selectionnerType(option.valeur)">
-          {{ option.label }}
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- FAVORIS -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">FAVORIS :</h3>
-    <div class="options-grid">
-      @for (option of optionsFavoris; track option.valeur) {
-        <div
-          class="option-pill"
-          [class.active]="filtres.favoris === option.valeur"
-          (click)="selectionnerFavoris(option.valeur)">
-          {{ option.label }}
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- SORTIE -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">SORTIE :</h3>
-    <div class="options-grid">
-      @for (option of optionsSortie; track option.valeur) {
-        <div
-          class="option-pill"
-          [class.active]="filtres.sortie === option.valeur"
-          (click)="selectionnerSortie(option.valeur)">
-          {{ option.label }}
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- GENRES -->
-  <div class="categorie-filtre">
-    <h3 class="categorie-titre">GENRES :</h3>
-    <div class="options-grid genres-grid">
-      @for (genre of optionsGenres; track genre.id) {
-        <div
-          class="option-pill"
-          [class.active]="estGenreSelectionne(genre.id)"
-          (click)="toggleGenre(genre.id)">
-          {{ genre.nom }}
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- Boutons action -->
+  <!-- BOUTONS EN BAS -->
   <div class="action-buttons">
     <ion-button expand="block" class="valider-btn" (click)="valider()">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
       Valider
     </ion-button>
     <ion-button expand="block" fill="outline" class="reinitialiser-btn" (click)="reinitialiser()">
+      <ion-icon name="refresh-circle-outline" slot="start"></ion-icon>
       Réinitialiser
     </ion-button>
   </div>
+
 </div>
