@@ -1,0 +1,105 @@
+ion-content {
+  --background: #2c2c2c;
+  color: white;
+}
+
+ion-toolbar {
+  --background: #1e1e1e;
+  --color: white;
+}
+
+.section-container {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+
+  h2 {
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    ion-icon {
+      margin-left: 5px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: white;
+}
+
+.empty-state-card {
+  background: #3a3a3a;
+  margin: 0 16px;
+  border-radius: 12px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+  }
+}
+
+// Styles pour les sliders
+swiper-container {
+  swiper-slide {
+    width: 120px !important;
+    flex-shrink: 0;
+
+    .movie-card {
+      width: 100%;
+      min-width: 0;
+
+      .poster-img {
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+        border-radius: 8px;
+        background-color: #3a3a3a;
+      }
+
+      .poster-title {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Pour les très petits écrans
+@media (max-width: 480px) {
+  swiper-container {
+    swiper-slide {
+      width: 100px !important;
+
+      .movie-card {
+        .poster-title {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}

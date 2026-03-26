@@ -17,11 +17,11 @@ export class NaviguerPage implements OnInit {
   formulaireRecherche!: FormGroup;
 
   listeResultats: UnFilm[] = [];
-  totalResultatsFiltres: number = 0;  // Renommé pour correspondre au template
+  totalResultatsFiltres: number = 0;
   chargementEnCours: boolean = false;
   afficherFiltres: boolean = false;
 
-  // Pagination (uniquement pour les recherches API)
+  // Pagination
   pageActuelle: number = 1;
   totalPages: number = 1;
   aPlusDeResultats: boolean = true;
@@ -38,21 +38,20 @@ export class NaviguerPage implements OnInit {
   filtresTemp: FiltresRecherche = { ...this.filtresActifs };
 
   // Pillules affichées sous la barre de recherche
-  listeFiltresAffichage: { key: string, valeur: string }[] = []; // Renommé pour correspondre au template
+  listeFiltresAffichage: { key: string, valeur: string }[] = [];
 
+  // Injections
   private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private api = inject(StockageFilmAPI);
   private local = inject(StockageFilmLocal);
-
-  constructor(private constructeurFormulaire: FormBuilder) {
-    this.formulaireRecherche = this.constructeurFormulaire.group({
-      texteRecherche: ['']
-    });
-  }
+  private fb = inject(FormBuilder);  // ← Correction : injecter FormBuilder
 
   ngOnInit() {
+    this.formulaireRecherche = this.fb.group({
+      texteRecherche: ['']
+    });
     this.effectuerRecherche();
   }
 
@@ -63,7 +62,6 @@ export class NaviguerPage implements OnInit {
     this.effectuerRecherche();
   }
 
-  /** Lance la recherche selon le statut : local ou API */
   effectuerRecherche() {
     if (this.chargementEnCours) return;
 
@@ -79,9 +77,7 @@ export class NaviguerPage implements OnInit {
     }
   }
 
-  /** Résultats immédiats depuis le localStorage, pas de pagination */
   private rechercherEnLocal(terme: string) {
-    // Simuler un délai pour l'expérience utilisateur (optionnel)
     setTimeout(() => {
       const resultats = this.local.rechercherEnLocal(terme, this.filtresActifs);
       this.listeResultats = resultats;
@@ -92,7 +88,6 @@ export class NaviguerPage implements OnInit {
     }, 300);
   }
 
-  /** Résultats paginés depuis l'API TMDB */
   private rechercherSurAPI(terme: string) {
     this.api.rechercherSurAPI(terme, this.filtresActifs, this.pageActuelle)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -103,7 +98,6 @@ export class NaviguerPage implements OnInit {
             this.totalPages = resultat.totalPages;
           }
 
-          // Fusionner les nouveaux résultats avec les existants
           if (this.pageActuelle === 1) {
             this.listeResultats = resultat.resultats;
           } else {

@@ -1,17 +1,178 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Series
-    </ion-title>
+    <ion-title>Séries</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Series</ion-title>
+      <ion-title size="large">Séries</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- EN COURS -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>EN COURS <ion-icon name="play-circle-outline"></ion-icon></h2>
+    </div>
+    @if (stockageFilmLocal.getFilmsParStatut("en_cours").length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (serie of stockageFilmLocal.getFilmsParStatut("en_cours"); track serie.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Aucune série en cours</p>
+      </div>
+    }
+  </div>
+
+  <!-- À VOIR -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>À VOIR <ion-icon name="bookmark-outline"></ion-icon></h2>
+    </div>
+    @if (stockageFilmLocal.getFilmsParStatut("a_voir").length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (serie of stockageFilmLocal.getFilmsParStatut("a_voir"); track serie.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Ta liste est vide</p>
+      </div>
+    }
+  </div>
+
+  <!-- SUGGESTIONS -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+    @if (chargementPopulaires) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Chargement des suggestions...</p>
+      </div>
+    } @else {
+      @if (seriesPopulaires.length > 0) {
+        <swiper-container
+          slides-per-view="auto"
+          space-between="15"
+          free-mode="true"
+          slides-offset-before="16"
+          slides-offset-after="16">
+          @for (serie of seriesPopulaires; track serie.id) {
+            <swiper-slide style="width: 120px;">
+              <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            </swiper-slide>
+          }
+        </swiper-container>
+      } @else {
+        <div class="empty-state-card">
+          <p>Aucune suggestion disponible</p>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- MES FAVORIS -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>MES FAVORIS <ion-icon name="heart"></ion-icon></h2>
+    </div>
+    @if (stockageFilmLocal.getFavoris().length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (serie of stockageFilmLocal.getFavoris(); track serie.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Aucun favori pour le moment</p>
+      </div>
+    }
+  </div>
+
+  <!-- TERMINÉ -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>TERMINÉ <ion-icon name="checkmark-done-circle-outline"></ion-icon></h2>
+    </div>
+    @if (stockageFilmLocal.getFilmsParStatut("termine").length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (serie of stockageFilmLocal.getFilmsParStatut("termine"); track serie.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Tu n'as pas encore fini de série</p>
+      </div>
+    }
+  </div>
+
+  <!-- À VENIR -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>À VENIR <ion-icon name="calendar-outline"></ion-icon></h2>
+    </div>
+    @if (chargementAVenir) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Chargement des séries à venir...</p>
+      </div>
+    } @else {
+      @if (seriesAVenir.length > 0) {
+        <swiper-container
+          slides-per-view="auto"
+          space-between="15"
+          free-mode="true"
+          slides-offset-before="16"
+          slides-offset-after="16">
+          @for (serie of seriesAVenir; track serie.id) {
+            <swiper-slide style="width: 120px;">
+              <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            </swiper-slide>
+          }
+        </swiper-container>
+      } @else {
+        <div class="empty-state-card">
+          <p>Aucune série à venir</p>
+        </div>
+      }
+    }
+  </div>
+
 </ion-content>

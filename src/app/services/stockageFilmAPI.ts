@@ -22,8 +22,13 @@ export class StockageFilmAPI {
   // Ajoute ces propriétés pour stocker les données
   public listeFilms: UnFilm[] = [];
   public listeSeries: UnFilm[] = [];
+  public listeFilmsAVenir: UnFilm[] = [];
+  public listeSeriesAVenir: UnFilm[] = [];  // ← NOUVEAU pour les séries à venir
+
   public chargementFilms: boolean = false;
   public chargementSeries: boolean = false;
+  public chargementFilmsAVenir: boolean = false;
+  public chargementSeriesAVenir: boolean = false;  // ← NOUVEAU pour les séries à venir
 
   // ─── RECHERCHE PRINCIPALE ────────────────────────────────────────────────────
 
@@ -83,9 +88,31 @@ export class StockageFilmAPI {
 
   /** Films à venir (utilisé dans la page Films) */
   getFilmsAVenir(): Observable<UnFilm[]> {
+    this.chargementFilmsAVenir = true;
     const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
     return this.httpClient.get<UnePage>(url).pipe(
-      map(reponse => reponse.results.map(item => new UnFilm(item)))
+      map(reponse => {
+        const films = reponse.results.map(item => new UnFilm(item));
+        this.listeFilmsAVenir = films;
+        this.chargementFilmsAVenir = false;
+        return films;
+      })
+    );
+  }
+
+  /** Séries à venir (utilisé dans la page Séries) */
+  getSeriesAVenir(): Observable<UnFilm[]> {
+    this.chargementSeriesAVenir = true;
+    // On utilise "airing_today" pour les séries qui sortent aujourd'hui
+    // ou "on_the_air" pour les séries actuellement diffusées
+    const url = `${this.urlBase}/tv/airing_today?api_key=${this.cleApi}&language=fr-FR`;
+    return this.httpClient.get<UnePage>(url).pipe(
+      map(reponse => {
+        const series = reponse.results.map(item => new UnFilm(item));
+        this.listeSeriesAVenir = series;
+        this.chargementSeriesAVenir = false;
+        return series;
+      })
     );
   }
 
