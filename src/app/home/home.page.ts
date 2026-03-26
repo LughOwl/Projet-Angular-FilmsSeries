@@ -11,38 +11,70 @@ import { UnFilm } from '../bdd/unFilm';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  // le résultat de la subscription à l’Observable
-  private _filmsSubscription!: Subscription;
-  private _SeriesSubscription!: Subscription;
-  // la liste de films
-  _listeFilms: UnFilm[] = [];
-  _listeSeries: UnFilm[] = [];
-  // le service pour détruire la subscription
+  // Listes de films et séries
+  listeFilms: UnFilm[] = [];
+  listeSeries: UnFilm[] = [];
+
+  // États de chargement
+  chargementFilms: boolean = true;
+  chargementSeries: boolean = true;
+
+  // Gestion des abonnements
   private destroyRef = inject(DestroyRef);
+  private abonnementFilms!: Subscription;
+  private abonnementSeries!: Subscription;
 
   constructor(
-    private _BDFilms: Bddfilms,
+    private bddFilms: Bddfilms,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    // Remplacez VOTRE_CLE par votre vraie clé API TMDb
-    const urlFilm = 'https://api.themoviedb.org/3/movie/popular?api_key=b0e3bb5a46ad602897aba592b2967fe2&language=fr-FR';
-    const urlSeries = 'https://api.themoviedb.org/3/tv/popular?api_key=b0e3bb5a46ad602897aba592b2967fe2&language=fr-FR';
-    this._filmsSubscription = this._BDFilms.importFilms(urlFilm)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(films => {
-        this._listeFilms = films.slice(0,20);
-        this.cdr.detectChanges();
-        console.log('Films chargés:', this._listeFilms);
-      });
+    this.chargerFilms();
+    this.chargerSeries();
+  }
 
-    this._SeriesSubscription = this._BDFilms.importFilms(urlSeries)
+  chargerFilms() {
+    this.chargementFilms = true;
+    this.abonnementFilms = this.bddFilms.getFilmsPopulaires()
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(films => {
-        this._listeSeries = films.slice(0,20);
-        this.cdr.detectChanges();
-        console.log('Series chargés:', this._listeSeries);
+      .subscribe({
+        next: (films) => {
+          this.listeFilms = films.slice(0, 20);
+          this.chargementFilms = false;
+          this.cdr.detectChanges();
+          console.log(`${films.length} films chargés`);
+        },
+        error: (erreur) => {
+          console.error('Erreur chargement films:', erreur);
+          this.chargementFilms = false;
+          this.cdr.detectChanges();
+        }
       });
+  }
+
+  chargerSeries() {
+    this.chargementSeries = true;
+    this.abonnementSeries = this.bddFilms.getSeriesPopulaires()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (series) => {
+          this.listeSeries = series.slice(0, 20);
+          this.chargementSeries = false;
+          this.cdr.detectChanges();
+          console.log(`${series.length} séries chargées`);
+        },
+        error: (erreur) => {
+          console.error('Erreur chargement séries:', erreur);
+          this.chargementSeries = false;
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  // Nettoyage des abonnements
+  ngOnDestroy() {
+    if (this.abonnementFilms) this.abonnementFilms.unsubscribe();
+    if (this.abonnementSeries) this.abonnementSeries.unsubscribe();
   }
 }

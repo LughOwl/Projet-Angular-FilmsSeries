@@ -3,31 +3,65 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UnFilm } from './unFilm';
-import { UnePage } from './unePage';
+
+// Interface pour une page de résultats
+export interface UnePage {
+  page: number;
+  total_pages: number;
+  total_results: number;
+  results: any[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class Bddfilms {
-  // Liste des films résultats de la requête
-  listeFilms: UnFilm[] = [];
+  // Clé API TMDB
+  private readonly cleApi = 'b0e3bb5a46ad602897aba592b2967fe2';
+  private readonly urlBase = 'https://api.themoviedb.org/3';
 
   constructor(private httpClient: HttpClient) {}
 
-  public importFilms(requete: string): Observable<UnFilm[]> {
-    // On vide la liste locale avant chaque nouvel import
-    this.listeFilms = [];
+  /**
+   * Récupère les films populaires
+   */
+  public getFilmsPopulaires(): Observable<UnFilm[]> {
+    const url = `${this.urlBase}/movie/popular?api_key=${this.cleApi}&language=fr-FR`;
+    return this.importerFilms(url);
+  }
 
-    // On récupère uniquement la page demandée (la première par défaut)
+  /**
+   * Récupère les séries populaires
+   */
+  public getSeriesPopulaires(): Observable<UnFilm[]> {
+    const url = `${this.urlBase}/tv/popular?api_key=${this.cleApi}&language=fr-FR`;
+    return this.importerFilms(url);
+  }
+
+  /**
+   * Recherche des films par mot-clé
+   */
+  public rechercherFilms(terme: string): Observable<UnFilm[]> {
+    const url = `${this.urlBase}/search/movie?api_key=${this.cleApi}&language=fr-FR&query=${encodeURIComponent(terme)}`;
+    return this.importerFilms(url);
+  }
+
+  /**
+   * Recherche des séries par mot-clé
+   */
+  public rechercherSeries(terme: string): Observable<UnFilm[]> {
+    const url = `${this.urlBase}/search/tv?api_key=${this.cleApi}&language=fr-FR&query=${encodeURIComponent(terme)}`;
+    return this.importerFilms(url);
+  }
+
+  /**
+   * Méthode générique pour importer des films/séries
+   */
+  public importerFilms(requete: string): Observable<UnFilm[]> {
     return this.httpClient.get<UnePage>(requete).pipe(
       map(page => {
-        // On transforme les résultats bruts en instances de la classe UnFilm
-        const nouveauxFilms = page.results.map(item => new UnFilm(item));
-
-        // On met à jour la liste locale du service
-        this.listeFilms = nouveauxFilms;
-
-        return nouveauxFilms;
+        // Transformation des résultats bruts en instances de UnFilm
+        return page.results.map(item => new UnFilm(item));
       })
     );
   }

@@ -20,21 +20,28 @@
       <h2>FILMS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
-    <swiper-container
-      slides-per-view="auto"
-      space-between="15"
-      free-mode="true"
-      slides-offset-before="16"
-      slides-offset-after="16">
+    @if (chargementFilms) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Chargement des films...</p>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
 
-      @for (f of _listeFilms; track f.titre) {
-        <swiper-slide style="width: 120px;">
-          <app-card-film [film]="f"></app-card-film>
-        </swiper-slide>
-      } @empty {
-        <p class="loading-text">Chargement des films...</p>
-      }
-    </swiper-container>
+        @for (film of listeFilms; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <p class="empty-text">Aucun film trouvé</p>
+        }
+      </swiper-container>
+    }
   </div>
 
   <div class="section-container">
@@ -42,21 +49,28 @@
       <h2>SÉRIES <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
-    <swiper-container
-      slides-per-view="auto"
-      space-between="15"
-      free-mode="true"
-      slides-offset-before="16"
-      slides-offset-after="16">
+    @if (chargementSeries) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Chargement des séries...</p>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
 
-      @for (s of _listeSeries; track s.titre) {
-        <swiper-slide style="width: 120px;">
-          <app-card-film [film]="s"></app-card-film>
-        </swiper-slide>
-      } @empty {
-        <p class="loading-text">Chargement des séries...</p>
-      }
-    </swiper-container>
+        @for (serie of listeSeries; track serie) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="serie"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <p class="empty-text">Aucune série trouvée</p>
+        }
+      </swiper-container>
+    }
   </div>
 
 </ion-content>

@@ -1,25 +1,32 @@
 /* card-film.component.scss */
 .movie-card {
-  width: 100%; // Prend la largeur du slide Swiper
+  width: 100%;
   margin: 0;
   padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 
   .poster-img {
     width: 100%;
-    aspect-ratio: 2 / 3; // Force le format affiche de cinéma
+    aspect-ratio: 2 / 3;
     object-fit: cover;
-    border-radius: 8px; // Coins légèrement arrondis comme sur l'image
+    border-radius: 8px;
     display: block;
   }
 
   .poster-title {
-    color: white; // Texte blanc
+    color: white;
     font-size: 0.8rem;
-    margin: 8px 0 0 0; // Petit espace entre l'image et le texte
+    font-weight: 500;
+    margin: 8px 0 2px 0;
     padding: 0;
-    white-space: nowrap; // Le titre ne va pas à la ligne
-    overflow: hidden; // Coupe le titre s'il est trop long
-    text-overflow: ellipsis; // Ajoute '...' à la fin
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-align: left;
   }
 }

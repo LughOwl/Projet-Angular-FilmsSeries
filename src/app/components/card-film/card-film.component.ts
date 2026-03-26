@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {UnFilm} from "../../bdd/unFilm";
+import { Component, Input } from '@angular/core';
+import { UnFilm } from "../../bdd/unFilm";
 
 @Component({
   selector: 'app-card-film',
@@ -7,6 +7,6 @@ import {UnFilm} from "../../bdd/unFilm";
   styleUrls: ['./card-film.component.scss'],
   standalone: false,
 })
-export class CardFilmComponent{
+export class CardFilmComponent {
   @Input() film!: UnFilm;
 }
