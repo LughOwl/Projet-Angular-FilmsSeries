@@ -1,8 +1,8 @@
 import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Bddfilms } from '../bdd/bddfilms.service';
-import { UnFilm } from '../bdd/unFilm';
+import { Bddfilms } from '../services/bddfilms.service';
+import { UnFilm } from '../modeles/unFilm';
 
 @Component({
   selector: 'app-home',

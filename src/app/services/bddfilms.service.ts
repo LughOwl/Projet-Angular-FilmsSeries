@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UnFilm } from './unFilm';
+import { UnFilm } from '../modeles/unFilm';
 
 // Interface pour une page de résultats
 export interface UnePage {

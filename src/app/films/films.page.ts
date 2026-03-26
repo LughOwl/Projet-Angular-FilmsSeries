@@ -1,10 +1,10 @@
 import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Bddfilms } from '../bdd/bddfilms.service';
-import { UnFilm } from '../bdd/unFilm';
+import { Bddfilms } from '../services/bddfilms.service';
+import { UnFilm } from '../modeles/unFilm';
 import { Router } from '@angular/router';
-import {StockageFilm} from "../service/stockageFilm";
+import {StockageFilm} from "../services/stockageFilm";
 import {CardFilmComponent} from"../card-film/card-film.component"
 
 export interface FilmUtilisateur {

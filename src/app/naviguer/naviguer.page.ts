@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { Bddfilms, FiltresRecherche, ResultatRecherche } from '../bdd/bddfilms.service';
-import { UnFilm } from '../bdd/unFilm';
-import { GENRES_MAP } from '../bdd/bddfilms.service';
+import { Bddfilms, FiltresRecherche, ResultatRecherche } from '../services/bddfilms.service';
+import { UnFilm } from '../modeles/unFilm';
+import { GENRES_MAP } from '../services/bddfilms.service';
 
 @Component({
   selector: 'app-naviguer',

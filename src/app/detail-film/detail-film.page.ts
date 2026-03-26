@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
-import { UnFilm } from "../bdd/unFilm"; // Vérifie le chemin vers ton fichier
-import { StockageFilm } from '../service/stockageFilm'; // Ton nouveau service
+import { UnFilm } from "../modeles/unFilm"; // Vérifie le chemin vers ton fichier
+import { StockageFilm } from '../services/stockageFilm'; // Ton nouveau services
 
 @Component({
   selector: 'app-detail-film',

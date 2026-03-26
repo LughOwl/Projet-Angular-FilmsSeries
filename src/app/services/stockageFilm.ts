@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UnFilm } from '../bdd/unFilm';
+import { UnFilm } from '../modeles/unFilm';
 import {BehaviorSubject} from "rxjs";
 
 @Injectable({ providedIn: 'root' })

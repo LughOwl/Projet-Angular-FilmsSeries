@@ -4,15 +4,15 @@
   </ion-buttons>
 
   <div class="header-image">
-    <img [src]="film?.cheminAffiche" [alt]="film?.titre">
+    <img [src]="film.cheminAffiche" [alt]="film.titre">
     <div class="overlay"></div>
   </div>
 
   <div class="main-content">
-    <h1 class="title">{{ film?.titre }}</h1>
+    <h1 class="title">{{ film.titre }}</h1>
 
     <div class="meta">
-      <span>{{ film?.dateSortie | date:'yyyy' }}</span> • <span>Film</span>
+      <span>{{ film.dateSortie | date:'yyyy' }}</span> • <span>Film</span>
     </div>
 
     <div class="action-buttons">
@@ -31,7 +31,7 @@
 
     <div class="synopsis">
       <h3>Synopsis</h3>
-      <p>{{ film?.apercu }}</p>
+      <p>{{ film.apercu }}</p>
     </div>
   </div>
 </ion-content>
