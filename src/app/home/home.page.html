@@ -6,17 +6,34 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- SECTION EN COURS -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="router.navigate(['/films'])">
       <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    <div class="empty-state-card">
-      <p>Vous n'avez pas d'œuvres en cours</p>
-    </div>
+    @if (oeuvresEnCours.length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (oeuvre of oeuvresEnCours; track oeuvre.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="oeuvre" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Vous n'avez pas d'œuvres en cours</p>
+      </div>
+    }
   </div>
 
+  <!-- SECTION FILMS -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="router.navigate(['/films'])">
       <h2>FILMS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -32,13 +49,9 @@
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-
         @for (film of listeFilms; track film.id) {
           <swiper-slide style="width: 120px;">
-            <div class="movie-card">
-              <img [src]="film.cheminAffiche" [alt]="film.titre" class="poster-img" />
-              <p class="poster-title">{{ film.titre }}</p>
-            </div>
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucun film trouvé</p>
@@ -47,8 +60,9 @@
     }
   </div>
 
+  <!-- SECTION SÉRIES -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="router.navigate(['/series'])">
       <h2>SÉRIES <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -64,13 +78,9 @@
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-
         @for (serie of listeSeries; track serie.id) {
           <swiper-slide style="width: 120px;">
-            <div class="movie-card">
-              <img [src]="serie.cheminAffiche" [alt]="serie.titre" class="poster-img" />
-              <p class="poster-title">{{ serie.titre }}</p>
-            </div>
+            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucune série trouvée</p>
