@@ -1,6 +1,7 @@
 /* card-film.component.scss */
 .movie-card {
   width: 100%;
+  min-width: 0; // Important pour éviter le débordement
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -28,5 +29,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+    width: 100%;
+  }
+}
+
+// Pour les très petits écrans
+@media (max-width: 480px) {
+  .movie-card {
+    .poster-title {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+.movie-card {
+  .movie-info {
+    width: 100%;
+    overflow: hidden;
   }
 }

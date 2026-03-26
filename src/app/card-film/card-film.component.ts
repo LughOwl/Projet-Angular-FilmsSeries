@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { UnFilm } from "../../bdd/unFilm";
+import { UnFilm } from "../bdd/unFilm";
 
 @Component({
   selector: 'app-card-film',

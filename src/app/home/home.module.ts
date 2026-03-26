@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { HomePageRoutingModule } from './home-routing.module';
-import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import { ComponentsModule } from '../components/components.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    HomePageRoutingModule,
-    ComponentsModule
+    HomePageRoutingModule
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

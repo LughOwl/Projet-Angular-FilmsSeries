@@ -11,15 +11,11 @@ import { UnFilm } from '../bdd/unFilm';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  // Listes de films et séries
   listeFilms: UnFilm[] = [];
   listeSeries: UnFilm[] = [];
-
-  // États de chargement
   chargementFilms: boolean = true;
   chargementSeries: boolean = true;
 
-  // Gestion des abonnements
   private destroyRef = inject(DestroyRef);
   private abonnementFilms!: Subscription;
   private abonnementSeries!: Subscription;
@@ -40,10 +36,10 @@ export class HomePage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (films) => {
-          this.listeFilms = films.slice(0, 20);
+          this.listeFilms = films;
           this.chargementFilms = false;
           this.cdr.detectChanges();
-          console.log(`${films.length} films chargés`);
+          console.log(`${films.length} films chargés pour le slider`);
         },
         error: (erreur) => {
           console.error('Erreur chargement films:', erreur);
@@ -59,10 +55,10 @@ export class HomePage implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (series) => {
-          this.listeSeries = series.slice(0, 20);
+          this.listeSeries = series;
           this.chargementSeries = false;
           this.cdr.detectChanges();
-          console.log(`${series.length} séries chargées`);
+          console.log(`${series.length} séries chargées pour le slider`);
         },
         error: (erreur) => {
           console.error('Erreur chargement séries:', erreur);
@@ -72,7 +68,6 @@ export class HomePage implements OnInit {
       });
   }
 
-  // Nettoyage des abonnements
   ngOnDestroy() {
     if (this.abonnementFilms) this.abonnementFilms.unsubscribe();
     if (this.abonnementSeries) this.abonnementSeries.unsubscribe();

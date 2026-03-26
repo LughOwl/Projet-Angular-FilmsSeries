@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NavigerPage } from './naviger.page';
+import { NaviguerPage } from './naviguer.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: NavigerPage,
+    component: NaviguerPage,
   }
 ];
 

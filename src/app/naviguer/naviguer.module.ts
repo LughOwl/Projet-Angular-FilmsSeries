@@ -1,20 +1,20 @@
 import { IonicModule } from '@ionic/angular';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NavigerPage } from './naviger.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
-import {NaviguerPageRoutingModule} from './naviguer-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NaviguerPage } from './naviguer.page';
+import { FiltresRechercheComponent } from '../filtres-recherche/filtres-recherche.component';
+import { NaviguerPageRoutingModule } from './naviguer-routing.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
+    ReactiveFormsModule,
     NaviguerPageRoutingModule
   ],
-  declarations: [NavigerPage]
+  declarations: [NaviguerPage, FiltresRechercheComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NaviguerPageModule {}

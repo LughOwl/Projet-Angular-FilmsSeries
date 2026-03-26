@@ -33,9 +33,12 @@
         slides-offset-before="16"
         slides-offset-after="16">
 
-        @for (film of listeFilms; track film) {
+        @for (film of listeFilms; track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film"></app-card-film>
+            <div class="movie-card">
+              <img [src]="film.cheminAffiche" [alt]="film.titre" class="poster-img" />
+              <p class="poster-title">{{ film.titre }}</p>
+            </div>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucun film trouvé</p>
@@ -62,9 +65,12 @@
         slides-offset-before="16"
         slides-offset-after="16">
 
-        @for (serie of listeSeries; track serie) {
+        @for (serie of listeSeries; track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie"></app-card-film>
+            <div class="movie-card">
+              <img [src]="serie.cheminAffiche" [alt]="serie.titre" class="poster-img" />
+              <p class="poster-title">{{ serie.titre }}</p>
+            </div>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucune série trouvée</p>

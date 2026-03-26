@@ -57,3 +57,47 @@ ion-toolbar {
 .section-container {
   margin-bottom: 24px;
 }
+
+// Styles pour les sliders
+swiper-container {
+  swiper-slide {
+    width: 120px !important;
+    flex-shrink: 0;
+
+    .movie-card {
+      width: 100%;
+      min-width: 0; // Important pour éviter le débordement
+
+      .poster-img {
+        width: 100%;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+        border-radius: 8px;
+        background-color: #3a3a3a;
+      }
+
+      .poster-title {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Pour les très petits écrans
+@media (max-width: 480px) {
+  swiper-container {
+    swiper-slide {
+      width: 100px !important;
+
+      .movie-card {
+        .poster-title {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+}
