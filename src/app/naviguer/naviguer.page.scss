@@ -1,29 +1,29 @@
 ion-content {
-  --background: #2c2c2c;
+  --background: var(--background-color);  /* modifié */
 }
 
 .search-bar-container {
   padding: 12px 16px;
 
   .search-item {
-    --background: #3a3a3a;
+    --background: var(--card-bg);  /* modifié */
     --border-radius: 12px;
-    --color: white;
+    --color: var(--text-color);  /* modifié */
 
     ion-input {
-      --color: white;
-      --placeholder-color: #8c8c8c;
+      --color: var(--text-color);  /* modifié */
+      --placeholder-color: var(--border-color);  /* modifié */
     }
 
     ion-icon {
-      color: #8c8c8c;
+      color: var(--border-color);  /* modifié */
     }
   }
 }
 
 .filtres-actifs {
   padding: 8px 16px;
-  border-bottom: 1px solid #3a3a3a;
+  border-bottom: 1px solid var(--border-color);  /* modifié */
   overflow-x: auto;
   white-space: nowrap;
 
@@ -33,7 +33,7 @@ ion-content {
   }
 
   .filtre-pill {
-    background: #e67e22;
+    background: var(--main-color);
     color: white;
     padding: 6px 12px;
     border-radius: 20px;
@@ -49,12 +49,12 @@ ion-content {
 .resultats-count {
   padding: 16px;
   font-size: 14px;
-  color: #8c8c8c;
-  border-bottom: 1px solid #3a3a3a;
+  color: var(--border-color);  /* modifié */
+  border-bottom: 1px solid var(--border-color);  /* modifié */
 
   .limited-info {
     font-size: 12px;
-    color: #e67e22;
+    color: var(--main-color);
     margin-left: 8px;
   }
 }
@@ -65,7 +65,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: white;
+  color: var(--text-color);  /* modifié */
 
   ion-spinner {
     margin-bottom: 16px;
@@ -73,7 +73,7 @@ ion-content {
 
   p {
     margin: 0;
-    color: #8c8c8c;
+    color: var(--border-color);  /* modifié */
   }
 }
 
@@ -82,7 +82,7 @@ ion-content {
   text-align: center;
 
   .load-more-btn {
-    --background: #e67e22;
+    --background: var(--main-color);
     --background-activated: #d35400;
     --border-radius: 12px;
     height: 48px;
@@ -91,26 +91,26 @@ ion-content {
     max-width: 250px;
 
     &[disabled] {
-      --background: #3a3a3a;
-      --color: #8c8c8c;
+      --background: var(--card-bg);  /* modifié */
+      --color: var(--border-color);  /* modifié */
     }
   }
 
   .load-info {
     margin: 12px 0 0;
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--border-color);  /* modifié */
   }
 }
 
 .end-results {
   text-align: center;
   padding: 30px 20px;
-  color: #8c8c8c;
+  color: var(--border-color);  /* modifié */
 
   ion-icon {
     font-size: 32px;
-    color: #e67e22;
+    color: var(--main-color);
     margin-bottom: 8px;
   }
 
@@ -127,11 +127,11 @@ ion-content {
   justify-content: center;
   padding: 60px 20px;
   text-align: center;
-  color: white;
+  color: var(--text-color);  /* modifié */
 
   ion-icon {
     font-size: 64px;
-    color: #8c8c8c;
+    color: var(--border-color);  /* modifié */
     margin-bottom: 20px;
   }
 
@@ -142,7 +142,7 @@ ion-content {
 
   p {
     margin: 0;
-    color: #8c8c8c;
+    color: var(--border-color);  /* modifié */
     font-size: 14px;
   }
 }
@@ -172,12 +172,12 @@ ion-content {
       aspect-ratio: 2 / 3;
       object-fit: cover;
       border-radius: 12px;
-      background-color: #3a3a3a;
+      background-color: var(--card-bg);  /* modifié */
       display: block;
     }
 
     .poster-title {
-      color: white;
+      color: var(--text-color);  /* modifié */
       font-size: 14px;
       font-weight: 500;
       margin: 8px 0 2px 0;
@@ -189,7 +189,7 @@ ion-content {
     }
 
     .poster-year {
-      color: #8c8c8c;
+      color: var(--border-color);  /* modifié */
       font-size: 12px;
       margin: 0;
       text-align: left;
@@ -217,16 +217,16 @@ ion-content {
 
 // Modal plein écran
 .filtres-modal {
-  --background: #2c2c2c;
+  --background: var(--background-color);  /* modifié */
   --border-radius: 0;
 
   &::part(backdrop) {
-    background: #2c2c2c;
+    background: var(--background-color);  /* modifié */
     opacity: 1;
   }
 
   .modal-content {
-    --background: #2c2c2c;
+    --background: var(--background-color);  /* modifié */
     --padding-start: 0;
     --padding-end: 0;
     --padding-top: 0;
@@ -241,7 +241,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  color: white;
+  color: var(--text-color);  /* modifié */
 
   ion-spinner {
     margin-bottom: 8px;
@@ -249,18 +249,7 @@ ion-content {
 
   p {
     margin: 0;
-    color: #8c8c8c;
-    font-size: 12px;
-  }
-}
-
-.end-results {
-  text-align: center;
-  padding: 20px;
-
-  p {
-    margin: 0;
-    color: #8c8c8c;
+    color: var(--border-color);  /* modifié */
     font-size: 12px;
   }
 }

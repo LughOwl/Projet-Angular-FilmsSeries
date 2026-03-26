@@ -2,7 +2,7 @@
 $dark-bg: #2c2c2c;
 
 ion-modal.sheet-modal {
-  --background: #{$dark-bg};
+  --background: var(--background-color);  /* modifié */
   --border-radius: 24px 24px 0 0;
 
   // Effet de flou sur l'arrière-plan
@@ -14,8 +14,8 @@ ion-modal.sheet-modal {
 }
 
 .modal-bg {
-  --background: #{$dark-bg};
-  color: white;
+  --background: var(--background-color);  /* modifié */
+  color: var(--text-color);  /* modifié */
 
   .handle {
     width: 40px;
@@ -29,11 +29,12 @@ ion-modal.sheet-modal {
     font-weight: 800;
     text-transform: uppercase;
     margin: 20px 0;
+    color: var(--text-color);  /* modifié */
   }
 
   .menu-item {
-    --background: #3a3a3a;
-    --color: white;
+    --background: var(--card-bg);  /* modifié */
+    --color: var(--text-color);  /* modifié */
     --border-radius: 12px;
     margin-bottom: 8px;
     font-weight: 600;

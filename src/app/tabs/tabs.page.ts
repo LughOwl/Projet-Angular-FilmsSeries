@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ViewChild, Renderer2, inject} from '@angular/core';
 import {IonModal} from "@ionic/angular";
 
 @Component({
@@ -21,11 +21,25 @@ export class TabsPage {
     'purple': '#9b59b6'
   };
 
-  constructor() {}
+  private renderer = inject(Renderer2);
+
+  constructor() {
+    this.appliquerTheme();
+  }
 
   // Change le mode (Sombre/Clair)
   setMode(isSombre: boolean) {
     this.modeSombre = isSombre;
+    this.appliquerTheme();
+  }
+
+  // Applique le thème à toute l'application
+  appliquerTheme() {
+    if (this.modeSombre) {
+      this.renderer.removeClass(document.body, 'light-theme');
+    } else {
+      this.renderer.addClass(document.body, 'light-theme');
+    }
   }
 
   // Change la couleur sélectionnée

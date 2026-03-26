@@ -1,11 +1,11 @@
 ion-content {
-  --background: #2c2c2c;
-  color: white;
+  --background: var(--background-color);  /* modifié */
+  color: var(--text-color);  /* modifié */
 }
 
 ion-toolbar {
-  --background: #1e1e1e;
-  --color: white;
+  --background: var(--toolbar-bg);  /* modifié */
+  --color: var(--text-color);  /* modifié */
 }
 
 .section-header {
@@ -16,7 +16,7 @@ ion-toolbar {
   cursor: pointer;
 
   h2 {
-    color: white;
+    color: var(--text-color);  /* modifié */
     font-weight: 800;
     text-transform: uppercase;
     display: flex;
@@ -31,7 +31,7 @@ ion-toolbar {
 }
 
 .empty-state-card {
-  background: #3a3a3a;
+  background: var(--empty-card-bg);  /* modifié */
   margin: 0 16px;
   border-radius: 12px;
   height: 180px;
@@ -40,7 +40,7 @@ ion-toolbar {
   justify-content: center;
 
   p {
-    color: white;
+    color: var(--text-color);  /* modifié */
     font-weight: bold;
     text-align: center;
     padding: 20px;
@@ -53,13 +53,13 @@ ion-toolbar {
   align-items: center;
   justify-content: center;
   padding: 40px;
-  color: white;
+  color: var(--text-color);  /* modifié */
 }
 
 .empty-text {
   text-align: center;
   padding: 20px;
-  color: #8c8c8c;
+  color: var(--border-color);  /* modifié */
 }
 
 .section-container {
@@ -87,7 +87,7 @@ swiper-container {
         aspect-ratio: 2 / 3;
         object-fit: cover;
         border-radius: 8px;
-        background-color: #3a3a3a;
+        background-color: var(--card-bg);  /* modifié */
       }
 
       .poster-title {
@@ -97,6 +97,7 @@ swiper-container {
         text-overflow: ellipsis;
         width: 100%;
         margin-top: 8px;
+        color: var(--text-color);  /* modifié */
       }
     }
   }
