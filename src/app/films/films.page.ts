@@ -21,19 +21,12 @@ export interface FilmUtilisateur {
 })
 export class FilmsPage implements OnInit {
   // Listes pour chaque catégorie (attention aux noms !)
-  listeEnCours: UnFilm[] = [];
-  listeAVoir: UnFilm[] = [];
+
   listeSuggestions: UnFilm[] = [];      // ← nom exact
-  listeFavoris: UnFilm[] = [];
-  listeTermine: UnFilm[] = [];
   listeAVenir: UnFilm[] = [];           // ← nom exact
 
   // États de chargement
-  chargementEnCours: boolean = true;
-  chargementAVoir: boolean = true;
   chargementSuggestions: boolean = true;
-  chargementFavoris: boolean = true;
-  chargementTermine: boolean = true;
   chargementAVenir: boolean = true;
 
   // Injection avec la fonction inject()
@@ -42,86 +35,42 @@ export class FilmsPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  private abonnementFilms!: Subscription;
+  private abonnementFilmsAVenir!: Subscription;
+  private abonnementFilmsSuggestion!: Subscription;
   private collectionUtilisateur: FilmUtilisateur[] = [];
 
   ngOnInit() {
-    this.chargerFilms();
-    this.chargerCollectionUtilisateur();
+    this.chargerFilmsAVenir();
+    this.chargerSuggestions();
   }
 
-  chargerCollectionUtilisateur() {
-    this.collectionUtilisateur = [];
-  }
 
-  chargerFilms() {
-    this.chargementSuggestions = true;
+  chargerFilmsAVenir() {
     this.chargementAVenir = true;
-
-    // Utiliser la bonne méthode : getFilmsPopulaires()
-    this.abonnementFilms = this.bddFilms.getFilmsPopulaires()
+    this.abonnementFilmsAVenir = this.bddFilms.getFilmsAVenir()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (films: UnFilm[]) => {
-          this.listeSuggestions = films.slice(0, 10);
-          this.chargementSuggestions = false;
-
-          this.listeAVenir = films.slice(10, 15);
-          this.chargementAVenir = false;
-
-          this.cdr.detectChanges();
-          console.log(`${films.length} films chargés pour suggestions`);
-        },
-        error: (erreur: any) => {
-          console.error('Erreur chargement films:', erreur);
-          this.chargementSuggestions = false;
+        next:(filmAVenir) => {
+          this.listeAVenir = filmAVenir.slice(0,20);
           this.chargementAVenir = false;
           this.cdr.detectChanges();
+          console.log(`${filmAVenir.length} films chargés`);
         }
       });
-
-    this.actualiserListesUtilisateur();
   }
 
-  actualiserListesUtilisateur() {
-    this.listeEnCours = this.collectionUtilisateur
-      .filter(item => item.statut === 'en_cours')
-      .sort((a, b) => b.dateAjout.getTime() - a.dateAjout.getTime())
-      .map(item => item.film);
-    this.chargementEnCours = false;
-
-    this.listeAVoir = this.collectionUtilisateur
-      .filter(item => item.statut === 'a_voir')
-      .sort((a, b) => b.dateAjout.getTime() - a.dateAjout.getTime())
-      .map(item => item.film);
-    this.chargementAVoir = false;
-
-    this.listeTermine = this.collectionUtilisateur
-      .filter(item => item.statut === 'termine')
-      .sort((a, b) => b.dateAjout.getTime() - a.dateAjout.getTime())
-      .map(item => item.film);
-    this.chargementTermine = false;
-
-    this.listeFavoris = this.collectionUtilisateur
-      .filter(item => item.estFavori)
-      .sort((a, b) => b.dateAjout.getTime() - a.dateAjout.getTime())
-      .map(item => item.film);
-    this.chargementFavoris = false;
-
-    this.cdr.detectChanges();
+  chargerSuggestions(){
+    this.chargementSuggestions = true;
+    this.abonnementFilmsSuggestion = this.bddFilms.getFilmsPopulaires()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next:(films) => {
+          this.listeSuggestions = films.slice(0,20);
+          this.chargementSuggestions = false;
+          this.cdr.detectChanges();
+          console.log(`${films.length} films chargés`);
+        }
+      });
   }
 
-  voirDetail(film: UnFilm) {
-    this.router.navigate(['/detail-film', film.titre]);
-  }
-
-  naviguerVersRecherche(filtres: any) {
-    this.router.navigate(['/tabs/naviguer'], { state: { filtres } });
-  }
-
-  ngOnDestroy() {
-    if (this.abonnementFilms) {
-      this.abonnementFilms.unsubscribe();
-    }
-  }
 }

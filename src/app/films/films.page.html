@@ -10,9 +10,8 @@
       <ion-title size="large">Films</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <!-- SECTION EN COURS -->
-  <div class="section-container">
+  <!-- <div class="section-container">
     <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'En cours'})">
       <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
@@ -39,9 +38,9 @@
         }
       </swiper-container>
     }
-  </div>
+  </div>  -->
 
-  <!-- SECTION À VOIR -->
+  <!-- SECTION À VOIR
   <div class="section-container">
     <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'À voir'})">
       <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -69,11 +68,11 @@
         }
       </swiper-container>
     }
-  </div>
+  </div> -->
 
   <!-- SECTION SUGGESTIONS -->
   <div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Popularité +/-', type: 'Films', statut: 'Non vu'})">
+    <div class="section-header"> <!--(click)="naviguerVersRecherche({tri: 'Popularité +/-', type: 'Films', statut: 'Non vu'})"-->
       <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -90,7 +89,7 @@
         slides-offset-after="16">
         @for (film of listeSuggestions; track film) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+            <app-card-film [film]="film"></app-card-film>
           </swiper-slide>
         }
       </swiper-container>
@@ -98,8 +97,8 @@
   </div>
 
   <!-- SECTION MES FAVORIS -->
-  <div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', favoris: 'Favoris'})">
+  <!--<div class="section-container">
+    <div class="section-header"> (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', favoris: 'Favoris'})">
       <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -125,10 +124,10 @@
         }
       </swiper-container>
     }
-  </div>
+  </div> -->
 
   <!-- SECTION TERMINÉ -->
-  <div class="section-container">
+  <!--<div class="section-container">
     <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'Terminé'})">
       <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
@@ -155,11 +154,11 @@
         }
       </swiper-container>
     }
-  </div>
+  </div> -->
 
   <!-- SECTION À VENIR -->
   <div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({type: 'Films', sortie: 'Prochainement'})">
+    <div class="section-header"> <!--(click)="naviguerVersRecherche({type: 'Films', sortie: 'Prochainement'})" -->
       <h2>À VENIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -176,7 +175,7 @@
         slides-offset-after="16">
         @for (film of listeAVenir; track film) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+            <app-card-film [film]="film"></app-card-film>
           </swiper-slide>
         }
       </swiper-container>

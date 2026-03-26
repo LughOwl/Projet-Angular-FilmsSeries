@@ -30,6 +30,10 @@ export class Bddfilms {
     return this.importerFilms(url);
   }
 
+  public getFilmsAVenir(): Observable<UnFilm[]> {
+    const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
+    return this.importerFilms(url);
+  }
   /**
    * Récupère les séries populaires
    */
