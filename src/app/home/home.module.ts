@@ -3,7 +3,6 @@ import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { HomePageRoutingModule } from './home-routing.module';
 import {CardFilmComponent} from "../card-film/card-film.component";
 
@@ -12,7 +11,6 @@ import {CardFilmComponent} from "../card-film/card-film.component";
     IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
     HomePageRoutingModule,
     CardFilmComponent
   ],
