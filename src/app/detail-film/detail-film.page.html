@@ -1,0 +1,37 @@
+<ion-content [fullscreen]="true">
+  <ion-buttons slot="fixed" class="back-button">
+    <ion-back-button defaultHref="/tabs/films" text="" icon="chevron-back-outline"></ion-back-button>
+  </ion-buttons>
+
+  <div class="header-image">
+    <img [src]="film?.cheminAffiche" [alt]="film?.titre">
+    <div class="overlay"></div>
+  </div>
+
+  <div class="main-content">
+    <h1 class="title">{{ film?.titre }}</h1>
+
+    <div class="meta">
+      <span>{{ film?.dateSortie | date:'yyyy' }}</span> • <span>Film</span>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button fill="clear" (click)="toggleFavori()" [class.active]="estFavori">
+        <ion-icon [name]="estFavori ? 'heart' : 'heart-outline'"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" class="btn-plus" (click)="ouvrirMenuStatut()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="synopsis">
+      <h3>Synopsis</h3>
+      <p>{{ film?.apercu }}</p>
+    </div>
+  </div>
+</ion-content>

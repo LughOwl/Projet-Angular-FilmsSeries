@@ -4,6 +4,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Bddfilms } from '../bdd/bddfilms.service';
 import { UnFilm } from '../bdd/unFilm';
 import { Router } from '@angular/router';
+import {StockageFilm} from "../service/stockageFilm";
+import {CardFilmComponent} from"../card-film/card-film.component"
 
 export interface FilmUtilisateur {
   film: UnFilm;
@@ -24,6 +26,10 @@ export class FilmsPage implements OnInit {
 
   listeSuggestions: UnFilm[] = [];      // ← nom exact
   listeAVenir: UnFilm[] = [];           // ← nom exact
+  listeFavoris: UnFilm[] = [];
+  listeEnCours: UnFilm[] = [];
+  listeTermine: UnFilm[] = [];
+  listeAVoir: UnFilm[] = [];
 
   // États de chargement
   chargementSuggestions: boolean = true;
@@ -34,16 +40,29 @@ export class FilmsPage implements OnInit {
   private bddFilms = inject(Bddfilms);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
+  private stockageFilm = inject(StockageFilm);
 
   private abonnementFilmsAVenir!: Subscription;
   private abonnementFilmsSuggestion!: Subscription;
-  private collectionUtilisateur: FilmUtilisateur[] = [];
 
+
+
+  constructor() {}
   ngOnInit() {
     this.chargerFilmsAVenir();
     this.chargerSuggestions();
+    this.stockageFilm.films$.subscribe(() => {
+      this.chargerListesLocales();
+    });
   }
 
+  chargerListesLocales(){
+    this.listeFavoris = this.stockageFilm.getFavoris();
+    this.listeEnCours = this.stockageFilm.getFilmsParStatut('en_cours');
+    this.listeTermine = this.stockageFilm.getFilmsParStatut('termine');
+    this.listeAVoir = this.stockageFilm.getFilmsParStatut('a_voir');
+    this.cdr.detectChanges();
+  }
 
   chargerFilmsAVenir() {
     this.chargementAVenir = true;
@@ -73,4 +92,7 @@ export class FilmsPage implements OnInit {
       });
   }
 
+  voirDetail(film: UnFilm) {
+    this.router.navigate(['/detail-film'], { state: { film: film } });
+  }
 }

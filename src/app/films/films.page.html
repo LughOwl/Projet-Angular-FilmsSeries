@@ -10,72 +10,56 @@
       <ion-title size="large">Films</ion-title>
     </ion-toolbar>
   </ion-header>
-  <!-- SECTION EN COURS -->
-  <!-- <div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'En cours'})">
-      <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
-    </div>
 
-    @if (chargementEnCours) {
-      <div class="loading-container">
-        <ion-spinner name="crescent"></ion-spinner>
-      </div>
-    } @else {
-      <swiper-container
-        slides-per-view="auto"
-        space-between="15"
-        free-mode="true"
-        slides-offset-before="16"
-        slides-offset-after="16">
-        @for (film of listeEnCours; track film) {
-          <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
-          </swiper-slide>
-        } @empty {
-          <div class="empty-state-card">
-            <p>Aucun film en cours</p>
-          </div>
-        }
-      </swiper-container>
-    }
-  </div>  -->
-
-  <!-- SECTION À VOIR
   <div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'À voir'})">
-      <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    <div class="section-header">
+      <h2>EN COURS <ion-icon name="play-circle-outline"></ion-icon></h2>
     </div>
-
-    @if (chargementAVoir) {
-      <div class="loading-container">
-        <ion-spinner name="crescent"></ion-spinner>
-      </div>
-    } @else {
+    @if (listeEnCours.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeAVoir; track film) {
+        @for (film of listeEnCours; track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
-        } @empty {
-          <div class="empty-state-card">
-            <p>Aucun film à voir</p>
-          </div>
         }
       </swiper-container>
+    } @else {
+      <p class="empty-text">Aucun film en cours de visionnage</p>
     }
-  </div> -->
+  </div>
+
+  <div class="section-container">
+    <div class="section-header">
+      <h2>À VOIR <ion-icon name="bookmark-outline"></ion-icon></h2>
+    </div>
+    @if (listeAVoir.length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeAVoir; track film.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <p class="empty-text">Ta liste est vide</p>
+    }
+  </div>
 
   <!-- SECTION SUGGESTIONS -->
   <div class="section-container">
     <div class="section-header"> <!--(click)="naviguerVersRecherche({tri: 'Popularité +/-', type: 'Films', statut: 'Non vu'})"-->
       <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-
     @if (chargementSuggestions) {
       <div class="loading-container">
         <ion-spinner name="crescent"></ion-spinner>
@@ -89,72 +73,34 @@
         slides-offset-after="16">
         @for (film of listeSuggestions; track film) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film"></app-card-film>
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
         }
       </swiper-container>
     }
   </div>
 
-  <!-- SECTION MES FAVORIS -->
-  <!--<div class="section-container">
-    <div class="section-header"> (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', favoris: 'Favoris'})">
-      <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+  <div class="section-container">
+    <div class="section-header">
+      <h2>MES FAVORIS <ion-icon name="heart"></ion-icon></h2>
     </div>
-
-    @if (chargementFavoris) {
-      <div class="loading-container">
-        <ion-spinner name="crescent"></ion-spinner>
-      </div>
-    } @else {
+    @if (listeFavoris.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeFavoris; track film) {
+        @for (film of listeFavoris; track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
-        } @empty {
-          <div class="empty-state-card">
-            <p>Aucun favoris</p>
-          </div>
         }
       </swiper-container>
-    }
-  </div> -->
-
-  <!-- SECTION TERMINÉ -->
-  <!--<div class="section-container">
-    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'Terminé'})">
-      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
-    </div>
-
-    @if (chargementTermine) {
-      <div class="loading-container">
-        <ion-spinner name="crescent"></ion-spinner>
-      </div>
     } @else {
-      <swiper-container
-        slides-per-view="auto"
-        space-between="15"
-        free-mode="true"
-        slides-offset-before="16"
-        slides-offset-after="16">
-        @for (film of listeTermine; track film) {
-          <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
-          </swiper-slide>
-        } @empty {
-          <div class="empty-state-card">
-            <p>Aucun film terminé</p>
-          </div>
-        }
-      </swiper-container>
+      <p class="empty-text">Aucun favori pour le moment</p>
     }
-  </div> -->
+  </div>
 
   <!-- SECTION À VENIR -->
   <div class="section-container">
@@ -175,10 +121,32 @@
         slides-offset-after="16">
         @for (film of listeAVenir; track film) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film"></app-card-film>
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
         }
       </swiper-container>
+    }
+  </div>
+
+  <div class="section-container">
+    <div class="section-header">
+      <h2>TERMINÉ <ion-icon name="checkmark-done-circle-outline"></ion-icon></h2>
+    </div>
+    @if (listeTermine.length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeTermine; track film.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <p class="empty-text">Tu n'as pas encore fini de film</p>
     }
   </div>
 

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FilmsPage } from './films.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-
+import { CardFilmComponent} from "../card-film/card-film.component";
 import { FilmsPageRoutingModule } from './films-routing.module';
 
 @NgModule({
@@ -13,6 +13,7 @@ import { FilmsPageRoutingModule } from './films-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
+    CardFilmComponent,
     FilmsPageRoutingModule
   ],
   declarations: [FilmsPage],

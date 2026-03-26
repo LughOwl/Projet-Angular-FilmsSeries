@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -60,8 +60,8 @@ export class Bddfilms {
   // Clé API TMDB
   private readonly cleApi = 'b0e3bb5a46ad602897aba592b2967fe2';
   private readonly urlBase = 'https://api.themoviedb.org/3';
-
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
+  constructor() {}
 
   /**
    * Récupère les films populaires (20 premiers)

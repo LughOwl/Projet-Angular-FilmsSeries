@@ -5,7 +5,7 @@ import { UnFilm } from "../bdd/unFilm";
   selector: 'app-card-film',
   templateUrl: './card-film.component.html',
   styleUrls: ['./card-film.component.scss'],
-  standalone: false,
+  standalone: true,
 })
 export class CardFilmComponent {
   @Input() film!: UnFilm;

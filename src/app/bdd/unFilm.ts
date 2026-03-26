@@ -1,7 +1,6 @@
 export class UnFilm {
-  private _id!: number;
+  private _id !: number;
   private _titre!: string;
-  private _titreOriginal!: string;
   private _dateSortie!: string;
   private _cheminAffiche!: string;
   private _apercu!: string;
@@ -11,7 +10,6 @@ export class UnFilm {
   constructor(obj: any) {
     this._id = obj.id || 0;
     this._titre = obj.title || obj.name || '';
-    this._titreOriginal = obj.original_title || obj.original_name || '';
     this._dateSortie = obj.release_date || obj.first_air_date || '';
     this._cheminAffiche = obj.poster_path || '';
     this._apercu = obj.overview || '';
@@ -27,8 +25,8 @@ export class UnFilm {
     return this._titre;
   }
 
-  public get titreOriginal(): string {
-    return this._titreOriginal;
+  public set titre(valeur: string) {
+    this._titre = valeur;
   }
 
   public get dateSortie(): string {
@@ -41,10 +39,14 @@ export class UnFilm {
   }
 
   public get cheminAffiche(): string {
-    if (this._cheminAffiche && this._cheminAffiche !== '') {
-      return "https://image.tmdb.org/t/p/w500/" + this._cheminAffiche;
-    }
-    return "https://via.placeholder.com/500x750?text=Pas+d'affiche";
+    return "https://image.tmdb.org/t/p/w185/" + this._cheminAffiche;
+  }
+
+  public get urlImage(): string {
+    return this._cheminAffiche;
+  }
+  public set cheminAffiche(valeur: string) {
+    this._cheminAffiche = valeur;
   }
 
   public get apercu(): string {
