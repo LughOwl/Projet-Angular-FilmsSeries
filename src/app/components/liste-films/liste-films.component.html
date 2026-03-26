@@ -1,0 +1,17 @@
+<div *ngIf="films$ | async as films">
+  <div *ngIf="films.length === 0">
+    Aucun film ou série enregistré.
+  </div>
+
+  <ul *ngIf="films.length > 0">
+    <li *ngFor="let film of films">
+      <h3>{{ film.titre }}</h3>
+      <p>{{ film.description }}</p>
+      <small *ngIf="film.dateSortie">Sorti le : {{ film.dateSortie }}</small>
+      <div>
+        <button (click)="ouvrirDetails(film.id)">Détails</button>
+        <button (click)="supprimer(film.id)">Supprimer</button>
+      </div>
+    </li>
+  </ul>
+</div>

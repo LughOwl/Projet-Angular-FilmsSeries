@@ -1,25 +1,16 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ListeFilmsComponent } from './components/liste-films/liste-films.component';
+import { DetailsFilmComponent } from './components/details-film/details-film.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
-    path: 'detail-film', // Le chemin doit correspondre à celui du router.navigate
-    loadChildren: () => import('./detail-film/detail-film.module').then(m => m.DetailFilmPageModule)
-  },
-  {
-    path: 'detail-film',
-    loadChildren: () => import('./detail-film/detail-film.module').then( m => m.DetailFilmPageModule)
-  }
-
+  { path: '', component: ListeFilmsComponent },
+  { path: 'details/:id', component: DetailsFilmComponent },
+  // Conserver les autres routes existantes si nécessaire
 ];
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -1,0 +1,14 @@
+<div *ngIf="filmAffiche; else pasTrouve">
+  <h2>{{ filmAffiche.titre }}</h2>
+  <p>{{ filmAffiche.description }}</p>
+  <p *ngIf="filmAffiche.dateSortie">Date de sortie : {{ filmAffiche.dateSortie }}</p>
+  <p>Type : {{ filmAffiche.estSerie ? 'Série' : 'Film' }}</p>
+
+  <button (click)="retourner()">Retour</button>
+  <button (click)="supprimerEtRetourner()">Supprimer</button>
+</div>
+
+<ng-template #pasTrouve>
+  <p>Film/série introuvable.</p>
+  <button (click)="retourner()">Retour</button>
+</ng-template>
