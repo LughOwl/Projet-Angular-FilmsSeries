@@ -31,7 +31,20 @@ export class StockageFilmAPI {
   public chargementSeriesAVenir: boolean = false;  // ← NOUVEAU pour les séries à venir
 
   // ─── RECHERCHE PRINCIPALE ────────────────────────────────────────────────────
+  public obtenirBandeAnnonce(idFilm: number): Observable<string | null> {
+    // 1. UTILISE LES BACKTICKS ICI
+    const url = `${this.urlBase}/movie/${idFilm}/videos?api_key=${this.cleApi}&language=fr-FR`;
 
+    return this.httpClient.get<any>(url).pipe(
+      map(res => {
+        // 2. On trouve la vidéo
+        const video = res.results.find((v: any) => v.type === 'Trailer' && v.site === 'YouTube');
+
+        // 3. ON RENVOIE L'URL YOUTUBE, PAS JUSTE L'OBJET
+        return video ? `https://www.youtube.com/watch?v=${video.key}` : null;
+      })
+    );
+  }
   /**
    * Recherche des films/séries sur TMDB selon un terme et des filtres.
    * Utilisé uniquement quand statut = 'tous' (les autres passent par le local).

@@ -7,8 +7,11 @@ import { FiltresRecherche } from '../modeles/filtresRecherche';
 interface FilmStocke {
   id: number;
   title: string;
+  note:number;
+  heures:number;
+  minutes:number;
   poster_path: string;
-  statut: 'en_cours' | 'termine' | 'a_voir';
+  statut: 'en_cours' | 'termine' | 'a_voir' ;
   favori: boolean;
 }
 
@@ -30,12 +33,12 @@ export class StockageFilmLocal {
    * Ajoute ou met à jour un film dans le stockage local.
    * Si statut = 'non_vu' et pas favori → on supprime le film du stockage.
    */
-  modifierFilm(film: UnFilm, statut: string, estFavori: boolean) {
+  modifierFilm(film: UnFilm, statut: string, estFavori: boolean, note: number = 0, heures: number = 0, minutes: number = 0) {
     const collection = this.lireCollection();
     const index = collection.findIndex(item => item.id === film.id);
 
+    // Si le film n'est plus suivi et n'est plus en favori, on le retire du stockage
     if (statut === 'non_vu' && !estFavori) {
-      // Plus de statut ni favori → on retire le film
       if (index > -1) collection.splice(index, 1);
     } else {
       const filmAStocke: FilmStocke = {
@@ -43,8 +46,12 @@ export class StockageFilmLocal {
         title: film.titre,
         poster_path: film.urlImage,
         statut: statut as FilmStocke['statut'],
-        favori: estFavori
+        favori: estFavori,
+        note: note,
+        heures: heures,
+        minutes: minutes
       };
+
       if (index > -1) collection[index] = filmAStocke;
       else collection.push(filmAStocke);
     }
@@ -127,4 +134,5 @@ export class StockageFilmLocal {
     const films = this.lireCollection().map(f => new UnFilm(f));
     this.filmsSubject.next(films);
   }
+
 }

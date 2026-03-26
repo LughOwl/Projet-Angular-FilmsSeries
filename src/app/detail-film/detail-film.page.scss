@@ -1,0 +1,59 @@
+/* Ajoute ou modifie ces styles */
+
+.suivi-modal {
+  --height: 50%; // Le modal prendra 50% de la hauteur
+  --border-radius: 20px 20px 0 0;
+  --background: #2a2a2a;
+}
+
+.modal-suivi-content {
+  --background: #2a2a2a;
+  color: white;
+
+  .suivi-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+    padding-top: 20px;
+  }
+
+  .notation-etoiles {
+    display: flex; gap: 10px;
+    ion-icon {
+      font-size: 2.8rem; color: #555;
+      &.filled { color: #f37021; }
+    }
+  }
+
+  .statuts-container {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    .statut-btn {
+      padding: 10px 18px; border-radius: 25px; border: none;
+      background: #444; color: white;
+      &.active { background: #f37021; font-weight: bold; }
+    }
+  }
+
+  .temps-container {
+    display: flex; gap: 20px;
+    .time-input-box {
+      display: flex; align-items: center; gap: 10px;
+      .time-input {
+        width: 70px; --background: #444; --color: white;
+        border-radius: 10px; text-align: center; font-size: 1.3rem;
+      }
+      .time-label { font-weight: bold; }
+    }
+  }
+
+  .actions-container {
+    display: flex; gap: 15px; width: 100%;
+    .action-btn {
+      flex: 1; padding: 15px; border-radius: 12px; border: none;
+      font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 8px;
+      &.valider { background: #f37021; color: white; }
+      &.retour { background: #555; color: white; }
+    }
+  }
+}

@@ -8,7 +8,7 @@
   <!-- SECTION EN COURS -->
   <div class="section-container">
     <div class="section-header">
-      <h2>EN COURS <ion-icon name="play-circle-outline"></ion-icon></h2>
+      <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getFilmsParStatut("en_cours").length > 0) {
       <swiper-container
@@ -33,7 +33,7 @@
   <!-- SECTION À VOIR -->
   <div class="section-container">
     <div class="section-header">
-      <h2>À VOIR <ion-icon name="bookmark-outline"></ion-icon></h2>
+      <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getFilmsParStatut("a_voir").length > 0) {
       <swiper-container
@@ -90,7 +90,7 @@
   <!-- SECTION MES FAVORIS -->
   <div class="section-container">
     <div class="section-header">
-      <h2>MES FAVORIS <ion-icon name="heart"></ion-icon></h2>
+      <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getFavoris().length > 0) {
       <swiper-container
@@ -147,7 +147,7 @@
   <!-- SECTION TERMINÉ -->
   <div class="section-container">
     <div class="section-header">
-      <h2>TERMINÉ <ion-icon name="checkmark-done-circle-outline"></ion-icon></h2>
+      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getFilmsParStatut("termine").length > 0) {
       <swiper-container

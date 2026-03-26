@@ -1,37 +1,107 @@
-<ion-content [fullscreen]="true">
-  <ion-buttons slot="fixed" class="back-button">
-    <ion-back-button defaultHref="/tabs/films" text="" icon="chevron-back-outline"></ion-back-button>
-  </ion-buttons>
+<ion-content class="ion-padding film-detail-content">
 
-  <div class="header-image">
-    <img [src]="film.cheminAffiche" [alt]="film.titre">
-    <div class="overlay"></div>
-  </div>
-
-  <div class="main-content">
-    <h1 class="title">{{ film.titre }}</h1>
-
-    <div class="meta">
-      <span>{{ film.dateSortie | date:'yyyy' }}</span> • <span>Film</span>
+  <div class="header-container" *ngIf="film">
+    <div class="poster-box">
+      <img [src]="'https://image.tmdb.org/t/p/w500' + (film.urlImage)" alt="Poster">
     </div>
 
-    <div class="action-buttons">
-      <ion-button fill="clear" (click)="toggleFavori()" [class.active]="estFavori">
-        <ion-icon [name]="estFavori ? 'heart' : 'heart-outline'"></ion-icon>
-      </ion-button>
-
-      <ion-button fill="clear" class="btn-plus" (click)="ouvrirMenuStatut()">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-
-      <ion-button fill="clear">
-        <ion-icon name="share-social-outline"></ion-icon>
-      </ion-button>
-    </div>
-
-    <div class="synopsis">
-      <h3>Synopsis</h3>
-      <p>{{ film.apercu }}</p>
+    <div class="info-box">
+      <h2>{{ film.titre }}</h2>
+      <div class="meta-info">
+        <span class="certif">12</span>
+        <span class="duree">2h20min</span>
+      </div>
     </div>
   </div>
+
+  <div class="meta-details" *ngIf="film">
+    <div class="score-trailer">
+      <div class="score-box">
+        <ion-icon name="star-outline"></ion-icon>
+        <span>69%</span>
+      </div>
+      <a class="trailer-link" (click)="voirBandeAnnonce()" style="cursor: pointer;">
+        <ion-icon name="play-outline"></ion-icon>
+        <span>Bande-annonce</span>
+      </a>
+    </div>
+    <p><strong>Date de sortie :</strong> {{ film.dateSortie || '04/09/2014' }}</p>
+    <hr class="separator">
+  </div>
+
+  <div class="tracking-info">
+    <div class="display-stars">
+      <ion-icon *ngFor="let i of [1,2,3,4,5]"
+                [name]="noteActuelle >= i ? 'star' : 'star-outline'"
+                [class.filled]="noteActuelle >= i">
+      </ion-icon>
+    </div>
+    <div class="tracking-text">
+      <p><strong>Statut :</strong> {{ statutActuel | titlecase }}</p>
+      <p *ngIf="statutActuel === 'en_cours'">
+        <strong>Progression :</strong> {{ heures }}h{{ minutes | number:'2.0' }}min
+      </p>
+    </div>
+  </div>
+
+  <ion-modal trigger="open-modal-suivi" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5]" handleBehavior="cycle" class="suivi-modal">
+    <ng-template>
+      <ion-content class="ion-padding modal-suivi-content">
+        <div class="suivi-container">
+          <div class="notation-etoiles">
+            <ion-icon *ngFor="let i of [1,2,3,4,5]"
+                      [name]="noteTemp >= i ? 'star' : 'star-outline'"
+                      [class.filled]="noteTemp >= i"
+                      (click)="setNoteTemp(i)">
+            </ion-icon>
+          </div>
+
+          <div class="statuts-container">
+            <button *ngFor="let s of ['Non vu', 'En cours', 'Terminé', 'À voir']"
+                    class="statut-btn"
+                    [class.active]="statutTemp === transformStatut(s)"
+                    (click)="setStatutTemp(transformStatut(s))">
+              {{ s }}
+            </button>
+          </div>
+
+          <div class="temps-container">
+            <div class="time-input-box">
+              <ion-input type="number" [(ngModel)]="heuresTemp" class="time-input"></ion-input>
+              <span class="time-label">H</span>
+            </div>
+            <div class="time-input-box">
+              <ion-input type="number" [(ngModel)]="minutesTemp" class="time-input"></ion-input>
+              <span class="time-label">Min</span>
+            </div>
+          </div>
+
+          <div class="actions-container">
+            <button class="action-btn valider" (click)="validerSuivi()">
+              Valider <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </button>
+            <button class="action-btn retour" (click)="fermerModal()">
+              Retour <ion-icon name="arrow-back-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="bottom-nav">
+    <button class="circle-btn retour" (click)="retourner()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </button>
+
+    <button class="circle-btn favori" [class.active-heart]="estFavori" (click)="toggleFavori()">
+      <ion-icon [name]="estFavori ? 'heart' : 'heart-outline'"></ion-icon>
+    </button>
+
+    <button id="open-modal-suivi" class="circle-btn ajouter" (click)="initialiserTemp()">
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+  </div>
+</ion-footer>
