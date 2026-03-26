@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UnFilm } from "../../bdd/unFilm";
 
 @Component({
@@ -9,4 +9,9 @@ import { UnFilm } from "../../bdd/unFilm";
 })
 export class CardFilmComponent {
   @Input() film!: UnFilm;
+  @Output() filmClick = new EventEmitter<UnFilm>();
+
+  onClick() {
+    this.filmClick.emit(this.film);
+  }
 }

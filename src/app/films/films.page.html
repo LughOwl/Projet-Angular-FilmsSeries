@@ -1,17 +1,186 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-title>Films</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Films</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <!-- SECTION EN COURS -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'En cours'})">
+      <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementEnCours) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeEnCours; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <div class="empty-state-card">
+            <p>Aucun film en cours</p>
+          </div>
+        }
+      </swiper-container>
+    }
+  </div>
+
+  <!-- SECTION À VOIR -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'À voir'})">
+      <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementAVoir) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeAVoir; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <div class="empty-state-card">
+            <p>Aucun film à voir</p>
+          </div>
+        }
+      </swiper-container>
+    }
+  </div>
+
+  <!-- SECTION SUGGESTIONS -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Popularité +/-', type: 'Films', statut: 'Non vu'})">
+      <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementSuggestions) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeSuggestions; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    }
+  </div>
+
+  <!-- SECTION MES FAVORIS -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', favoris: 'Favoris'})">
+      <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementFavoris) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeFavoris; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <div class="empty-state-card">
+            <p>Aucun favoris</p>
+          </div>
+        }
+      </swiper-container>
+    }
+  </div>
+
+  <!-- SECTION TERMINÉ -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({tri: 'Ajout +/-', type: 'Films', statut: 'Terminé'})">
+      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementTermine) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeTermine; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        } @empty {
+          <div class="empty-state-card">
+            <p>Aucun film terminé</p>
+          </div>
+        }
+      </swiper-container>
+    }
+  </div>
+
+  <!-- SECTION À VENIR -->
+  <div class="section-container">
+    <div class="section-header" (click)="naviguerVersRecherche({type: 'Films', sortie: 'Prochainement'})">
+      <h2>À VENIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    @if (chargementAVenir) {
+      <div class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    } @else {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of listeAVenir; track film) {
+          <swiper-slide style="width: 120px;">
+            <app-card-film [film]="film" (click)="voirDetail(film)"></app-card-film>
+          </swiper-slide>
+        }
+      </swiper-container>
+    }
+  </div>
+
 </ion-content>

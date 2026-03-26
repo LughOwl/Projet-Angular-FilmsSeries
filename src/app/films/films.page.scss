@@ -1,0 +1,61 @@
+// Mêmes couleurs que l'accueil
+ion-content {
+  --background: #2c2c2c;
+  color: white;
+}
+
+ion-toolbar {
+  --background: #1e1e1e;
+  --color: white;
+}
+
+.section-container {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+
+  h2 {
+    color: white;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    ion-icon {
+      margin-left: 5px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  color: white;
+}
+
+.empty-state-card {
+  background: #3a3a3a;
+  margin: 0 16px;
+  border-radius: 12px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+  }
+}
