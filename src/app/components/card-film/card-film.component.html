@@ -1,10 +1,4 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>{{ film.titre }}</ion-card-title>
-    <ion-card-subtitle>Sortie: {{ film.dateSortie }}</ion-card-subtitle>
-  </ion-card-header>
-  <ion-card-content>
-    <img [src]="film.cheminAffiche" [alt]="film.titre" style="width: 100%; border-radius: 8px;" />
-    <p>{{ film.apercu }}{{ film.apercu.length > 200 ? '...' : '' }}</p>
-  </ion-card-content>
-</ion-card>
+<div class="movie-card">
+  <img [src]="film.cheminAffiche" [alt]="film.titre" class="poster-img" />
+  <p class="poster-title">{{ film.titre }}</p>
+</div>

@@ -1,25 +1,62 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Home
-    </ion-title>
+    <ion-title>Tableau de bord</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div style="padding: 16px;">
-    <h3>Test API TMDb</h3>
-    <p>Recherche: "Terminator"</p>
-    <p>{{ _listeFilms.length }} films trouvés.</p>
+  <div class="section-container">
+    <div class="section-header">
+      <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+    <div class="empty-state-card">
+      <p>Vous n'avez pas d'œuvres en cours</p>
+    </div>
   </div>
 
-  @for (item of _listeFilms; track item) {
-    <app-card-film [film]="item"></app-card-film>
-  }
+  <div class="section-container">
+    <div class="section-header">
+      <h2>FILMS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    <swiper-container
+      slides-per-view="auto"
+      space-between="15"
+      free-mode="true"
+      slides-offset-before="16"
+      slides-offset-after="16">
+
+      @for (f of _listeFilms; track f.titre) {
+        <swiper-slide style="width: 120px;">
+          <app-card-film [film]="f"></app-card-film>
+        </swiper-slide>
+      } @empty {
+        <p class="loading-text">Chargement des films...</p>
+      }
+    </swiper-container>
+  </div>
+
+  <div class="section-container">
+    <div class="section-header">
+      <h2>SÉRIES <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+
+    <swiper-container
+      slides-per-view="auto"
+      space-between="15"
+      free-mode="true"
+      slides-offset-before="16"
+      slides-offset-after="16">
+
+      @for (s of _listeSeries; track s.titre) {
+        <swiper-slide style="width: 120px;">
+          <app-card-film [film]="s"></app-card-film>
+        </swiper-slide>
+      } @empty {
+        <p class="loading-text">Chargement des séries...</p>
+      }
+    </swiper-container>
+  </div>
+
 </ion-content>

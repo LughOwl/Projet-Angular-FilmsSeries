@@ -1,0 +1,46 @@
+/* home.page.scss */
+
+ion-content {
+  // On applique le gris foncé de la maquette
+  --background: #2c2c2c;
+  color: white; // On repasse tout le texte en blanc
+}
+
+// Barre d'outils du haut
+ion-toolbar {
+  --background: #1e1e1e; // Un peu plus sombre pour le relief
+  --color: white;
+}
+
+// En-têtes de section (EN COURS, FILMS, etc.)
+.section-header h2 {
+  color: white;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+
+  ion-icon {
+    margin-left: 5px;
+    font-size: 1.2rem;
+  }
+}
+
+// Style de la carte "En cours" vide
+.empty-state-card {
+  background: #3a3a3a; // Un gris légèrement plus clair pour qu'elle soit visible
+  margin: 0 16px;
+  border-radius: 12px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+  }
+}

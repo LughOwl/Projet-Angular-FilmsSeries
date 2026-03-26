@@ -6,8 +6,8 @@ export class UnFilm {
   private _note!: number;
 
   constructor(obj: any) {
-    this._titre = obj.title;
-    this._dateSortie = obj.release_date;
+    this._titre = obj.title || obj.name;
+    this._dateSortie = obj.release_date || obj.first_air_date;
     this._cheminAffiche = obj.poster_path;
     this._apercu = obj.overview;
     this._note = obj.vote_average;

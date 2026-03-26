@@ -13,10 +13,10 @@ import { UnFilm } from '../bdd/unFilm';
 export class HomePage implements OnInit {
   // le résultat de la subscription à l’Observable
   private _filmsSubscription!: Subscription;
-
+  private _SeriesSubscription!: Subscription;
   // la liste de films
   _listeFilms: UnFilm[] = [];
-
+  _listeSeries: UnFilm[] = [];
   // le service pour détruire la subscription
   private destroyRef = inject(DestroyRef);
 
@@ -27,14 +27,22 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     // Remplacez VOTRE_CLE par votre vraie clé API TMDb
-    const url = 'https://api.themoviedb.org/3/search/movie?api_key=b0e3bb5a46ad602897aba592b2967fe2&query=Terminator';
-
-    this._filmsSubscription = this._BDFilms.importFilms(url)
+    const urlFilm = 'https://api.themoviedb.org/3/movie/popular?api_key=b0e3bb5a46ad602897aba592b2967fe2&language=fr-FR';
+    const urlSeries = 'https://api.themoviedb.org/3/tv/popular?api_key=b0e3bb5a46ad602897aba592b2967fe2&language=fr-FR';
+    this._filmsSubscription = this._BDFilms.importFilms(urlFilm)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(films => {
-        this._listeFilms = films;
+        this._listeFilms = films.slice(0,20);
         this.cdr.detectChanges();
         console.log('Films chargés:', this._listeFilms);
+      });
+
+    this._SeriesSubscription = this._BDFilms.importFilms(urlSeries)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(films => {
+        this._listeSeries = films.slice(0,20);
+        this.cdr.detectChanges();
+        console.log('Series chargés:', this._listeSeries);
       });
   }
 }
