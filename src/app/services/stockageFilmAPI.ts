@@ -61,17 +61,17 @@ export class Bddfilms {
   private readonly cleApi = 'b0e3bb5a46ad602897aba592b2967fe2';
   private readonly urlBase = 'https://api.themoviedb.org/3';
   private httpClient = inject(HttpClient);
+
+  public listeFilms: UnFilm[] = [];
+  public listeSeries: UnFilm[] = [];
+  public listeAVenir: UnFilm[] = [];
+
+  public chargementFilms = false;
+  public chargementSeries = false;
+  public chargementAVenir = false;
+
   constructor() {}
 
-  /**
-   * Récupère les films populaires (20 premiers)
-   */
-  public getFilmsPopulaires(): Observable<UnFilm[]> {
-    const url = `${this.urlBase}/movie/popular?api_key=${this.cleApi}&language=fr-FR&page=1`;
-    return this.httpClient.get<UnePage>(url).pipe(
-      map(page => page.results.map(item => new UnFilm(item)))
-    );
-  }
 
   public importerFilms(requete: string): Observable<UnFilm[]> {
     return this.httpClient.get<UnePage>(requete).pipe(
@@ -82,20 +82,32 @@ export class Bddfilms {
     );
   }
 
-  public getFilmsAVenir(): Observable<UnFilm[]> {
-    const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
-    return this.importerFilms(url);
-  }
-  /**
-   * Récupère les séries populaires (20 premières)
-   */
-  public getSeriesPopulaires(): Observable<UnFilm[]> {
-    const url = `${this.urlBase}/tv/popular?api_key=${this.cleApi}&language=fr-FR&page=1`;
-    return this.httpClient.get<UnePage>(url).pipe(
-      map(page => page.results.map(item => new UnFilm(item)))
-    );
+  public chargerFilmsPopulaires(): void {
+    const url = `${this.urlBase}/movie/popular?api_key=${this.cleApi}&language=fr-FR`;
+    this.chargementFilms = true;
+    this.importerFilms(url).subscribe(films => {
+      this.listeFilms = films;
+      this.chargementFilms = false;
+    });
   }
 
+  public chargerSeriesPopulaires(): void {
+    const url = `${this.urlBase}/tv/popular?api_key=${this.cleApi}&language=fr-FR`;
+    this.chargementSeries = true;
+    this.importerFilms(url).subscribe(series => {
+      this.listeSeries = series;
+      this.chargementSeries = false;
+    });
+  }
+
+  public chargerFilmsAVenir(): void {
+    const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
+    this.chargementAVenir = true;
+    this.importerFilms(url).subscribe(films => {
+      this.listeAVenir = films.slice(0, 20);
+      this.chargementAVenir = false;
+    });
+  }
   /**
    * Recherche générique avec pagination
    */
@@ -159,7 +171,6 @@ export class Bddfilms {
           });
           console.log(`Après filtrage "Prochainement": ${resultats.length} résultats`);
         }
-
         return {
           resultats: resultats,
           total: page.total_results,

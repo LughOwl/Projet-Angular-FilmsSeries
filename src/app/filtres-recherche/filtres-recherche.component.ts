@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FiltresRecherche } from '../services/bddfilms.service';
+import { FiltresRecherche } from '../services/stockageFilmAPI';
 
 @Component({
   selector: 'app-filtres-recherche',

@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { UnFilm } from "../modeles/unFilm"; // Vérifie le chemin vers ton fichier
-import { StockageFilm } from '../services/stockageFilm'; // Ton nouveau services
+import { StockageFilmLocal } from '../services/stockageFilmLocal'; // Ton nouveau services
 
 @Component({
   selector: 'app-detail-film',
@@ -17,7 +17,7 @@ export class DetailFilmPage implements OnInit {
 
   private router = inject(Router);
   private actionSheetCtrl = inject(ActionSheetController);
-  private stockageFilm = inject(StockageFilm);
+  private stockageFilm = inject(StockageFilmLocal);
 
   ngOnInit() {
     // Récupération du film via le state du router

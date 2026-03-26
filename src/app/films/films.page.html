@@ -15,14 +15,14 @@
     <div class="section-header">
       <h2>EN COURS <ion-icon name="play-circle-outline"></ion-icon></h2>
     </div>
-    @if (listeEnCours.length > 0) {
+    @if (stockageFilmLocal.listeEnCours.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeEnCours; track film.id) {
+        @for (film of stockageFilmLocal.listeEnCours; track film.id) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
@@ -39,14 +39,14 @@
     <div class="section-header">
       <h2>À VOIR <ion-icon name="bookmark-outline"></ion-icon></h2>
     </div>
-    @if (listeAVoir.length > 0) {
+    @if (stockageFilmLocal.listeAVoir.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeAVoir; track film.id) {
+        @for (film of stockageFilmLocal.listeAVoir; track film.id) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
@@ -64,7 +64,7 @@
     <div class="section-header"> <!--(click)="naviguerVersRecherche({tri: 'Popularité +/-', type: 'Films', statut: 'Non vu'})"-->
       <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (chargementSuggestions) {
+    @if (stockageFilmAPI.chargementFilms) {
       <div class="loading-container">
         <ion-spinner name="crescent"></ion-spinner>
       </div>
@@ -75,7 +75,7 @@
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeSuggestions; track film) {
+        @for (film of stockageFilmAPI.listeFilms; track film) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
@@ -88,14 +88,14 @@
     <div class="section-header">
       <h2>MES FAVORIS <ion-icon name="heart"></ion-icon></h2>
     </div>
-    @if (listeFavoris.length > 0) {
+    @if (stockageFilmLocal.listeFavoris.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeFavoris; track film.id) {
+        @for (film of stockageFilmLocal.listeFavoris; track film.id) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
@@ -114,7 +114,7 @@
       <h2>À VENIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
-    @if (chargementAVenir) {
+    @if (stockageFilmAPI.chargementAVenir) {
       <div class="loading-container">
         <ion-spinner name="crescent"></ion-spinner>
       </div>
@@ -125,7 +125,7 @@
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeAVenir; track film) {
+        @for (film of stockageFilmAPI.listeAVenir; track film) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
@@ -138,14 +138,14 @@
     <div class="section-header">
       <h2>TERMINÉ <ion-icon name="checkmark-done-circle-outline"></ion-icon></h2>
     </div>
-    @if (listeTermine.length > 0) {
+    @if (stockageFilmLocal.listeTermine.length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of listeTermine; track film.id) {
+        @for (film of stockageFilmLocal.listeTermine; track film.id) {
           <swiper-slide style="width: 120px;">
             <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
           </swiper-slide>
