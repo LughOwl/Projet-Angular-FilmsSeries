@@ -19,7 +19,7 @@
         slides-offset-after="16">
         @for (film of stockageFilmLocal.getFilmsParStatut("en_cours"); track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -44,7 +44,7 @@
         slides-offset-after="16">
         @for (film of stockageFilmLocal.getFilmsParStatut("a_voir"); track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -75,7 +75,7 @@
           slides-offset-after="16">
           @for (film of filmsPopulaires; track film.id) {
             <swiper-slide style="width: 120px;">
-              <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+              <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
             </swiper-slide>
           }
         </swiper-container>
@@ -92,22 +92,47 @@
     <div class="section-header">
       <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (stockageFilmLocal.getFavoris().length > 0) {
+    @if (stockageFilmLocal.getFilmsFavoris().length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (film of stockageFilmLocal.getFavoris(); track film.id) {
+        @for (film of stockageFilmLocal.getFilmsFavoris(); track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
     } @else {
       <div class="empty-state-card">
         <p>Aucun favori pour le moment</p>
+      </div>
+    }
+  </div>
+
+  <!-- SECTION TERMINÉ -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
+    </div>
+    @if (stockageFilmLocal.getFilmsParStatut("termine").length > 0) {
+      <swiper-container
+        slides-per-view="auto"
+        space-between="15"
+        free-mode="true"
+        slides-offset-before="16"
+        slides-offset-after="16">
+        @for (film of stockageFilmLocal.getFilmsParStatut("termine"); track film.id) {
+          <swiper-slide style="width: 120px;">
+            <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
+          </swiper-slide>
+        }
+      </swiper-container>
+    } @else {
+      <div class="empty-state-card">
+        <p>Tu n'as pas encore fini de film</p>
       </div>
     }
   </div>
@@ -132,7 +157,7 @@
           slides-offset-after="16">
           @for (film of filmsAVenir; track film.id) {
             <swiper-slide style="width: 120px;">
-              <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+              <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
             </swiper-slide>
           }
         </swiper-container>
@@ -141,31 +166,6 @@
           <p>Aucun film à venir</p>
         </div>
       }
-    }
-  </div>
-
-  <!-- SECTION TERMINÉ -->
-  <div class="section-container">
-    <div class="section-header">
-      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
-    </div>
-    @if (stockageFilmLocal.getFilmsParStatut("termine").length > 0) {
-      <swiper-container
-        slides-per-view="auto"
-        space-between="15"
-        free-mode="true"
-        slides-offset-before="16"
-        slides-offset-after="16">
-        @for (film of stockageFilmLocal.getFilmsParStatut("termine"); track film.id) {
-          <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
-          </swiper-slide>
-        }
-      </swiper-container>
-    } @else {
-      <div class="empty-state-card">
-        <p>Tu n'as pas encore fini de film</p>
-      </div>
     }
   </div>
 

@@ -1,0 +1,413 @@
+/* ---------- Page background ---------- */
+ion-content.film-detail-content {
+  --background: #111318;
+  --color: #e8eaf0;
+}
+
+/* ---------- Layout principal ---------- */
+.main-layout {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+/* --- Colonne affiche --- */
+.poster-col {
+  flex: 0 0 140px;
+}
+
+.poster-box {
+  width: 140px;
+  height: 210px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
+
+/* --- Colonne infos --- */
+.info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.titre {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.duree {
+  font-size: 0.82rem;
+  color: #9ea3b0;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Synopsis limité en hauteur dans la colonne droite */
+.synopsis-scrollable {
+  max-height: 160px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a3d4a #1a1d24;
+
+  p {
+    font-size: 0.83rem;
+    line-height: 1.55;
+    color: #b0b5c3;
+    margin: 0;
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #1a1d24;
+    border-radius: 2px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #3a3d4a;
+    border-radius: 2px;
+  }
+}
+
+/* ---------- Section basse ---------- */
+.bottom-section {
+  padding-top: 4px;
+}
+
+/* Note + bande-annonce */
+.score-trailer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.score-box {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #1e2128;
+  border: 1px solid #2d3040;
+  border-radius: 20px;
+  padding: 5px 12px;
+
+  ion-icon {
+    color: #f5a623;
+    font-size: 1rem;
+  }
+
+  span {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+}
+
+.trailer-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #e8521a;
+  border-radius: 20px;
+  padding: 5px 14px;
+  text-decoration: none;
+
+  ion-icon {
+    color: #fff;
+    font-size: 1.1rem;
+  }
+
+  span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  &:hover {
+    background: #c44415;
+  }
+}
+
+/* Lignes d'info (genres, réalisateur…) */
+.info-line {
+  font-size: 0.82rem;
+  color: #9ea3b0;
+  margin-bottom: 5px;
+
+  strong {
+    color: #c8cad4;
+  }
+}
+
+.separator {
+  border: none;
+  border-top: 1px solid #2a2d38;
+  margin: 14px 0;
+}
+
+/* ---------- Suivi ---------- */
+.tracking-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.display-stars {
+  display: flex;
+  gap: 3px;
+
+  ion-icon {
+    font-size: 1.2rem;
+    color: #3a3d4a;
+
+    &.filled {
+      color: #f5a623;
+    }
+  }
+}
+
+.tracking-text {
+  p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #9ea3b0;
+
+    strong {
+      color: #c8cad4;
+    }
+  }
+}
+
+/* ---------- Footer nav ---------- */
+ion-footer {
+  --background: #111318;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 20px 16px;
+  background: #111318;
+  border-top: 1px solid #1e2128;
+}
+
+.circle-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  ion-icon {
+    font-size: 1.4rem;
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  &.retour {
+    background: #1e2128;
+    ion-icon { color: #c8cad4; }
+  }
+
+  &.favori {
+    background: #1e2128;
+    ion-icon { color: #c8cad4; }
+
+    &.active-heart {
+      background: #3d1a1a;
+      ion-icon { color: #e85555; }
+    }
+  }
+
+  &.ajouter {
+    background: #e8521a;
+    ion-icon { color: #fff; }
+
+    &:hover { background: #c44415; }
+  }
+}
+
+/* ---------- Modal suivi ---------- */
+.suivi-modal {
+  --background: #16191f;
+  --border-radius: 20px 20px 0 0;
+}
+
+.modal-suivi-content {
+  --background: #16191f;
+}
+
+.suivi-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 8px 4px;
+}
+
+/* Étoiles de notation */
+.notation-etoiles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+
+  ion-icon {
+    font-size: 2rem;
+    color: #3a3d4a;
+    cursor: pointer;
+    transition: color 0.15s, transform 0.15s;
+
+    &.filled {
+      color: #f5a623;
+    }
+
+    &:hover {
+      transform: scale(1.15);
+    }
+  }
+}
+
+/* Boutons statut */
+.statuts-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.statut-btn {
+  background: #1e2128;
+  border: 1px solid #2d3040;
+  border-radius: 20px;
+  color: #9ea3b0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &.active, &:hover {
+    background: #e8521a;
+    border-color: #e8521a;
+    color: #fff;
+  }
+}
+
+/* Titre progression */
+.progression-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #e8521a;
+
+  ion-icon {
+    font-size: 1.1rem;
+  }
+
+  span {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+}
+
+/* Inputs temps / saison-épisode */
+.temps-container {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.time-input-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  .time-input {
+    --background: #1e2128;
+    --color: #ffffff;
+    --border-color: #2d3040;
+    --border-radius: 10px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    width: 100px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .time-label {
+    font-size: 0.75rem;
+    color: #9ea3b0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Boutons actions */
+.actions-container {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.action-btn {
+  flex: 1;
+  max-width: 160px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 24px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform 0.15s, background 0.15s;
+
+  ion-icon { font-size: 1.1rem; }
+
+  &:active { transform: scale(0.95); }
+
+  &.valider {
+    background: #e8521a;
+    color: #fff;
+
+    &:hover { background: #c44415; }
+  }
+
+  &.retour {
+    background: #1e2128;
+    color: #c8cad4;
+    border: 1px solid #2d3040;
+
+    &:hover { background: #252830; }
+  }
+}

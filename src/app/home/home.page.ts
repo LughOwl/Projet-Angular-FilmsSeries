@@ -1,9 +1,8 @@
-import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { StockageFilmAPI } from '../services/stockageFilmAPI';
 import { StockageFilmLocal } from '../services/stockageFilmLocal';
-import { UnFilm } from '../modeles/unFilm';
+import { Film } from '../modeles/film';
+import { Serie } from '../modeles/serie';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,9 +12,9 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  listeFilms: UnFilm[] = [];
-  listeSeries: UnFilm[] = [];
-  oeuvresEnCours: UnFilm[] = [];
+  listeFilms: Film[] = [];
+  listeSeries: Serie[] = [];
+  oeuvresEnCours: (Film | Serie)[] = [];
 
   public bddFilms = inject(StockageFilmAPI);
   public stockageFilmLocal = inject(StockageFilmLocal);
@@ -26,27 +25,23 @@ export class HomePage implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    // Charge les films populaires
     this.bddFilms.getFilmsPopulaires().subscribe(films => {
       this.listeFilms = films;
       this.cdr.detectChanges();
     });
 
-    // Charge les séries populaires
     this.bddFilms.getSeriesPopulaires().subscribe(series => {
       this.listeSeries = series;
       this.cdr.detectChanges();
     });
 
-    // Surveille les changements des œuvres en cours
     this.stockageFilmLocal.films$.subscribe(() => {
-      this.oeuvresEnCours = this.stockageFilmLocal.getFilmsParStatut("en_cours");
+      this.oeuvresEnCours = this.stockageFilmLocal.getOeuvresParStatut("en_cours");
       this.cdr.detectChanges();
     });
   }
 
-  // Méthode pour naviguer vers les détails
-  voirDetail(oeuvre: UnFilm) {
-    this.router.navigate(['/detail-film'], { state: { film: oeuvre } });
+  voirDetail(oeuvre: Film | Serie) {
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: oeuvre } });
   }
 }

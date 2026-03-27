@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Tableau de bord</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
 
   <!-- SECTION EN COURS -->
@@ -20,7 +14,7 @@
         slides-offset-after="16">
         @for (oeuvre of oeuvresEnCours; track oeuvre.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="oeuvre" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="oeuvre" (oeuvreClick)="voirDetail(oeuvre)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -51,7 +45,7 @@
         slides-offset-after="16">
         @for (film of listeFilms; track film.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="film" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="film" (oeuvreClick)="voirDetail(film)"></app-card-oeuvre>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucun film trouvé</p>
@@ -80,7 +74,7 @@
         slides-offset-after="16">
         @for (serie of listeSeries; track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
           </swiper-slide>
         } @empty {
           <p class="empty-text">Aucune série trouvée</p>

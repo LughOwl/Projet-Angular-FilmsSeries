@@ -2,7 +2,8 @@ import { Component, OnInit, inject, ChangeDetectorRef, DestroyRef } from '@angul
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { UnFilm } from '../modeles/unFilm';
+import { Film } from '../modeles/film';
+import { Serie } from '../modeles/serie';
 import { FiltresRecherche, ResultatRecherche } from '../modeles/filtresRecherche';
 import { StockageFilmAPI } from '../services/stockageFilmAPI';
 import { StockageFilmLocal } from '../services/stockageFilmLocal';
@@ -16,7 +17,7 @@ import { StockageFilmLocal } from '../services/stockageFilmLocal';
 export class NaviguerPage implements OnInit {
   formulaireRecherche!: FormGroup;
 
-  listeResultats: UnFilm[] = [];
+  listeResultats: (Film | Serie)[] = [];
   totalResultatsFiltres: number = 0;
   chargementEnCours: boolean = false;
   afficherFiltres: boolean = false;
@@ -46,7 +47,7 @@ export class NaviguerPage implements OnInit {
   private router = inject(Router);
   private api = inject(StockageFilmAPI);
   private local = inject(StockageFilmLocal);
-  private fb = inject(FormBuilder);  // ← Correction : injecter FormBuilder
+  private fb = inject(FormBuilder);
 
   ngOnInit() {
     this.formulaireRecherche = this.fb.group({
@@ -156,8 +157,8 @@ export class NaviguerPage implements OnInit {
 
   // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 
-  voirDetails(oeuvre: UnFilm) {
-    this.router.navigate(['/detail-film'], { state: { film: oeuvre } });
+  voirDetails(oeuvre: Film | Serie) {
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: oeuvre } }); // ← Changé
   }
 
   // ─── PRIVÉ ───────────────────────────────────────────────────────────────────

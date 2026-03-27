@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { CardFilmComponent } from './card-film.component';
+import { CardOeuvreComponent } from './card-oeuvre.component';
 
-describe('CardFilmComponent', () => {
-  let component: CardFilmComponent;
-  let fixture: ComponentFixture<CardFilmComponent>;
+describe('CardOeuvreComponent', () => {
+  let component: CardOeuvreComponent;
+  let fixture: ComponentFixture<CardOeuvreComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ CardFilmComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), CardOeuvreComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CardFilmComponent);
+    fixture = TestBed.createComponent(CardOeuvreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UnFilm } from '../modeles/unFilm';
+import { Film } from '../modeles/film';
+import { Serie } from '../modeles/serie';
 import { FiltresRecherche, ResultatRecherche } from '../modeles/filtresRecherche';
 
 // Structure brute d'une page renvoyée par TMDB
@@ -20,10 +21,10 @@ export class StockageFilmAPI {
   private httpClient = inject(HttpClient);
 
   // Ajoute ces propriétés pour stocker les données
-  public listeFilms: UnFilm[] = [];
-  public listeSeries: UnFilm[] = [];
-  public listeFilmsAVenir: UnFilm[] = [];
-  public listeSeriesAVenir: UnFilm[] = [];  // ← NOUVEAU pour les séries à venir
+  public listeFilms: Film[] = [];
+  public listeSeries: Serie[] = [];
+  public listeFilmsAVenir: Film[] = [];
+  public listeSeriesAVenir: Serie[] = [];  // ← NOUVEAU pour les séries à venir
 
   public chargementFilms: boolean = false;
   public chargementSeries: boolean = false;
@@ -54,7 +55,7 @@ export class StockageFilmAPI {
 
     return this.httpClient.get<UnePage>(url).pipe(
       map(reponse => {
-        let resultats = reponse.results.map(item => new UnFilm(item));
+        let resultats = reponse.results.map(item => new Film(item));
 
         // Tri côté client
         resultats = this.trier(resultats, filtres.tri);
@@ -72,12 +73,12 @@ export class StockageFilmAPI {
   // ─── REQUÊTES TMDB SPÉCIFIQUES ───────────────────────────────────────────────
 
   /** Films populaires (utilisé dans la page Films et Accueil) */
-  getFilmsPopulaires(): Observable<UnFilm[]> {
+  getFilmsPopulaires(): Observable<Film[]> {
     this.chargementFilms = true;
     const url = `${this.urlBase}/movie/popular?api_key=${this.cleApi}&language=fr-FR`;
     return this.httpClient.get<UnePage>(url).pipe(
       map(reponse => {
-        const films = reponse.results.map(item => new UnFilm(item));
+        const films = reponse.results.map(item => new Film(item));
         this.listeFilms = films;
         this.chargementFilms = false;
         return films;
@@ -86,12 +87,12 @@ export class StockageFilmAPI {
   }
 
   /** Séries populaires (utilisé dans l'Accueil) */
-  getSeriesPopulaires(): Observable<UnFilm[]> {
+  getSeriesPopulaires(): Observable<Serie[]> {
     this.chargementSeries = true;
     const url = `${this.urlBase}/tv/popular?api_key=${this.cleApi}&language=fr-FR`;
     return this.httpClient.get<UnePage>(url).pipe(
       map(reponse => {
-        const series = reponse.results.map(item => new UnFilm(item));
+        const series = reponse.results.map(item => new Serie(item));
         this.listeSeries = series;
         this.chargementSeries = false;
         return series;
@@ -100,12 +101,12 @@ export class StockageFilmAPI {
   }
 
   /** Films à venir (utilisé dans la page Films) */
-  getFilmsAVenir(): Observable<UnFilm[]> {
+  getFilmsAVenir(): Observable<Film[]> {
     this.chargementFilmsAVenir = true;
     const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
     return this.httpClient.get<UnePage>(url).pipe(
       map(reponse => {
-        const films = reponse.results.map(item => new UnFilm(item));
+        const films = reponse.results.map(item => new Film(item));
         this.listeFilmsAVenir = films;
         this.chargementFilmsAVenir = false;
         return films;
@@ -114,14 +115,12 @@ export class StockageFilmAPI {
   }
 
   /** Séries à venir (utilisé dans la page Séries) */
-  getSeriesAVenir(): Observable<UnFilm[]> {
+  getSeriesAVenir(): Observable<Serie[]> {
     this.chargementSeriesAVenir = true;
-    // On utilise "airing_today" pour les séries qui sortent aujourd'hui
-    // ou "on_the_air" pour les séries actuellement diffusées
     const url = `${this.urlBase}/tv/airing_today?api_key=${this.cleApi}&language=fr-FR`;
     return this.httpClient.get<UnePage>(url).pipe(
       map(reponse => {
-        const series = reponse.results.map(item => new UnFilm(item));
+        const series = reponse.results.map(item => new Serie(item));
         this.listeSeriesAVenir = series;
         this.chargementSeriesAVenir = false;
         return series;
@@ -129,10 +128,20 @@ export class StockageFilmAPI {
     );
   }
 
+  getFilmDetails(id: number): Observable<any> {
+    const url = `${this.urlBase}/movie/${id}?api_key=${this.cleApi}&language=fr-FR&append_to_response=credits`;
+    return this.httpClient.get<any>(url);
+  }
+
+  getSerieDetails(id: number): Observable<any> {
+    const url = `${this.urlBase}/tv/${id}?api_key=${this.cleApi}&language=fr-FR&append_to_response=credits`;
+    return this.httpClient.get<any>(url);
+  }
+
   // ─── TRI ─────────────────────────────────────────────────────────────────────
 
   /** Trie une liste de films selon le critère choisi */
-  trier(resultats: UnFilm[], tri: FiltresRecherche['tri']): UnFilm[] {
+  trier(resultats: Film[], tri: FiltresRecherche['tri']): Film[] {
     const copie = [...resultats];
     switch (tri) {
       case 'titre_az':

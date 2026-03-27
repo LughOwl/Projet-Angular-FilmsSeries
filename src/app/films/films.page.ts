@@ -2,13 +2,13 @@ import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angul
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { StockageFilmAPI } from '../services/stockageFilmAPI';
-import { UnFilm } from '../modeles/unFilm';
+import { Film } from '../modeles/film';
 import { Router } from '@angular/router';
 import { StockageFilmLocal } from "../services/stockageFilmLocal";
-import { CardFilmComponent } from "../card-film/card-film.component"
+import { CardOeuvreComponent } from "../card-oeuvre/card-oeuvre.component"
 
 export interface FilmUtilisateur {
-  film: UnFilm;
+  film: Film;
   statut: 'en_cours' | 'a_voir' | 'termine' | 'non_vu';
   estFavori: boolean;
   dateAjout: Date;
@@ -23,8 +23,8 @@ export interface FilmUtilisateur {
 })
 export class FilmsPage implements OnInit {
 
-  public filmsPopulaires: UnFilm[] = [];
-  public filmsAVenir: UnFilm[] = [];
+  public filmsPopulaires: Film[] = [];
+  public filmsAVenir: Film[] = [];
 
   // Ajoute ces propriétés d'état
   public chargementPopulaires: boolean = true;
@@ -70,7 +70,7 @@ export class FilmsPage implements OnInit {
 
   constructor() {}
 
-  voirDetail(film: UnFilm) {
-    this.router.navigate(['/detail-film'], { state: { film: film } });
+  voirDetail(film: Film) {
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: film } }); // ← Changé
   }
 }

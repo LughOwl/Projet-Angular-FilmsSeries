@@ -1,4 +1,4 @@
-export class UnFilm {
+export class Film {
   private _id !: number;
   private _titre!: string;
   private _dateSortie!: string;

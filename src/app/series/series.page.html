@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Séries</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -14,18 +8,18 @@
   <!-- EN COURS -->
   <div class="section-container">
     <div class="section-header">
-      <h2>EN COURS <ion-icon name="play-circle-outline"></ion-icon></h2>
+      <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (stockageFilmLocal.getFilmsParStatut("en_cours").length > 0) {
+    @if (stockageFilmLocal.getSeriesParStatut("en_cours").length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (serie of stockageFilmLocal.getFilmsParStatut("en_cours"); track serie.id) {
+        @for (serie of stockageFilmLocal.getSeriesParStatut("en_cours"); track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -39,18 +33,18 @@
   <!-- À VOIR -->
   <div class="section-container">
     <div class="section-header">
-      <h2>À VOIR <ion-icon name="bookmark-outline"></ion-icon></h2>
+      <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (stockageFilmLocal.getFilmsParStatut("a_voir").length > 0) {
+    @if (stockageFilmLocal.getSeriesParStatut("a_voir").length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (serie of stockageFilmLocal.getFilmsParStatut("a_voir"); track serie.id) {
+        @for (serie of stockageFilmLocal.getSeriesParStatut("a_voir"); track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -81,7 +75,7 @@
           slides-offset-after="16">
           @for (serie of seriesPopulaires; track serie.id) {
             <swiper-slide style="width: 120px;">
-              <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+              <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
             </swiper-slide>
           }
         </swiper-container>
@@ -96,18 +90,18 @@
   <!-- MES FAVORIS -->
   <div class="section-container">
     <div class="section-header">
-      <h2>MES FAVORIS <ion-icon name="heart"></ion-icon></h2>
+      <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (stockageFilmLocal.getFavoris().length > 0) {
+    @if (stockageFilmLocal.getSeriesFavoris().length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (serie of stockageFilmLocal.getFavoris(); track serie.id) {
+        @for (serie of stockageFilmLocal.getSeriesFavoris(); track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -121,18 +115,18 @@
   <!-- TERMINÉ -->
   <div class="section-container">
     <div class="section-header">
-      <h2>TERMINÉ <ion-icon name="checkmark-done-circle-outline"></ion-icon></h2>
+      <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
-    @if (stockageFilmLocal.getFilmsParStatut("termine").length > 0) {
+    @if (stockageFilmLocal.getSeriesParStatut("termine").length > 0) {
       <swiper-container
         slides-per-view="auto"
         space-between="15"
         free-mode="true"
         slides-offset-before="16"
         slides-offset-after="16">
-        @for (serie of stockageFilmLocal.getFilmsParStatut("termine"); track serie.id) {
+        @for (serie of stockageFilmLocal.getSeriesParStatut("termine"); track serie.id) {
           <swiper-slide style="width: 120px;">
-            <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+            <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
           </swiper-slide>
         }
       </swiper-container>
@@ -146,7 +140,7 @@
   <!-- À VENIR -->
   <div class="section-container">
     <div class="section-header">
-      <h2>À VENIR <ion-icon name="calendar-outline"></ion-icon></h2>
+      <h2>À VENIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (chargementAVenir) {
       <div class="loading-container">
@@ -163,7 +157,7 @@
           slides-offset-after="16">
           @for (serie of seriesAVenir; track serie.id) {
             <swiper-slide style="width: 120px;">
-              <app-card-film [film]="serie" (filmClick)="voirDetail($event)"></app-card-film>
+              <app-card-oeuvre [oeuvre]="serie" (oeuvreClick)="voirDetail(serie)"></app-card-oeuvre>
             </swiper-slide>
           }
         </swiper-container>

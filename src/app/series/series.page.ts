@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { StockageFilmAPI } from '../services/stockageFilmAPI';
-import { UnFilm } from '../modeles/unFilm';
+import { Serie } from '../modeles/serie';
 import { StockageFilmLocal } from '../services/stockageFilmLocal';
 
 @Component({
@@ -11,11 +11,9 @@ import { StockageFilmLocal } from '../services/stockageFilmLocal';
   standalone: false,
 })
 export class SeriesPage implements OnInit {
-  // Listes pour chaque catégorie
-  public seriesPopulaires: UnFilm[] = [];
-  public seriesAVenir: UnFilm[] = [];
+  public seriesPopulaires: Serie[] = [];
+  public seriesAVenir: Serie[] = [];
 
-  // États de chargement
   public chargementPopulaires: boolean = true;
   public chargementAVenir: boolean = true;
 
@@ -25,7 +23,6 @@ export class SeriesPage implements OnInit {
   public stockageFilmAPI = inject(StockageFilmAPI);
 
   ngOnInit() {
-    // Charger les séries populaires
     this.stockageFilmAPI.getSeriesPopulaires().subscribe({
       next: (series) => {
         this.seriesPopulaires = series;
@@ -38,7 +35,6 @@ export class SeriesPage implements OnInit {
       }
     });
 
-    // Charger les séries à venir
     this.stockageFilmAPI.getSeriesAVenir().subscribe({
       next: (series) => {
         this.seriesAVenir = series;
@@ -51,13 +47,12 @@ export class SeriesPage implements OnInit {
       }
     });
 
-    // Surveiller les changements locaux
-    this.stockageFilmLocal.films$.subscribe(() => {
+    this.stockageFilmLocal.series$.subscribe(() => {
       this.cdr.detectChanges();
     });
   }
 
-  voirDetail(serie: UnFilm) {
-    this.router.navigate(['/detail-film'], { state: { film: serie } });
+  voirDetail(serie: Serie) {
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: serie } }); // ← Changé
   }
 }

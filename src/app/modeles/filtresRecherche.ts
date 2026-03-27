@@ -1,3 +1,6 @@
+import { Film } from './film';
+import { Serie } from './serie';
+
 // Filtres utilisés dans la page Naviguer
 export interface FiltresRecherche {
   tri: 'titre_az' | 'popularite';
@@ -8,7 +11,7 @@ export interface FiltresRecherche {
 
 // Résultat paginé renvoyé par l'API
 export interface ResultatRecherche {
-  resultats: import('./unFilm').UnFilm[];
+  resultats: (Film | Serie)[];
   total: number;
   page: number;
   totalPages: number;

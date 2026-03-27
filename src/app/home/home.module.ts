@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
-import {CardFilmComponent} from "../card-film/card-film.component";
+import {CardOeuvreComponent} from "../card-oeuvre/card-oeuvre.component";
 
 @NgModule({
   imports: [
@@ -12,7 +12,7 @@ import {CardFilmComponent} from "../card-film/card-film.component";
     CommonModule,
     FormsModule,
     HomePageRoutingModule,
-    CardFilmComponent
+    CardOeuvreComponent
   ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
