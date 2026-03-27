@@ -139,11 +139,23 @@
             @if (estFilm) {
               <div class="temps-container">
                 <div class="time-input-box">
-                  <ion-input type="number" [(ngModel)]="heuresTemp" class="time-input"></ion-input>
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="heuresTemp"
+                    class="time-input"
+                    placeholder="0">
+                  </ion-input>
                   <span class="time-label">heures</span>
                 </div>
                 <div class="time-input-box">
-                  <ion-input type="number" [(ngModel)]="minutesTemp" class="time-input"></ion-input>
+                  <ion-input
+                    type="number"
+                    [(ngModel)]="minutesTemp"
+                    class="time-input"
+                    placeholder="0"
+                    max="59"
+                    min="0">
+                  </ion-input>
                   <span class="time-label">minutes</span>
                 </div>
               </div>
@@ -152,11 +164,11 @@
             @if (!estFilm) {
               <div class="temps-container">
                 <div class="time-input-box">
-                  <ion-input type="number" [(ngModel)]="saisonTemp" class="time-input"></ion-input>
+                  <ion-input type="number" [(ngModel)]="saisonTemp" class="time-input" placeholder="0"></ion-input>
                   <span class="time-label">Saison</span>
                 </div>
                 <div class="time-input-box">
-                  <ion-input type="number" [(ngModel)]="episodeTemp" class="time-input"></ion-input>
+                  <ion-input type="number" [(ngModel)]="episodeTemp" class="time-input" placeholder="0"></ion-input>
                   <span class="time-label">Épisode</span>
                 </div>
               </div>

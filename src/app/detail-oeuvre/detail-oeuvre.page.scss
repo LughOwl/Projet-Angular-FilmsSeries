@@ -14,13 +14,13 @@ ion-content.film-detail-content {
 
 /* --- Colonne affiche --- */
 .poster-col {
-  flex: 0 0 140px;
+  flex: 0 0 160px;
 }
 
 .poster-box {
   width: 140px;
-  height: 210px;
-  border-radius: 12px;
+  height: 240px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 
@@ -39,37 +39,37 @@ ion-content.film-detail-content {
 }
 
 .titre {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.8rem;
+  font-weight: 800;
   color: var(--text-color);
   margin: 0 0 6px;
   line-height: 1.2;
 }
 
 .duree {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--text-color-secondary);
   margin-bottom: 10px;
 }
 
 h3 {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text-color);
-  margin: 0 0 4px;
+  margin: 12px 0 6px;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 }
 
 /* Synopsis limité en hauteur dans la colonne droite */
 .synopsis-scrollable {
-  max-height: 160px;
+  max-height: 180px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--card-bg) var(--background-color);
 
   p {
-    font-size: 0.83rem;
+    font-size: 0.85rem;
     line-height: 1.55;
     color: var(--text-color-secondary);
     margin: 0;
@@ -90,15 +90,15 @@ h3 {
 
 /* ---------- Section basse ---------- */
 .bottom-section {
-  padding-top: 4px;
+  padding-top: 8px;
 }
 
 /* Note + bande-annonce */
 .score-trailer {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: 20px;
+  margin-bottom: 16px;
 }
 
 .score-box {
@@ -108,7 +108,7 @@ h3 {
   background: var(--main-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 5px 12px;
+  padding: 8px 16px;
 
   ion-icon {
     color: #f5a623;
@@ -152,7 +152,7 @@ h3 {
 .info-line {
   font-size: 0.82rem;
   color: var(--text-color-secondary);
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 
   strong {
     color: var(--text-color);
@@ -174,10 +174,10 @@ h3 {
 
 .display-stars {
   display: flex;
-  gap: 3px;
+  gap: 6px;
 
   ion-icon {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     color: var(--star-empty-color);
 
     &.filled {
@@ -189,7 +189,7 @@ h3 {
 .tracking-text {
   p {
     margin: 0;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     color: var(--text-color-secondary);
 
     strong {

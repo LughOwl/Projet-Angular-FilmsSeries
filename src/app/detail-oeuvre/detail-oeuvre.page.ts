@@ -200,4 +200,15 @@ export class DetailOeuvrePage implements OnInit {
       );
     }
   }
+
+  // Vérifie que les minutes sont entre 0 et 59 pour limiter un peu le timer
+  verifierMinutes() {
+    if (this.minutesTemp > 59) {
+      this.minutesTemp = 59;
+    }
+    if (this.minutesTemp < 0) {
+      this.minutesTemp = 0;
+    }
+  }
+
 }
