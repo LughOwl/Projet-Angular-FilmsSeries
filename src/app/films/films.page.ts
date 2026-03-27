@@ -71,6 +71,12 @@ export class FilmsPage implements OnInit {
   constructor() {}
 
   voirDetail(film: Film) {
-    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: film } }); // ← Changé
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: film } });
+  }
+
+  naviguerAvecFiltre(filtre: { statut?: string; type?: string; favoris?: string }) {
+    this.router.navigate(['/tabs/naviguer'], {
+      queryParams: filtre
+    });
   }
 }

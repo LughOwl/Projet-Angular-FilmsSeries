@@ -53,6 +53,12 @@ export class SeriesPage implements OnInit {
   }
 
   voirDetail(serie: Serie) {
-    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: serie } }); // ← Changé
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: serie } });
+  }
+
+  naviguerAvecFiltre(filtre: { statut?: string; type?: string; favoris?: string }) {
+    this.router.navigate(['/tabs/naviguer'], {
+      queryParams: filtre
+    });
   }
 }

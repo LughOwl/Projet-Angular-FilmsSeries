@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Film } from '../modeles/film';
 import { Serie } from '../modeles/serie';
@@ -29,7 +29,7 @@ export class NaviguerPage implements OnInit {
 
   // Filtres appliqués
   filtresActifs: FiltresRecherche = {
-    tri: 'titre_az',
+    tri: 'popularite',
     statut: 'tous',
     type: 'tous',
     favoris: 'tous'
@@ -48,11 +48,71 @@ export class NaviguerPage implements OnInit {
   private api = inject(StockageFilmAPI);
   private local = inject(StockageFilmLocal);
   private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
 
   ngOnInit() {
     this.formulaireRecherche = this.fb.group({
       texteRecherche: ['']
     });
+
+    // Récupérer les queryParams
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+      let besoinReinitialisation = false;
+
+      // Réinitialiser tous les filtres
+      let nouveauxFiltres = { ...this.filtresActifs };
+
+      // Gestion du statut - Si présent, on réinitialise favoris
+      if (params['statut'] && params['statut'] !== this.filtresActifs.statut) {
+        if (params['statut'] === 'en_cours' || params['statut'] === 'a_voir' || params['statut'] === 'termine') {
+          nouveauxFiltres.statut = params['statut'];
+          // Si on applique un statut, on désactive favoris
+          nouveauxFiltres.favoris = 'tous';
+          besoinReinitialisation = true;
+        }
+      } else if (!params['statut'] && this.filtresActifs.statut !== 'tous') {
+        // Si le paramètre statut n'est pas dans l'URL mais qu'il est actif, on le réinitialise
+        nouveauxFiltres.statut = 'tous';
+        besoinReinitialisation = true;
+      }
+
+      // Gestion du type
+      if (params['type'] && params['type'] !== this.filtresActifs.type) {
+        if (params['type'] === 'films' || params['type'] === 'series') {
+          nouveauxFiltres.type = params['type'];
+          besoinReinitialisation = true;
+        }
+      } else if (!params['type'] && this.filtresActifs.type !== 'tous') {
+        // Si le paramètre type n'est pas dans l'URL mais qu'il est actif, on le réinitialise
+        nouveauxFiltres.type = 'tous';
+        besoinReinitialisation = true;
+      }
+
+      // Gestion des favoris - Si présent, on réinitialise statut
+      if (params['favoris'] && params['favoris'] !== this.filtresActifs.favoris) {
+        if (params['favoris'] === 'favoris') {
+          nouveauxFiltres.favoris = 'favoris';
+          // Si on applique favoris, on désactive statut
+          nouveauxFiltres.statut = 'tous';
+          besoinReinitialisation = true;
+        }
+      } else if (!params['favoris'] && this.filtresActifs.favoris !== 'tous') {
+        // Si le paramètre favoris n'est pas dans l'URL mais qu'il est actif, on le réinitialise
+        nouveauxFiltres.favoris = 'tous';
+        besoinReinitialisation = true;
+      }
+
+      if (besoinReinitialisation) {
+        this.filtresActifs = nouveauxFiltres;
+        this.filtresTemp = { ...this.filtresActifs };
+        this.mettreAJourFiltresAffichage();
+
+        // Réinitialiser et relancer la recherche
+        this.reinitialiserResultats();
+        this.effectuerRecherche();
+      }
+    });
+
     this.effectuerRecherche();
   }
 
@@ -70,10 +130,17 @@ export class NaviguerPage implements OnInit {
     this.chargementEnCours = true;
     this.mettreAJourFiltresAffichage();
 
-    // Statut spécifique ou favoris → stockage local
-    if (this.filtresActifs.statut !== 'tous' || this.filtresActifs.favoris === 'favoris') {
+    // Recherche locale uniquement si :
+    // 1. Un statut spécifique est sélectionné (en_cours, a_voir, termine)
+    // 2. OU si on cherche les favoris
+    const rechercheLocale =
+      this.filtresActifs.statut !== 'tous' ||
+      this.filtresActifs.favoris === 'favoris';
+
+    if (rechercheLocale) {
       this.rechercherEnLocal(terme);
     } else {
+      // Si type est spécifié, on le passe à l'API
       this.rechercherSurAPI(terme);
     }
   }
@@ -141,6 +208,16 @@ export class NaviguerPage implements OnInit {
 
   validerFiltres() {
     this.filtresActifs = { ...this.filtresTemp };
+    // Mettre à jour l'URL avec les nouveaux filtres
+    this.router.navigate(['.'], {
+      relativeTo: this.route,
+      queryParams: {
+        statut: this.filtresActifs.statut !== 'tous' ? this.filtresActifs.statut : null,
+        type: this.filtresActifs.type !== 'tous' ? this.filtresActifs.type : null,
+        favoris: this.filtresActifs.favoris !== 'tous' ? this.filtresActifs.favoris : null
+      },
+      queryParamsHandling: 'merge'
+    });
     this.reinitialiserResultats();
     this.effectuerRecherche();
     this.fermerFiltres();
@@ -148,17 +225,46 @@ export class NaviguerPage implements OnInit {
 
   reinitialiserFiltresTemp() {
     this.filtresTemp = {
-      tri: 'titre_az',
+      tri: 'popularite',
       statut: 'tous',
       type: 'tous',
       favoris: 'tous'
     };
   }
 
+  reinitialiserFiltres() {
+    this.filtresActifs = {
+      tri: 'popularite',
+      statut: 'tous',
+      type: 'tous',
+      favoris: 'tous'
+    };
+    this.filtresTemp = { ...this.filtresActifs };
+    this.mettreAJourFiltresAffichage();
+
+    // Réinitialiser l'URL
+    this.router.navigate(['.'], {
+      relativeTo: this.route,
+      queryParams: {
+        statut: null,
+        type: null,
+        favoris: null
+      },
+      queryParamsHandling: 'merge'
+    });
+
+    this.reinitialiserResultats();
+    this.effectuerRecherche();
+  }
+
+  ouvrirAjouterOeuvre(){
+
+  }
+
   // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 
   voirDetails(oeuvre: Film | Serie) {
-    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: oeuvre } }); // ← Changé
+    this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: oeuvre } });
   }
 
   // ─── PRIVÉ ───────────────────────────────────────────────────────────────────
@@ -172,8 +278,8 @@ export class NaviguerPage implements OnInit {
 
   private mettreAJourFiltresAffichage() {
     const libelles: { [key: string]: string } = {
-      'titre_az': 'Titre A/Z',
       'popularite': 'Popularité',
+      'titre_az': 'Titre A/Z',
       'en_cours': 'En cours',
       'termine': 'Terminé',
       'a_voir': 'À voir',

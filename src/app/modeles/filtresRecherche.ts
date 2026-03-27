@@ -3,7 +3,7 @@ import { Serie } from './serie';
 
 // Filtres utilisés dans la page Naviguer
 export interface FiltresRecherche {
-  tri: 'titre_az' | 'popularite';
+  tri: 'popularite' | 'titre_az';
   statut: 'tous' | 'en_cours' | 'termine' | 'a_voir';
   type: 'tous' | 'films' | 'series';
   favoris: 'tous' | 'favoris';

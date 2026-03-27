@@ -1,13 +1,7 @@
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Séries</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <!-- EN COURS -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'en_cours', type: 'series' })">
       <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getSeriesParStatut("en_cours").length > 0) {
@@ -32,7 +26,7 @@
 
   <!-- À VOIR -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'a_voir', type: 'series' })">
       <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getSeriesParStatut("a_voir").length > 0) {
@@ -89,7 +83,7 @@
 
   <!-- MES FAVORIS -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="naviguerAvecFiltre({ favoris: 'favoris', type: 'series' })">
       <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getSeriesFavoris().length > 0) {
@@ -114,7 +108,7 @@
 
   <!-- TERMINÉ -->
   <div class="section-container">
-    <div class="section-header">
+    <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'termine', type: 'series' })">
       <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (stockageFilmLocal.getSeriesParStatut("termine").length > 0) {

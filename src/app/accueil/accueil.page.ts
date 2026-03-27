@@ -41,6 +41,26 @@ export class AccueilPage implements OnInit {
     });
   }
 
+  naviguerAvecFiltre(type: 'en_cours' | 'films' | 'series') {
+    const queryParams: any = {};
+
+    switch(type) {
+      case 'en_cours':
+        queryParams.statut = 'en_cours';
+        break;
+      case 'films':
+        queryParams.type = 'films';
+        break;
+      case 'series':
+        queryParams.type = 'series';
+        break;
+    }
+
+    this.router.navigate(['/tabs/naviguer'], {
+      queryParams: queryParams
+    });
+  }
+
   voirDetail(oeuvre: Film | Serie) {
     this.router.navigate(['/detail-oeuvre'], { state: { oeuvre: oeuvre } });
   }

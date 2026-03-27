@@ -2,7 +2,7 @@
 
   <!-- SECTION EN COURS -->
   <div class="section-container">
-    <div class="section-header" (click)="router.navigate(['/films'])">
+    <div class="section-header" (click)="naviguerAvecFiltre('en_cours')">
       <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
     @if (oeuvresEnCours.length > 0) {
@@ -27,7 +27,7 @@
 
   <!-- SECTION FILMS -->
   <div class="section-container">
-    <div class="section-header" (click)="router.navigate(['/films'])">
+    <div class="section-header" (click)="naviguerAvecFiltre('films')">
       <h2>FILMS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 
@@ -56,7 +56,7 @@
 
   <!-- SECTION SÉRIES -->
   <div class="section-container">
-    <div class="section-header" (click)="router.navigate(['/series'])">
+    <div class="section-header" (click)="naviguerAvecFiltre('series')">
       <h2>SÉRIES <ion-icon name="chevron-forward-outline"></ion-icon></h2>
     </div>
 

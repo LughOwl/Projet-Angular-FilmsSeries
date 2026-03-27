@@ -17,8 +17,8 @@ export class FiltresRechercheComponent {
   @Output() reinitialiserClick = new EventEmitter<void>();
 
   optionsTri = [
-    { valeur: 'titre_az', label: 'Titre A/Z' },
-    { valeur: 'popularite', label: 'Popularité' }
+    { valeur: 'popularite', label: 'Popularité' },
+    { valeur: 'titre_az', label: 'Titre A/Z' }
   ];
 
   optionsStatut = [
@@ -64,7 +64,7 @@ export class FiltresRechercheComponent {
   }
 
   reinitialiser() {
-    this.filtres = { tri: 'titre_az', statut: 'tous', type: 'tous', favoris: 'tous' };
+    this.filtres = { tri: 'popularite', statut: 'tous', type: 'tous', favoris: 'tous' };
     this.reinitialiserClick.emit();
     this.emettreChangement();
   }
