@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {AccueilPageRoutingModule} from "../accueil/accueil-routing.module";
 
 const routes: Routes = [
   {
@@ -8,8 +9,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'home',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        path: 'accueil',
+        loadChildren: () => import('../accueil/accueil.module').then(m => m.AccueilPageModule)
       },
       {
         path: 'films',
@@ -29,14 +30,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/home',
+        redirectTo: '/tabs/accueil',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: '/tabs/accueil',
     pathMatch: 'full'
   }
 ];

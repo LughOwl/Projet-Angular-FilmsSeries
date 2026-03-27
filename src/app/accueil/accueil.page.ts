@@ -6,12 +6,12 @@ import { Serie } from '../modeles/serie';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-accueil',
+  templateUrl: 'accueil.page.html',
+  styleUrls: ['accueil.page.scss'],
   standalone: false,
 })
-export class HomePage implements OnInit {
+export class AccueilPage implements OnInit {
   listeFilms: Film[] = [];
   listeSeries: Serie[] = [];
   oeuvresEnCours: (Film | Serie)[] = [];
