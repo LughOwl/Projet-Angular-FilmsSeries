@@ -24,6 +24,7 @@
   --main-color: #e67e22;
   --background-color: #2c2c2c;
   --text-color: white;
+  --text-color-secondary: #b0b5c3;
   --toolbar-bg: #1e1e1e;
   --card-bg: #3a3a3a;
   --empty-card-bg: #3a3a3a;
@@ -31,12 +32,14 @@
   --icon-color: white;
   --modal-bg: #333333;
   --modal-text: white;
+  --star-empty-color: #6c6c6c;
 }
 
 /* Thème clair */
 .light-theme {
   --background-color: #f5f5f5;
   --text-color: #1e1e1e;
+  --text-color-secondary: #555555;
   --toolbar-bg: #e0e0e0;
   --card-bg: #ffffff;
   --empty-card-bg: #ffffff;
@@ -44,6 +47,7 @@
   --icon-color: #1e1e1e;
   --modal-bg: #ffffff;
   --modal-text: #1e1e1e;
+  --star-empty-color: #b0b0b0;
 }
 
 ion-modal.custom-modal {
@@ -138,6 +142,7 @@ ion-modal.custom-modal {
   }
 }
 
+/* Barre d'onglets (tab-bar) */
 ion-tab-bar {
   --background: var(--toolbar-bg);
   --color: var(--text-color);

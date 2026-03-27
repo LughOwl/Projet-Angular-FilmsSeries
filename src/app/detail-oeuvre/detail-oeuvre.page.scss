@@ -48,7 +48,7 @@ ion-content.film-detail-content {
 
 .duree {
   font-size: 0.82rem;
-  color: var(--border-color);
+  color: var(--text-color-secondary);
   margin-bottom: 10px;
 }
 
@@ -71,7 +71,7 @@ h3 {
   p {
     font-size: 0.83rem;
     line-height: 1.55;
-    color: var(--border-color);
+    color: var(--text-color-secondary);
     margin: 0;
   }
 
@@ -150,7 +150,7 @@ h3 {
 /* Lignes d'info (genres, réalisateur…) */
 .info-line {
   font-size: 0.82rem;
-  color: var(--border-color);
+  color: var(--text-color-secondary);
   margin-bottom: 5px;
 
   strong {
@@ -177,7 +177,7 @@ h3 {
 
   ion-icon {
     font-size: 1.2rem;
-    color: var(--border-color);
+    color: var(--star-empty-color);
 
     &.filled {
       color: #f5a623;
@@ -189,7 +189,7 @@ h3 {
   p {
     margin: 0;
     font-size: 0.82rem;
-    color: var(--border-color);
+    color: var(--text-color-secondary);
 
     strong {
       color: var(--text-color);
@@ -278,7 +278,7 @@ ion-footer {
 
   ion-icon {
     font-size: 2rem;
-    color: var(--border-color);
+    color: var(--star-empty-color);
     cursor: pointer;
     transition: color 0.15s, transform 0.15s;
 
@@ -304,7 +304,7 @@ ion-footer {
   background: var(--background-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  color: var(--border-color);
+  color: var(--text-color);
   font-size: 0.8rem;
   font-weight: 600;
   padding: 6px 14px;
@@ -364,7 +364,7 @@ ion-footer {
 
   .time-label {
     font-size: 0.75rem;
-    color: var(--border-color);
+    color: var(--text-color-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
