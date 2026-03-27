@@ -15,7 +15,7 @@ interface UnePage {
 }
 
 @Injectable({ providedIn: 'root' })
-export class StockageFilmAPI {
+export class StockageOeuvreAPI {
   private readonly cleApi = 'b0e3bb5a46ad602897aba592b2967fe2';
   private readonly urlBase = 'https://api.themoviedb.org/3';
   private httpClient = inject(HttpClient);

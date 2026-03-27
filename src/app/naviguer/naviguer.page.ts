@@ -5,8 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Film } from '../modeles/film';
 import { Serie } from '../modeles/serie';
 import { FiltresRecherche, ResultatRecherche } from '../modeles/filtresRecherche';
-import { StockageFilmAPI } from '../services/stockageFilmAPI';
-import { StockageFilmLocal } from '../services/stockageFilmLocal';
+import { StockageOeuvreAPI } from '../services/stockageOeuvreAPI';
+import { StockageOeuvreLocal } from '../services/stockageOeuvreLocal';
 
 @Component({
   selector: 'app-naviguer',
@@ -51,8 +51,8 @@ export class NaviguerPage implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  private api = inject(StockageFilmAPI);
-  private local = inject(StockageFilmLocal);
+  private api = inject(StockageOeuvreAPI);
+  private local = inject(StockageOeuvreLocal);
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
 

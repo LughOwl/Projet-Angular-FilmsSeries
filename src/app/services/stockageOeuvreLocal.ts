@@ -42,7 +42,7 @@ interface SerieStocke {
 type OeuvreStocke = FilmStocke | SerieStocke;
 
 @Injectable({ providedIn: 'root' })
-export class StockageFilmLocal {
+export class StockageOeuvreLocal {
   private STORAGE_KEY = 'mes_films_data';
 
   private filmsSubject = new BehaviorSubject<Film[]>([]);

@@ -1,10 +1,10 @@
 import { Component, OnInit, DestroyRef, inject, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { StockageFilmAPI } from '../services/stockageFilmAPI';
+import { StockageOeuvreAPI } from '../services/stockageOeuvreAPI';
 import { Film } from '../modeles/film';
 import { Router } from '@angular/router';
-import { StockageFilmLocal } from "../services/stockageFilmLocal";
+import { StockageOeuvreLocal } from "../services/stockageOeuvreLocal";
 import { CardOeuvreComponent } from "../card-oeuvre/card-oeuvre.component"
 
 export interface FilmUtilisateur {
@@ -32,8 +32,8 @@ export class FilmsPage implements OnInit {
 
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-  public stockageFilmLocal = inject(StockageFilmLocal);
-  public stockageFilmAPI = inject(StockageFilmAPI)
+  public stockageFilmLocal = inject(StockageOeuvreLocal);
+  public stockageFilmAPI = inject(StockageOeuvreAPI)
 
   ngOnInit() {
     // Charge les films populaires

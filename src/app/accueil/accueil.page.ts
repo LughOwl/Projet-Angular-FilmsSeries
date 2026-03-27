@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
-import { StockageFilmAPI } from '../services/stockageFilmAPI';
-import { StockageFilmLocal } from '../services/stockageFilmLocal';
+import { StockageOeuvreAPI } from '../services/stockageOeuvreAPI';
+import { StockageOeuvreLocal } from '../services/stockageOeuvreLocal';
 import { Film } from '../modeles/film';
 import { Serie } from '../modeles/serie';
 import { Router } from '@angular/router';
@@ -16,8 +16,8 @@ export class AccueilPage implements OnInit {
   listeSeries: Serie[] = [];
   oeuvresEnCours: (Film | Serie)[] = [];
 
-  public bddFilms = inject(StockageFilmAPI);
-  public stockageFilmLocal = inject(StockageFilmLocal);
+  public bddFilms = inject(StockageOeuvreAPI);
+  public stockageFilmLocal = inject(StockageOeuvreLocal);
 
   private cdr = inject(ChangeDetectorRef);
   protected router = inject(Router);

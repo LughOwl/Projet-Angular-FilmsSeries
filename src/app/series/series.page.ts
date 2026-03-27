@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { StockageFilmAPI } from '../services/stockageFilmAPI';
+import { StockageOeuvreAPI } from '../services/stockageOeuvreAPI';
 import { Serie } from '../modeles/serie';
-import { StockageFilmLocal } from '../services/stockageFilmLocal';
+import { StockageOeuvreLocal } from '../services/stockageOeuvreLocal';
 
 @Component({
   selector: 'app-series',
@@ -19,8 +19,8 @@ export class SeriesPage implements OnInit {
 
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-  public stockageFilmLocal = inject(StockageFilmLocal);
-  public stockageFilmAPI = inject(StockageFilmAPI);
+  public stockageFilmLocal = inject(StockageOeuvreLocal);
+  public stockageFilmAPI = inject(StockageOeuvreAPI);
 
   ngOnInit() {
     this.stockageFilmAPI.getSeriesPopulaires().subscribe({

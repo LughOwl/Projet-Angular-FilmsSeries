@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { Film } from '../modeles/film';
 import { Serie } from '../modeles/serie';
-import { StockageFilmLocal } from '../services/stockageFilmLocal';
+import { StockageOeuvreLocal } from '../services/stockageOeuvreLocal';
 
 @Component({
   selector: 'app-ajouter-oeuvre',
@@ -28,7 +28,7 @@ export class AjouterOeuvreComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private stockageLocal: StockageFilmLocal
+    private stockageLocal: StockageOeuvreLocal
   ) {}
 
   ngOnInit() {

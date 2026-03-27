@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { NavController, IonModal } from '@ionic/angular';
 import { Film } from "../modeles/film";
 import { Serie } from "../modeles/serie";
-import { StockageFilmLocal } from '../services/stockageFilmLocal';
-import { StockageFilmAPI } from "../services/stockageFilmAPI";
+import { StockageOeuvreLocal } from '../services/stockageOeuvreLocal';
+import { StockageOeuvreAPI } from "../services/stockageOeuvreAPI";
 
 @Component({
   selector: 'app-detail-oeuvre',
@@ -50,8 +50,8 @@ export class DetailOeuvrePage implements OnInit {
 
   private router = inject(Router);
   private navCtrl = inject(NavController);
-  private stockageFilm = inject(StockageFilmLocal);
-  private stockageFilmAPI = inject(StockageFilmAPI);
+  private stockageFilm = inject(StockageOeuvreLocal);
+  private stockageFilmAPI = inject(StockageOeuvreAPI);
 
   ngOnInit() {
     const navigation = this.router.getCurrentNavigation();
