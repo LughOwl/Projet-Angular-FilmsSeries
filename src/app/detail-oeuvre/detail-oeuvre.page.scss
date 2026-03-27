@@ -1,7 +1,7 @@
 /* ---------- Page background ---------- */
 ion-content.film-detail-content {
-  --background: #111318;
-  --color: #e8eaf0;
+  --background: var(--background-color);
+  --color: var(--text-color);
 }
 
 /* ---------- Layout principal ---------- */
@@ -41,21 +41,21 @@ ion-content.film-detail-content {
 .titre {
   font-size: 1.35rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-color);
   margin: 0 0 6px;
   line-height: 1.2;
 }
 
 .duree {
   font-size: 0.82rem;
-  color: #9ea3b0;
+  color: var(--border-color);
   margin-bottom: 10px;
 }
 
 h3 {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-color);
   margin: 0 0 4px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -66,12 +66,12 @@ h3 {
   max-height: 160px;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: #3a3d4a #1a1d24;
+  scrollbar-color: var(--card-bg) var(--background-color);
 
   p {
     font-size: 0.83rem;
     line-height: 1.55;
-    color: #b0b5c3;
+    color: var(--border-color);
     margin: 0;
   }
 
@@ -79,11 +79,11 @@ h3 {
     width: 4px;
   }
   &::-webkit-scrollbar-track {
-    background: #1a1d24;
+    background: var(--background-color);
     border-radius: 2px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #3a3d4a;
+    background: var(--card-bg);
     border-radius: 2px;
   }
 }
@@ -105,8 +105,8 @@ h3 {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #1e2128;
-  border: 1px solid #2d3040;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 5px 12px;
 
@@ -118,7 +118,7 @@ h3 {
   span {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-color);
   }
 }
 
@@ -150,17 +150,17 @@ h3 {
 /* Lignes d'info (genres, réalisateur…) */
 .info-line {
   font-size: 0.82rem;
-  color: #9ea3b0;
+  color: var(--border-color);
   margin-bottom: 5px;
 
   strong {
-    color: #c8cad4;
+    color: var(--text-color);
   }
 }
 
 .separator {
   border: none;
-  border-top: 1px solid #2a2d38;
+  border-top: 1px solid var(--border-color);
   margin: 14px 0;
 }
 
@@ -177,7 +177,7 @@ h3 {
 
   ion-icon {
     font-size: 1.2rem;
-    color: #3a3d4a;
+    color: var(--border-color);
 
     &.filled {
       color: #f5a623;
@@ -189,17 +189,17 @@ h3 {
   p {
     margin: 0;
     font-size: 0.82rem;
-    color: #9ea3b0;
+    color: var(--border-color);
 
     strong {
-      color: #c8cad4;
+      color: var(--text-color);
     }
   }
 }
 
 /* ---------- Footer nav ---------- */
 ion-footer {
-  --background: #111318;
+  --background: var(--background-color);
 }
 
 .bottom-nav {
@@ -207,8 +207,8 @@ ion-footer {
   justify-content: space-around;
   align-items: center;
   padding: 10px 20px 16px;
-  background: #111318;
-  border-top: 1px solid #1e2128;
+  background: var(--background-color);
+  border-top: 1px solid var(--border-color);
 }
 
 .circle-btn {
@@ -231,13 +231,13 @@ ion-footer {
   }
 
   &.retour {
-    background: #1e2128;
-    ion-icon { color: #c8cad4; }
+    background: var(--card-bg);
+    ion-icon { color: var(--text-color); }
   }
 
   &.favori {
-    background: #1e2128;
-    ion-icon { color: #c8cad4; }
+    background: var(--card-bg);
+    ion-icon { color: var(--text-color); }
 
     &.active-heart {
       background: #3d1a1a;
@@ -255,12 +255,12 @@ ion-footer {
 
 /* ---------- Modal suivi ---------- */
 .suivi-modal {
-  --background: #16191f;
+  --background: var(--card-bg);
   --border-radius: 20px 20px 0 0;
 }
 
 .modal-suivi-content {
-  --background: #16191f;
+  --background: var(--card-bg);
 }
 
 .suivi-container {
@@ -278,7 +278,7 @@ ion-footer {
 
   ion-icon {
     font-size: 2rem;
-    color: #3a3d4a;
+    color: var(--border-color);
     cursor: pointer;
     transition: color 0.15s, transform 0.15s;
 
@@ -301,10 +301,10 @@ ion-footer {
 }
 
 .statut-btn {
-  background: #1e2128;
-  border: 1px solid #2d3040;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
-  color: #9ea3b0;
+  color: var(--border-color);
   font-size: 0.8rem;
   font-weight: 600;
   padding: 6px 14px;
@@ -350,9 +350,9 @@ ion-footer {
   gap: 4px;
 
   .time-input {
-    --background: #1e2128;
-    --color: #ffffff;
-    --border-color: #2d3040;
+    --background: var(--background-color);
+    --color: var(--text-color);
+    --border-color: var(--border-color);
     --border-radius: 10px;
     --padding-start: 12px;
     --padding-end: 12px;
@@ -364,7 +364,7 @@ ion-footer {
 
   .time-label {
     font-size: 0.75rem;
-    color: #9ea3b0;
+    color: var(--border-color);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -404,10 +404,10 @@ ion-footer {
   }
 
   &.retour {
-    background: #1e2128;
-    color: #c8cad4;
-    border: 1px solid #2d3040;
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 
-    &:hover { background: #252830; }
+    &:hover { background: var(--border-color); }
   }
 }
