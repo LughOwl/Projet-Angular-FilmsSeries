@@ -46,6 +46,9 @@ export class Serie {
   }
 
   get cheminAffiche(): string {
+    if (this._cheminAffiche && (this._cheminAffiche.startsWith('http://') || this._cheminAffiche.startsWith('https://'))) {
+      return this._cheminAffiche;
+    }
     return 'https://image.tmdb.org/t/p/w185/' + this._cheminAffiche;
   }
 

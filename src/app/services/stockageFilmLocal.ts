@@ -12,6 +12,7 @@ interface FilmStocke {
   vote_average: number;
   heures: number;
   minutes: number;
+  dureeTotale?: number;
   poster_path: string;
   statut: 'en_cours' | 'termine' | 'a_voir';
   favori: boolean;
@@ -28,6 +29,8 @@ interface SerieStocke {
   vote_average: number;
   saison: number;
   episode: number;
+  nbSaisonsTotal?: number;
+  nbEpisodesTotal?: number;
   poster_path: string;
   statut: 'en_cours' | 'termine' | 'a_voir';
   favori: boolean;
@@ -42,7 +45,6 @@ type OeuvreStocke = FilmStocke | SerieStocke;
 export class StockageFilmLocal {
   private STORAGE_KEY = 'mes_films_data';
 
-  // Observables séparés pour films et séries
   private filmsSubject = new BehaviorSubject<Film[]>([]);
   films$ = this.filmsSubject.asObservable();
 
@@ -62,6 +64,7 @@ export class StockageFilmLocal {
     if (statut === 'non_vu' && !estFavori) {
       if (index > -1) collection.splice(index, 1);
     } else {
+      const existing = index > -1 ? collection[index] as FilmStocke : null;
       const filmAStocke: FilmStocke = {
         id: film.id,
         title: film.titre,
@@ -72,6 +75,7 @@ export class StockageFilmLocal {
         note: note,
         heures: heures,
         minutes: minutes,
+        dureeTotale: existing?.dureeTotale || (film as any).dureeTotale || 0,
         type: 'film',
         overview: film.apercu,
         release_date: film.dateSortie
@@ -85,6 +89,33 @@ export class StockageFilmLocal {
     this.notifierChangement();
   }
 
+  modifierFilmAvecTotal(film: Film, statut: string, estFavori: boolean, note: number, heures: number, minutes: number, dureeTotale: number) {
+    const collection = this.lireCollection();
+    const index = collection.findIndex(item => item.id === film.id && item.type === 'film');
+
+    const filmAStocke: FilmStocke = {
+      id: film.id,
+      title: film.titre,
+      vote_average: film.note,
+      poster_path: film.urlImage,
+      statut: statut as FilmStocke['statut'],
+      favori: estFavori,
+      note: note,
+      heures: heures,
+      minutes: minutes,
+      dureeTotale: dureeTotale,
+      type: 'film',
+      overview: film.apercu,
+      release_date: film.dateSortie
+    };
+
+    if (index > -1) collection[index] = filmAStocke;
+    else collection.push(filmAStocke);
+
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collection));
+    this.notifierChangement();
+  }
+
   modifierSerie(serie: Serie, statut: string, estFavori: boolean, note: number = 0, saison: number = 0, episode: number = 0) {
     const collection = this.lireCollection();
     const index = collection.findIndex(item => item.id === serie.id && item.type === 'serie');
@@ -92,6 +123,7 @@ export class StockageFilmLocal {
     if (statut === 'non_vu' && !estFavori) {
       if (index > -1) collection.splice(index, 1);
     } else {
+      const existing = index > -1 ? collection[index] as SerieStocke : null;
       const serieAStocke: SerieStocke = {
         id: serie.id,
         title: serie.titre,
@@ -102,6 +134,8 @@ export class StockageFilmLocal {
         note: note,
         saison: saison,
         episode: episode,
+        nbSaisonsTotal: existing?.nbSaisonsTotal || (serie as any).nbSaisonsTotal || 0,
+        nbEpisodesTotal: existing?.nbEpisodesTotal || (serie as any).nbEpisodesTotal || 0,
         type: 'serie',
         overview: serie.apercu,
         first_air_date: serie.dateSortie,
@@ -110,6 +144,34 @@ export class StockageFilmLocal {
       if (index > -1) collection[index] = serieAStocke;
       else collection.push(serieAStocke);
     }
+
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collection));
+    this.notifierChangement();
+  }
+
+  modifierSerieAvecTotal(serie: Serie, statut: string, estFavori: boolean, note: number, saison: number, episode: number, nbSaisonsTotal: number, nbEpisodesTotal: number) {
+    const collection = this.lireCollection();
+    const index = collection.findIndex(item => item.id === serie.id && item.type === 'serie');
+
+    const serieAStocke: SerieStocke = {
+      id: serie.id,
+      title: serie.titre,
+      vote_average: serie.note,
+      poster_path: serie.urlImage,
+      statut: statut as SerieStocke['statut'],
+      favori: estFavori,
+      note: note,
+      saison: saison,
+      episode: episode,
+      nbSaisonsTotal: nbSaisonsTotal,
+      nbEpisodesTotal: nbEpisodesTotal,
+      type: 'serie',
+      overview: serie.apercu,
+      first_air_date: serie.dateSortie,
+    };
+
+    if (index > -1) collection[index] = serieAStocke;
+    else collection.push(serieAStocke);
 
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(collection));
     this.notifierChangement();
@@ -141,7 +203,6 @@ export class StockageFilmLocal {
       .map(item => new Serie(item));
   }
 
-  // Pour la compatibilité (retourne toutes les œuvres)
   getOeuvresParStatut(statut: 'en_cours' | 'termine' | 'a_voir'): (Film | Serie)[] {
     return this.lireCollection()
       .filter(item => item.statut === statut)
@@ -162,38 +223,31 @@ export class StockageFilmLocal {
 
   // ─── LECTURE POUR LA RECHERCHE ─────────────────────────────────────────────────
 
-  /** Retourne les films/séries filtrés et triés selon les filtres donnés */
   rechercherEnLocal(terme: string, filtres: FiltresRecherche): (Film | Serie)[] {
     let resultats = this.lireCollection();
 
-    // Filtre par type
     if (filtres.type === 'films') {
       resultats = resultats.filter(item => item.type === 'film');
     } else if (filtres.type === 'series') {
       resultats = resultats.filter(item => item.type === 'serie');
     }
 
-    // Filtre par statut
     if (filtres.statut !== 'tous') {
       resultats = resultats.filter(item => item.statut === filtres.statut);
     }
 
-    // Filtre favoris
     if (filtres.favoris === 'favoris') {
       resultats = resultats.filter(item => item.favori);
     }
 
-    // Filtre par terme de recherche
     if (terme && terme.trim()) {
       const termeLower = terme.toLowerCase();
       resultats = resultats.filter(item => item.title.toLowerCase().includes(termeLower));
     }
 
-    // Tri
     return this.trierOeuvres(resultats, filtres.tri);
   }
 
-  /** Trie les œuvres selon le critère choisi */
   private trierOeuvres(resultats: OeuvreStocke[], tri: FiltresRecherche['tri']): (Film | Serie)[] {
     const copie = [...resultats];
     switch (tri) {

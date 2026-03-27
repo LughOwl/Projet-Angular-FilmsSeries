@@ -44,6 +44,9 @@ export class NaviguerPage implements OnInit {
   // Pour le placeholder qui disparaît au clic
   placeholderVide: boolean = false;
 
+  //Pour le formulaire d'ajout
+  afficherAjoutOeuvre: boolean = false;
+
   // Injections
   private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
@@ -194,7 +197,7 @@ export class NaviguerPage implements OnInit {
     }
   }
 
-  // ─── FILTRES ─────────────────────────────────────────────────────────────────
+  // ─── FILTRES ET AJOUTER ─────────────────────────────────────────────────────────────────
 
   ouvrirFiltres() {
     this.filtresTemp = { ...this.filtresActifs };
@@ -260,8 +263,19 @@ export class NaviguerPage implements OnInit {
     this.effectuerRecherche();
   }
 
-  ouvrirAjouterOeuvre(){
+  ouvrirAjouterOeuvre() {
+    this.afficherAjoutOeuvre = true;
+  }
 
+  fermerAjoutOeuvre() {
+    this.afficherAjoutOeuvre = false;
+  }
+
+  validerAjoutOeuvre() {
+    this.afficherAjoutOeuvre = false;
+    // Réinitialiser la recherche pour afficher la nouvelle œuvre
+    this.reinitialiserResultats();
+    this.effectuerRecherche();
   }
 
   // ─── NAVIGATION ──────────────────────────────────────────────────────────────

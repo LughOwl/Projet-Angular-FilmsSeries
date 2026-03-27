@@ -118,4 +118,20 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+  <ion-modal
+    [isOpen]="afficherAjoutOeuvre"
+    class="filtres-modal"
+    [initialBreakpoint]="1"
+    [breakpoints]="[1]"
+    [backdropDismiss]="false">
+    <ng-template>
+      <ion-content class="modal-content">
+        <app-ajouter-oeuvre
+          (validerClick)="validerAjoutOeuvre()"
+          (annulerClick)="fermerAjoutOeuvre()">
+        </app-ajouter-oeuvre>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -4,7 +4,7 @@
     <div class="main-layout">
       <div class="poster-col">
         <div class="poster-box">
-          <img [src]="'https://image.tmdb.org/t/p/w500' + (oeuvre.urlImage)" alt="Poster">
+          <img [src]="oeuvre.cheminAffiche" alt="Poster">
         </div>
       </div>
 
@@ -16,7 +16,7 @@
             {{ saisonTotal || '?' }} saisons • {{ episodeTotal || '?' }} épisodes
           }
           @if (estFilm) {
-            {{ dureeFilm || '?' }} min
+            {{ dureeFilmTotale || '?' }} min
           }
         </div>
 
@@ -141,7 +141,8 @@
                     class="time-input"
                     placeholder="0"
                     max="59"
-                    min="0">
+                    min="0"
+                    (ionChange)="verifierMinutes()">
                   </ion-input>
                   <span class="time-label">minutes</span>
                 </div>

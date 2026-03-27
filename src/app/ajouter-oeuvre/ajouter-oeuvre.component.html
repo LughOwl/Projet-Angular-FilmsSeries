@@ -1,0 +1,181 @@
+<div class="form-container">
+  <div class="form-header">
+    <ion-icon name="add-circle-outline"></ion-icon>
+    <h2>Ajouter une œuvre</h2>
+  </div>
+
+  <div class="form-scrollable">
+    <form [formGroup]="oeuvreForm" class="form-main">
+
+      <!-- Type d'œuvre -->
+      <div class="form-group">
+        <label>Type d'œuvre <sup>*</sup></label>
+        <div class="type-buttons">
+          <button
+            type="button"
+            class="type-btn"
+            [class.active]="oeuvreForm.get('type')?.value === 'film'"
+            (click)="oeuvreForm.patchValue({ type: 'film' })">
+            <ion-icon name="film-outline"></ion-icon>
+            Film
+          </button>
+          <button
+            type="button"
+            class="type-btn"
+            [class.active]="oeuvreForm.get('type')?.value === 'serie'"
+            (click)="oeuvreForm.patchValue({ type: 'serie' })">
+            <ion-icon name="tv-outline"></ion-icon>
+            Série
+          </button>
+        </div>
+      </div>
+
+      <!-- Titre -->
+      <div class="form-group">
+        <label for="titre">Titre <sup>*</sup></label>
+        <input id="titre" type="text" formControlName="titre" placeholder="Titre de l'œuvre" />
+      </div>
+
+      <!-- Statut -->
+      <div class="form-group">
+        <label for="statut">Statut <sup>*</sup></label>
+        <select id="statut" formControlName="statut">
+          @for (statut of statuts; track statut.valeur) {
+            <option [value]="statut.valeur">{{ statut.label }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Date de sortie -->
+      <div class="form-group">
+        <label for="dateSortie">Date de sortie <sup>*</sup></label>
+        <input id="dateSortie" type="date" formControlName="dateSortie" />
+      </div>
+
+      <!-- URL de l'image -->
+      <div class="form-group">
+        <label for="cheminAffiche">URL de l'affiche <sup>*</sup></label>
+        <input id="cheminAffiche" type="text" formControlName="cheminAffiche" placeholder="https://..." />
+      </div>
+
+      <!-- Note globale -->
+      <div class="form-group">
+        <label for="note">Note globale (0-100) <sup>*</sup></label>
+        <input id="note" type="number" formControlName="note" min="0" max="100" step="1" />
+      </div>
+
+      <!-- Champs spécifiques selon le type -->
+      @if (typeOeuvre === 'film') {
+        <div class="form-group">
+          <label for="dureeTotale">Durée totale (minutes)</label>
+          <input id="dureeTotale" type="number" formControlName="dureeTotale" min="0" step="1" placeholder="Durée totale en minutes" />
+        </div>
+      }
+
+      @if (typeOeuvre === 'serie') {
+        <div class="form-group">
+          <label for="nbSaisonsTotal">Nombre total de saisons</label>
+          <input id="nbSaisonsTotal" type="number" formControlName="nbSaisonsTotal" min="0" step="1" placeholder="Nombre total de saisons" />
+        </div>
+        <div class="form-group">
+          <label for="nbEpisodesTotal">Nombre total d'épisodes</label>
+          <input id="nbEpisodesTotal" type="number" formControlName="nbEpisodesTotal" min="0" step="1" placeholder="Nombre total d'épisodes" />
+        </div>
+      }
+
+      <!-- Synopsis -->
+      <div class="form-group">
+        <label for="apercu">Synopsis</label>
+        <textarea id="apercu" formControlName="apercu" rows="3" placeholder="Description de l'œuvre..."></textarea>
+      </div>
+
+      @if (oeuvreForm.invalid && oeuvreForm.touched) {
+        <div class="form-error">
+          Veuillez remplir tous les champs obligatoires (*)
+        </div>
+      }
+
+    </form>
+
+    <!-- Aperçu - MAINTENANT EN DESSOUS -->
+    @if (oeuvrePreview$ | async; as preview) {
+      <div class="oeuvre-preview">
+        <h3>Aperçu</h3>
+        <div class="preview-card">
+          <div class="preview-header">
+            <h2>{{ preview.titre || 'Titre' }}</h2>
+            <span class="preview-type">
+              <ion-icon [name]="preview.type === 'film' ? 'film-outline' : 'tv-outline'"></ion-icon>
+              {{ preview.type === 'film' ? 'Film' : 'Série' }}
+            </span>
+          </div>
+
+          <div class="preview-info">
+            <span>
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ preview.dateSortie || 'Date inconnue' }}
+            </span>
+            <span>
+              <ion-icon name="star-outline"></ion-icon>
+              {{ preview.note || 0 }}/100
+            </span>
+            <span>
+              <ion-icon name="bookmark-outline"></ion-icon>
+              {{ preview.statut ? (preview.statut | titlecase) : 'À voir' }}
+            </span>
+          </div>
+
+          @if (preview.cheminAffiche && !imageError) {
+            <img
+              [src]="preview.cheminAffiche"
+              [alt]="preview.titre"
+              (error)="onImageError($event)"
+              class="preview-image">
+          } @else {
+            <div class="preview-image-placeholder">
+              <ion-icon name="image-outline"></ion-icon>
+              <p>Image non disponible</p>
+              @if (preview.cheminAffiche && imageError) {
+                <p class="error-message">URL invalide</p>
+              }
+            </div>
+          }
+
+          @if (preview.type === 'film' && preview.dureeTotale) {
+            <div class="preview-detail">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>Durée totale : {{ preview.dureeTotale }} minutes</span>
+            </div>
+          }
+
+          @if (preview.type === 'serie') {
+            <div class="preview-detail">
+              <ion-icon name="layers-outline"></ion-icon>
+              <span>Total : {{ preview.nbSaisonsTotal || 0 }} saisons • {{ preview.nbEpisodesTotal || 0 }} épisodes</span>
+            </div>
+          }
+
+          @if (preview.apercu) {
+            <p class="preview-synopsis">{{ preview.apercu }}</p>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- BOUTONS FIXES EN BAS -->
+  <div class="form-actions">
+    <button (click)="valider()" [disabled]="oeuvreForm.invalid" class="valider-btn">
+      <ion-icon name="checkmark-circle-outline"></ion-icon>
+      Valider
+    </button>
+    <button (click)="reinitialiser()" type="button" class="reinitialiser-btn">
+      <ion-icon name="refresh-circle-outline"></ion-icon>
+      Réinitialiser
+    </button>
+    <button (click)="annuler()" type="button" class="annuler-btn">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      Retour
+    </button>
+  </div>
+</div>

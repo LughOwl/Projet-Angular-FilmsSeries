@@ -24,10 +24,13 @@ export class DetailOeuvrePage implements OnInit {
   // Pour les films
   heures: number = 0;
   minutes: number = 0;
+  dureeFilmTotale: number = 0;
 
   // Pour les séries
   saison: number = 0;
   episode: number = 0;
+  saisonTotal: number = 0;
+  episodeTotal: number = 0;
 
   // Variables temporaires
   noteTemp: number = 0;
@@ -38,9 +41,6 @@ export class DetailOeuvrePage implements OnInit {
   episodeTemp: number = 0;
 
   // Détails supplémentaires (API)
-  public saisonTotal: number = 0;
-  public episodeTotal: number = 0;
-  public dureeFilm: number = 0;
   public genres: string = '';
   public realisateur: string = '';
   public acteurs: string = '';
@@ -63,12 +63,14 @@ export class DetailOeuvrePage implements OnInit {
     }
   }
 
-  // Récupère les détails supplémentaires depuis l'API
   chargerDetailsSupplementaires() {
     if (this.estFilm) {
+      if (this.dureeFilmTotale > 0) {
+        return;
+      }
       this.stockageFilmAPI.getFilmDetails(this.oeuvre.id).subscribe({
         next: (details) => {
-          this.dureeFilm = details.runtime || 0;
+          this.dureeFilmTotale = details.runtime || 0;
           this.genres = details.genres?.map((g: any) => g.name).join(', ') || '';
           this.realisateur = details.credits?.crew?.find((c: any) => c.job === 'Director')?.name || '';
           this.acteurs = details.credits?.cast?.slice(0, 3).map((a: any) => a.name).join(', ') || '';
@@ -76,6 +78,9 @@ export class DetailOeuvrePage implements OnInit {
         error: (err) => console.error('Erreur chargement détails film:', err)
       });
     } else {
+      if (this.saisonTotal > 0) {
+        return;
+      }
       this.stockageFilmAPI.getSerieDetails(this.oeuvre.id).subscribe({
         next: (details) => {
           this.saisonTotal = details.number_of_seasons || 0;
@@ -93,7 +98,6 @@ export class DetailOeuvrePage implements OnInit {
     const typeUrl = this.estFilm ? 'movie' : 'tv';
     const tmdbUrl = `https://www.themoviedb.org/${typeUrl}/${this.oeuvre.id}`;
 
-    // On construit le bloc de texte complet
     let message = `🎬 ${this.oeuvre.titre}\n`;
     message += `⭐ Note : ${this.noteActuelle}/5\n`;
     message += `📊 Statut : ${this.statutActuel.replace('_', ' ')}\n`;
@@ -104,14 +108,12 @@ export class DetailOeuvrePage implements OnInit {
         : `📺 Progression : Saison ${this.saison}, Épisode ${this.episode}\n`;
     }
 
-    // On ajoute le lien directement à la fin du texte
     message += `\nLien TMDB : ${tmdbUrl}`;
 
     try {
       await Share.share({
         title: this.oeuvre.titre,
-        text: message, // Tout passe par ici maintenant
-        // On n'envoie PAS le champ 'url' séparément pour éviter que l'OS ne le privilégie au détriment du texte
+        text: message,
         dialogTitle: 'Partager l\'oeuvre',
       });
     } catch (error) {
@@ -211,16 +213,20 @@ export class DetailOeuvrePage implements OnInit {
     if (data) {
       this.statutActuel = data.statut || 'non_vu';
       this.noteActuelle = data.note || 0;
-      if (!this.oeuvre.apercu || this.oeuvre.apercu === 'Aucune description disponible.') {
-        this.oeuvre = this.estFilm ? new Film(data) : new Serie(data);
-      }
 
       if (this.estFilm) {
         this.heures = data.heures || 0;
         this.minutes = data.minutes || 0;
+        this.dureeFilmTotale = data.dureeTotale || 0;
       } else {
         this.saison = data.saison || 0;
         this.episode = data.episode || 0;
+        this.saisonTotal = data.nbSaisonsTotal || 0;
+        this.episodeTotal = data.nbEpisodesTotal || 0;
+      }
+
+      if (!this.oeuvre.apercu || this.oeuvre.apercu === 'Aucune description disponible.') {
+        this.oeuvre = this.estFilm ? new Film(data) : new Serie(data);
       }
     }
   }
@@ -229,6 +235,7 @@ export class DetailOeuvrePage implements OnInit {
     const nouvelEtat = !this.oeuvre.estFavori;
     this.sauvegarderFavoriDirect(nouvelEtat);
   }
+
   sauvegarderFavoriDirect(etat: boolean) {
     if (this.estFilm) {
       this.stockageFilm.modifierFilm(
@@ -250,6 +257,7 @@ export class DetailOeuvrePage implements OnInit {
       );
     }
   }
+
   sauvegarder() {
     if (this.estFilm) {
       this.stockageFilm.modifierFilm(
@@ -272,7 +280,6 @@ export class DetailOeuvrePage implements OnInit {
     }
   }
 
-  // Vérifie que les minutes sont entre 0 et 59 pour limiter un peu le timer
   verifierMinutes() {
     if (this.minutesTemp > 59) {
       this.minutesTemp = 59;
@@ -281,5 +288,4 @@ export class DetailOeuvrePage implements OnInit {
       this.minutesTemp = 0;
     }
   }
-
 }

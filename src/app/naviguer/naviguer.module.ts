@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NaviguerPage } from './naviguer.page';
 import { FiltresRechercheComponent } from '../filtres-recherche/filtres-recherche.component';
 import { NaviguerPageRoutingModule } from './naviguer-routing.module';
+import {AjouterOeuvreComponent} from "../ajouter-oeuvre/ajouter-oeuvre.component";
 
 @NgModule({
   imports: [
@@ -14,7 +15,9 @@ import { NaviguerPageRoutingModule } from './naviguer-routing.module';
     ReactiveFormsModule,
     NaviguerPageRoutingModule
   ],
-  declarations: [NaviguerPage, FiltresRechercheComponent],
+  declarations: [NaviguerPage,
+    FiltresRechercheComponent,
+    AjouterOeuvreComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NaviguerPageModule {}
