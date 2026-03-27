@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, ViewChild } from '@angular/core';
+import { Share } from '@capacitor/share';
 import { Router } from '@angular/router';
 import { NavController, IonModal } from '@ionic/angular';
 import { Film } from "../modeles/film";
@@ -85,6 +86,36 @@ export class DetailOeuvrePage implements OnInit {
         },
         error: (err) => console.error('Erreur chargement détails série:', err)
       });
+    }
+  }
+
+  async partagerOeuvre() {
+    const typeUrl = this.estFilm ? 'movie' : 'tv';
+    const tmdbUrl = `https://www.themoviedb.org/${typeUrl}/${this.oeuvre.id}`;
+
+    // On construit le bloc de texte complet
+    let message = `🎬 ${this.oeuvre.titre}\n`;
+    message += `⭐ Note : ${this.noteActuelle}/5\n`;
+    message += `📊 Statut : ${this.statutActuel.replace('_', ' ')}\n`;
+
+    if (this.statutActuel === 'en_cours') {
+      message += this.estFilm
+        ? `⏳ Progression : ${this.heures}h${this.minutes | 0}min\n`
+        : `📺 Progression : Saison ${this.saison}, Épisode ${this.episode}\n`;
+    }
+
+    // On ajoute le lien directement à la fin du texte
+    message += `\nLien TMDB : ${tmdbUrl}`;
+
+    try {
+      await Share.share({
+        title: this.oeuvre.titre,
+        text: message, // Tout passe par ici maintenant
+        // On n'envoie PAS le champ 'url' séparément pour éviter que l'OS ne le privilégie au détriment du texte
+        dialogTitle: 'Partager l\'oeuvre',
+      });
+    } catch (error) {
+      console.error('Erreur lors du partage :', error);
     }
   }
 

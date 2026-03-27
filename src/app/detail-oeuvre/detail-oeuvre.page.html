@@ -1,16 +1,13 @@
 <ion-content class="ion-padding film-detail-content">
 
-  <!-- Layout principal : affiche à gauche, infos à droite -->
   @if (oeuvre) {
     <div class="main-layout">
-      <!-- Colonne gauche : affiche -->
       <div class="poster-col">
         <div class="poster-box">
           <img [src]="'https://image.tmdb.org/t/p/w500' + (oeuvre.urlImage)" alt="Poster">
         </div>
       </div>
 
-      <!-- Colonne droite : titre, durée, synopsis -->
       <div class="info-col">
         <h2 class="titre">{{ oeuvre.titre }}</h2>
 
@@ -23,7 +20,6 @@
           }
         </div>
 
-        <!-- Synopsis scrollable -->
         @if (oeuvre.apercu) {
           <h3>Synopsis</h3>
           <div class="synopsis-scrollable">
@@ -33,9 +29,7 @@
       </div>
     </div>
 
-    <!-- Reste des informations en dessous -->
     <div class="bottom-section">
-      <!-- Note et bande-annonce -->
       <div class="score-trailer">
         <div class="score-box">
           <ion-icon name="star"></ion-icon>
@@ -47,35 +41,30 @@
         </a>
       </div>
 
-      <!-- Genres -->
       @if (genres) {
         <div class="info-line">
           <strong>Genres :</strong> {{ genres }}
         </div>
       }
 
-      <!-- Réalisateur / Créateur -->
       @if (realisateur) {
         <div class="info-line">
           <strong>{{ estFilm ? 'Réalisateur' : 'Créateur' }} :</strong> {{ realisateur }}
         </div>
       }
 
-      <!-- Acteurs principaux -->
       @if (acteurs) {
         <div class="info-line">
           <strong>Acteurs principaux :</strong> {{ acteurs }}
         </div>
       }
 
-      <!-- Date de sortie -->
       <div class="info-line">
         <strong>Date de sortie :</strong> {{ oeuvre.dateSortie || 'Date inconnue' }}
       </div>
 
       <hr class="separator">
 
-      <!-- Section suivi (notes et statut) -->
       <div class="tracking-info">
         <div class="display-stars">
           @for (i of [1,2,3,4,5]; track i) {
@@ -103,7 +92,6 @@
     </div>
   }
 
-  <!-- Modal -->
   <ion-modal trigger="open-modal-suivi" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6]" handleBehavior="cycle" class="suivi-modal">
     <ng-template>
       <ion-content class="ion-padding modal-suivi-content">
@@ -129,7 +117,6 @@
             }
           </div>
 
-          <!-- Progression - uniquement si statut = en_cours -->
           @if (statutTemp === 'en_cours') {
             <div class="progression-title">
               <ion-icon name="time-outline"></ion-icon>
@@ -201,6 +188,10 @@
 
     <button id="open-modal-suivi" class="circle-btn ajouter" (click)="initialiserTemp()">
       <ion-icon name="add-outline"></ion-icon>
+    </button>
+
+    <button class="circle-btn" (click)="partagerOeuvre()" style="background: rgba(255, 255, 255, 0.1); color: white;">
+      <ion-icon name="share-social-outline"></ion-icon>
     </button>
   </div>
 </ion-footer>
