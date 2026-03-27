@@ -38,8 +38,11 @@ export class NaviguerPage implements OnInit {
   // Copie temporaire dans la modale (avant validation)
   filtresTemp: FiltresRecherche = { ...this.filtresActifs };
 
-  // Pillules affichées sous la barre de recherche
+  // Pilules affichées sous la barre de recherche
   listeFiltresAffichage: { key: string, valeur: string }[] = [];
+
+  // Pour le placeholder qui disparaît au clic
+  placeholderVide: boolean = false;
 
   // Injections
   private cdr = inject(ChangeDetectorRef);

@@ -105,7 +105,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: var(--card-bg);
+  background: var(--main-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 5px 12px;
@@ -126,7 +126,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: #e8521a;
+  background: var(--main-color);
   border-radius: 20px;
   padding: 5px 14px;
   text-decoration: none;
@@ -142,8 +142,9 @@ h3 {
     color: #fff;
   }
 
-  &:hover {
-    background: #c44415;
+  &:active {
+    background: var(--main-color);
+    filter: brightness(0.9); //effet de foncé au toucher
   }
 }
 
@@ -246,10 +247,10 @@ ion-footer {
   }
 
   &.ajouter {
-    background: #e8521a;
+    background: var(--main-color);
     ion-icon { color: #fff; }
 
-    &:hover { background: #c44415; }
+    &:active { background: var(--main-color); filter: brightness(0.9); }
   }
 }
 
@@ -286,7 +287,7 @@ ion-footer {
       color: #f5a623;
     }
 
-    &:hover {
+    &:active {
       transform: scale(1.15);
     }
   }
@@ -311,9 +312,9 @@ ion-footer {
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 
-  &.active, &:hover {
-    background: #e8521a;
-    border-color: #e8521a;
+  &.active, &:active {
+    background: var(--main-color);
+    border-color: var(--main-color);
     color: #fff;
   }
 }
@@ -324,7 +325,7 @@ ion-footer {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  color: #e8521a;
+  color: var(--main-color);
 
   ion-icon {
     font-size: 1.1rem;
@@ -397,10 +398,10 @@ ion-footer {
   &:active { transform: scale(0.95); }
 
   &.valider {
-    background: #e8521a;
+    background: var(--main-color);
     color: #fff;
 
-    &:hover { background: #c44415; }
+    &:active { background: var(--main-color); filter: brightness(0.9); }
   }
 
   &.retour {
@@ -408,6 +409,6 @@ ion-footer {
     color: var(--text-color);
     border: 1px solid var(--border-color);
 
-    &:hover { background: var(--border-color); }
+    &:active { background: var(--border-color); }
   }
 }

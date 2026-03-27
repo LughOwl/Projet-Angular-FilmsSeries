@@ -5,7 +5,9 @@
       <ion-item class="search-item">
         <ion-input
           formControlName="texteRecherche"
-          placeholder="Rechercher une œuvre...">
+          [placeholder]="placeholderVide ? '' : 'Rechercher une œuvre...'"
+          (ionFocus)="placeholderVide = true"
+          (ionBlur)="placeholderVide = false">
         </ion-input>
         <ion-button slot="end" fill="clear" (click)="onRechercher()">
           <ion-icon name="search"></ion-icon>
