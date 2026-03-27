@@ -173,9 +173,27 @@ export class DetailOeuvrePage implements OnInit {
     if (this.estFilm) {
       this.heures = this.heuresTemp;
       this.minutes = this.minutesTemp;
+
+      this.stockageFilm.modifierFilm(
+        this.oeuvre as Film,
+        this.statutActuel,
+        this.oeuvre.estFavori,
+        this.noteActuelle,
+        this.heures,
+        this.minutes
+      );
     } else {
       this.saison = this.saisonTemp;
       this.episode = this.episodeTemp;
+
+      this.stockageFilm.modifierSerie(
+        this.oeuvre as Serie,
+        this.statutActuel,
+        this.oeuvre.estFavori,
+        this.noteActuelle,
+        this.saison,
+        this.episode
+      );
     }
 
     this.sauvegarder();
@@ -191,9 +209,11 @@ export class DetailOeuvrePage implements OnInit {
     const data = collection.find((item: any) => item.id === this.oeuvre.id);
 
     if (data) {
-      this.estFavori = data.favori || false;
       this.statutActuel = data.statut || 'non_vu';
       this.noteActuelle = data.note || 0;
+      if (!this.oeuvre.apercu || this.oeuvre.apercu === 'Aucune description disponible.') {
+        this.oeuvre = this.estFilm ? new Film(data) : new Serie(data);
+      }
 
       if (this.estFilm) {
         this.heures = data.heures || 0;
@@ -206,16 +226,15 @@ export class DetailOeuvrePage implements OnInit {
   }
 
   toggleFavori() {
-    this.estFavori = !this.estFavori;
-    this.sauvegarder();
+    const nouvelEtat = !this.oeuvre.estFavori;
+    this.sauvegarderFavoriDirect(nouvelEtat);
   }
-
-  sauvegarder() {
+  sauvegarderFavoriDirect(etat: boolean) {
     if (this.estFilm) {
       this.stockageFilm.modifierFilm(
         this.oeuvre as Film,
         this.statutActuel,
-        this.estFavori,
+        etat,
         this.noteActuelle,
         this.heures,
         this.minutes
@@ -224,7 +243,28 @@ export class DetailOeuvrePage implements OnInit {
       this.stockageFilm.modifierSerie(
         this.oeuvre as Serie,
         this.statutActuel,
-        this.estFavori,
+        etat,
+        this.noteActuelle,
+        this.saison,
+        this.episode
+      );
+    }
+  }
+  sauvegarder() {
+    if (this.estFilm) {
+      this.stockageFilm.modifierFilm(
+        this.oeuvre as Film,
+        this.statutActuel,
+        this.oeuvre.estFavori,
+        this.noteActuelle,
+        this.heures,
+        this.minutes
+      );
+    } else {
+      this.stockageFilm.modifierSerie(
+        this.oeuvre as Serie,
+        this.statutActuel,
+        this.oeuvre.estFavori,
         this.noteActuelle,
         this.saison,
         this.episode

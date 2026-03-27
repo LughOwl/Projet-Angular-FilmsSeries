@@ -15,7 +15,6 @@ export class Serie {
 
   // Propriétés issues du stockage local
   private _statut: 'en_cours' | 'termine' | 'a_voir' = 'a_voir';
-  public estFavori: boolean = false;
 
   constructor(obj: any) {
     this._id = obj.id;
@@ -27,7 +26,6 @@ export class Serie {
 
     // Propriétés du stockage local
     this._statut = obj.statut || 'a_voir';
-    this.estFavori = obj.favori || false;
     this._lienBandeAnnonce = obj.lienBandeAnnonce;
     this._saison = obj.saison || 0;
     this._episode = obj.episode || 0;
@@ -79,6 +77,15 @@ export class Serie {
 
   get favori(): boolean { return this._favori; }
   set favori(valeur: boolean) { this._favori = valeur; }
+
+  get estFavori(): boolean {
+    const data = localStorage.getItem('mes_films_data');
+    if (!data) return false;
+    const collection = JSON.parse(data);
+    // On cherche si cette série précise est enregistrée comme favorite
+    const local = collection.find((item: any) => item.id === this._id && item.type === 'serie');
+    return local ? local.favori : false;
+  }
 
   get saison(): number { return this._saison; }
   set saison(valeur: number) { this._saison = valeur; }

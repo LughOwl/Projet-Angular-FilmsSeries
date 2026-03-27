@@ -9,12 +9,15 @@ interface FilmStocke {
   id: number;
   title: string;
   note: number;
+  vote_average: number;
   heures: number;
   minutes: number;
   poster_path: string;
   statut: 'en_cours' | 'termine' | 'a_voir';
   favori: boolean;
   type: 'film';
+  overview?: string;
+  release_date?: string;
 }
 
 // Structure d'une série stockée
@@ -22,12 +25,15 @@ interface SerieStocke {
   id: number;
   title: string;
   note: number;
+  vote_average: number;
   saison: number;
   episode: number;
   poster_path: string;
   statut: 'en_cours' | 'termine' | 'a_voir';
   favori: boolean;
   type: 'serie';
+  overview?: string;
+  first_air_date?: string;
 }
 
 type OeuvreStocke = FilmStocke | SerieStocke;
@@ -59,13 +65,16 @@ export class StockageFilmLocal {
       const filmAStocke: FilmStocke = {
         id: film.id,
         title: film.titre,
+        vote_average: film.note,
         poster_path: film.urlImage,
         statut: statut as FilmStocke['statut'],
         favori: estFavori,
         note: note,
         heures: heures,
         minutes: minutes,
-        type: 'film'
+        type: 'film',
+        overview: film.apercu,
+        release_date: film.dateSortie
       };
 
       if (index > -1) collection[index] = filmAStocke;
@@ -86,13 +95,16 @@ export class StockageFilmLocal {
       const serieAStocke: SerieStocke = {
         id: serie.id,
         title: serie.titre,
+        vote_average: serie.note,
         poster_path: serie.urlImage,
         statut: statut as SerieStocke['statut'],
         favori: estFavori,
         note: note,
         saison: saison,
         episode: episode,
-        type: 'serie'
+        type: 'serie',
+        overview: serie.apercu,
+        first_air_date: serie.dateSortie,
       };
 
       if (index > -1) collection[index] = serieAStocke;

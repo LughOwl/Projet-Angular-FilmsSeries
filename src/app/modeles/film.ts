@@ -13,7 +13,6 @@ export class Film {
 
   // Propriétés issues du stockage local (pas toujours présentes)
   private _statut: 'en_cours' | 'termine' | 'a_voir' ;
-  public estFavori: boolean = false;
 
   constructor(obj: any) {
     this._id = obj.id ;
@@ -26,7 +25,6 @@ export class Film {
 
     // Champs optionnels venant du stockage local
     this._statut = obj.statut || null;
-    this.estFavori = obj.favori || false;
     this._lienBandeAnnonce = obj.lienBandeAnnonce ;
     this._statut = obj.statut || 'non_vu';
     this._favori = obj.favori || false;
@@ -92,6 +90,14 @@ export class Film {
 
   public get favori(): boolean { return this._favori; }
   public set favori(valeur: boolean) { this._favori = valeur; }
+
+  get estFavori(): boolean {
+    const data = localStorage.getItem('mes_films_data');
+    if (!data) return false;
+    const collection = JSON.parse(data);
+    const local = collection.find((item: any) => item.id === this._id && item.type === 'film');
+    return local ? local.favori : false;
+  }
 
   public get heures(): number { return this._heures; }
   public set heures(valeur: number) { this._heures = valeur; }
