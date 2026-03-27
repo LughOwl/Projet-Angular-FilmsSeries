@@ -405,10 +405,13 @@ ion-footer {
   }
 
   &.retour {
-    background: var(--card-bg);
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
+    background: #6c6c6c;  /* gris moyen, visible dans les deux thèmes */
+    color: white;
+    border: none;
+    font-weight: 600;
 
-    &:active { background: var(--border-color); }
+    &:active {
+      background: #4a4a4a;  /* plus foncé au toucher */
+    }
   }
 }

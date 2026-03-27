@@ -129,35 +129,38 @@
             }
           </div>
 
-          <div class="progression-title">
-            <ion-icon name="time-outline"></ion-icon>
-            <span>Progression</span>
-          </div>
-
-          @if (estFilm) {
-            <div class="temps-container">
-              <div class="time-input-box">
-                <ion-input type="number" [(ngModel)]="heuresTemp" class="time-input"></ion-input>
-                <span class="time-label">heures</span>
-              </div>
-              <div class="time-input-box">
-                <ion-input type="number" [(ngModel)]="minutesTemp" class="time-input"></ion-input>
-                <span class="time-label">minutes</span>
-              </div>
+          <!-- Progression - uniquement si statut = en_cours -->
+          @if (statutTemp === 'en_cours') {
+            <div class="progression-title">
+              <ion-icon name="time-outline"></ion-icon>
+              <span>Progression</span>
             </div>
-          }
 
-          @if (!estFilm) {
-            <div class="temps-container">
-              <div class="time-input-box">
-                <ion-input type="number" [(ngModel)]="saisonTemp" class="time-input"></ion-input>
-                <span class="time-label">Saison</span>
+            @if (estFilm) {
+              <div class="temps-container">
+                <div class="time-input-box">
+                  <ion-input type="number" [(ngModel)]="heuresTemp" class="time-input"></ion-input>
+                  <span class="time-label">heures</span>
+                </div>
+                <div class="time-input-box">
+                  <ion-input type="number" [(ngModel)]="minutesTemp" class="time-input"></ion-input>
+                  <span class="time-label">minutes</span>
+                </div>
               </div>
-              <div class="time-input-box">
-                <ion-input type="number" [(ngModel)]="episodeTemp" class="time-input"></ion-input>
-                <span class="time-label">Épisode</span>
+            }
+
+            @if (!estFilm) {
+              <div class="temps-container">
+                <div class="time-input-box">
+                  <ion-input type="number" [(ngModel)]="saisonTemp" class="time-input"></ion-input>
+                  <span class="time-label">Saison</span>
+                </div>
+                <div class="time-input-box">
+                  <ion-input type="number" [(ngModel)]="episodeTemp" class="time-input"></ion-input>
+                  <span class="time-label">Épisode</span>
+                </div>
               </div>
-            </div>
+            }
           }
 
           <div class="actions-container">
