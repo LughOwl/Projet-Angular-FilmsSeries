@@ -415,3 +415,17 @@ ion-footer {
     }
   }
 }
+
+@media (max-width: 480px) {
+  .titre {
+    font-size: 1.2rem;
+  }
+
+  .duree {
+    font-size: 0.75rem;
+  }
+
+  h3 {
+    font-size: 0.85rem;
+  }
+}
