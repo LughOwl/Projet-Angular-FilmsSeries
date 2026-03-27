@@ -138,6 +138,14 @@ ion-modal.custom-modal {
   }
 }
 
+ion-tab-bar {
+  --background: var(--toolbar-bg);
+  --color: var(--text-color);
+  --color-selected: var(--main-color);
+  border-top: 1px solid var(--border-color);
+}
+
 ion-tab-button {
+  --color: var(--text-color);
   --color-selected: var(--main-color);
 }
