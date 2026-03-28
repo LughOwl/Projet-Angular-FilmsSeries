@@ -11,7 +11,6 @@ export class Film {
   private _heures!: number;
   private _minutes!: number;
 
-  // Propriétés issues du stockage local (pas toujours présentes)
   private _statut: 'en_cours' | 'termine' | 'a_voir' ;
 
   constructor(obj: any) {
@@ -23,7 +22,6 @@ export class Film {
     this._note = obj.vote_average || 0;
     this._type = obj.title ? 'film' : 'serie';
 
-    // Champs optionnels venant du stockage local
     this._statut = obj.statut || null;
     this._lienBandeAnnonce = obj.lienBandeAnnonce ;
     this._statut = obj.statut || 'non_vu';

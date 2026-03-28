@@ -98,14 +98,14 @@ export class DetailOeuvrePage implements OnInit {
     const typeUrl = this.estFilm ? 'movie' : 'tv';
     const tmdbUrl = `https://www.themoviedb.org/${typeUrl}/${this.oeuvre.id}`;
 
-    let message = `🎬 ${this.oeuvre.titre}\n`;
-    message += `⭐ Note : ${this.noteActuelle}/5\n`;
-    message += `📊 Statut : ${this.statutActuel.replace('_', ' ')}\n`;
+    let message = ` ${this.oeuvre.titre}\n`;
+    message += ` Note : ${this.noteActuelle}/5\n`;
+    message += ` Statut : ${this.statutActuel.replace('_', ' ')}\n`;
 
     if (this.statutActuel === 'en_cours') {
       message += this.estFilm
-        ? `⏳ Progression : ${this.heures}h${this.minutes | 0}min\n`
-        : `📺 Progression : Saison ${this.saison}, Épisode ${this.episode}\n`;
+        ? ` Progression : ${this.heures}h${this.minutes | 0}min\n`
+        : ` Progression : Saison ${this.saison}, Épisode ${this.episode}\n`;
     }
 
     message += `\nLien TMDB : ${tmdbUrl}`;

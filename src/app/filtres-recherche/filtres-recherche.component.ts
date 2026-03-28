@@ -8,10 +8,8 @@ import { FiltresRecherche } from '../modeles/filtresRecherche';
   standalone: false,
 })
 export class FiltresRechercheComponent {
-  // Reçoit les filtres depuis la page parente
   @Input() filtres!: FiltresRecherche;
 
-  // Envoie les filtres modifiés au parent
   @Output() filtresChange = new EventEmitter<FiltresRecherche>();
   @Output() validerClick = new EventEmitter<void>();
   @Output() reinitialiserClick = new EventEmitter<void>();

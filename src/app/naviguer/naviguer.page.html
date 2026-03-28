@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true">
-  <!-- Barre de recherche -->
   <div class="search-bar-container">
     <form [formGroup]="formulaireRecherche" (ngSubmit)="onRechercher()" class="search-form">
       <ion-item class="search-item">
@@ -22,7 +21,6 @@
     </ion-button>
   </div>
 
-  <!-- Filtres actifs -->
   @if (listeFiltresAffichage.length > 0) {
     <div class="filtres-actifs">
       <swiper-container
@@ -38,7 +36,6 @@
     </div>
   }
 
-  <!-- Nombre de résultats -->
   <div class="resultats-count">
     <ion-text color="medium">
       <strong>Résultats : {{ totalResultatsFiltres }}</strong>
@@ -46,7 +43,6 @@
     </ion-text>
   </div>
 
-  <!-- Liste des résultats -->
   @if (chargementEnCours && listeResultats.length === 0) {
     <div class="loading-container">
       <ion-spinner name="crescent"></ion-spinner>
@@ -71,7 +67,6 @@
       }
     </div>
 
-    <!-- Bouton Charger plus -->
     @if (aPlusDeResultats) {
       <div class="load-more-container">
         <ion-button
@@ -91,7 +86,6 @@
       </div>
     }
 
-    <!-- Message fin des résultats -->
     @if (!aPlusDeResultats && listeResultats.length > 0 && listeResultats.length >= totalResultatsFiltres) {
       <div class="end-results">
         <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -100,7 +94,6 @@
     }
   }
 
-  <!-- Modal des filtres -->
   <ion-modal
     [isOpen]="afficherFiltres"
     class="filtres-modal"

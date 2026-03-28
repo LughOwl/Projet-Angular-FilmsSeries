@@ -26,7 +26,6 @@ export class FilmsPage implements OnInit {
   public filmsPopulaires: Film[] = [];
   public filmsAVenir: Film[] = [];
 
-  // Ajoute ces propriétés d'état
   public chargementPopulaires: boolean = true;
   public chargementAVenir: boolean = true;
 
@@ -36,7 +35,6 @@ export class FilmsPage implements OnInit {
   public stockageFilmAPI = inject(StockageOeuvreAPI)
 
   ngOnInit() {
-    // Charge les films populaires
     this.stockageFilmAPI.getFilmsPopulaires().subscribe({
       next: (films) => {
         this.filmsPopulaires = films;
@@ -49,7 +47,6 @@ export class FilmsPage implements OnInit {
       }
     });
 
-    // Charge les films à venir
     this.stockageFilmAPI.getFilmsAVenir().subscribe({
       next: (films) => {
         this.filmsAVenir = films;
@@ -62,7 +59,6 @@ export class FilmsPage implements OnInit {
       }
     });
 
-    // Surveillance des changements locaux (favoris, en cours...)
     this.stockageFilmLocal.films$.subscribe(() => {
       this.cdr.detectChanges();
     });

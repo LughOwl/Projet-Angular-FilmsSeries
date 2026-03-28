@@ -20,36 +20,28 @@ export class StockageOeuvreAPI {
   private readonly urlBase = 'https://api.themoviedb.org/3';
   private httpClient = inject(HttpClient);
 
-  // Ajoute ces propriétés pour stocker les données
   public listeFilms: Film[] = [];
   public listeSeries: Serie[] = [];
   public listeFilmsAVenir: Film[] = [];
-  public listeSeriesAVenir: Serie[] = [];  // ← NOUVEAU pour les séries à venir
+  public listeSeriesAVenir: Serie[] = [];
 
   public chargementFilms: boolean = false;
   public chargementSeries: boolean = false;
   public chargementFilmsAVenir: boolean = false;
-  public chargementSeriesAVenir: boolean = false;  // ← NOUVEAU pour les séries à venir
+  public chargementSeriesAVenir: boolean = false;
 
-  // ─── RECHERCHE PRINCIPALE ────────────────────────────────────────────────────
   public obtenirBandeAnnonce(idFilm: number): Observable<string | null> {
-    // 1. UTILISE LES BACKTICKS ICI
     const url = `${this.urlBase}/movie/${idFilm}/videos?api_key=${this.cleApi}&language=fr-FR`;
 
     return this.httpClient.get<any>(url).pipe(
       map(res => {
-        // 2. On trouve la vidéo
         const video = res.results.find((v: any) => v.type === 'Trailer' && v.site === 'YouTube');
 
-        // 3. ON RENVOIE L'URL YOUTUBE, PAS JUSTE L'OBJET
         return video ? `https://www.youtube.com/watch?v=${video.key}` : null;
       })
     );
   }
-  /**
-   * Recherche des films/séries sur TMDB selon un terme et des filtres.
-   * Utilisé uniquement quand statut = 'tous' (les autres passent par le local).
-   */
+
   rechercherSurAPI(terme: string, filtres: FiltresRecherche, page: number = 1): Observable<ResultatRecherche> {
     const url = this.construireURL(terme, filtres.type, page);
 
@@ -57,7 +49,6 @@ export class StockageOeuvreAPI {
       map(reponse => {
         let resultats = reponse.results.map(item => new Film(item));
 
-        // Tri côté client
         resultats = this.trier(resultats, filtres.tri);
 
         return {
@@ -70,9 +61,7 @@ export class StockageOeuvreAPI {
     );
   }
 
-  // ─── REQUÊTES TMDB SPÉCIFIQUES ───────────────────────────────────────────────
 
-  /** Films populaires (utilisé dans la page Films et Accueil) */
   getFilmsPopulaires(): Observable<Film[]> {
     this.chargementFilms = true;
     const url = `${this.urlBase}/movie/popular?api_key=${this.cleApi}&language=fr-FR`;
@@ -86,7 +75,6 @@ export class StockageOeuvreAPI {
     );
   }
 
-  /** Séries populaires (utilisé dans l'Accueil) */
   getSeriesPopulaires(): Observable<Serie[]> {
     this.chargementSeries = true;
     const url = `${this.urlBase}/tv/popular?api_key=${this.cleApi}&language=fr-FR`;
@@ -100,7 +88,6 @@ export class StockageOeuvreAPI {
     );
   }
 
-  /** Films à venir (utilisé dans la page Films) */
   getFilmsAVenir(): Observable<Film[]> {
     this.chargementFilmsAVenir = true;
     const url = `${this.urlBase}/movie/upcoming?api_key=${this.cleApi}&language=fr-FR&region=FR`;
@@ -114,7 +101,6 @@ export class StockageOeuvreAPI {
     );
   }
 
-  /** Séries à venir (utilisé dans la page Séries) */
   getSeriesAVenir(): Observable<Serie[]> {
     this.chargementSeriesAVenir = true;
     const url = `${this.urlBase}/tv/airing_today?api_key=${this.cleApi}&language=fr-FR`;
@@ -153,22 +139,18 @@ export class StockageOeuvreAPI {
     }
   }
 
-  // ─── PRIVÉ ───────────────────────────────────────────────────────────────────
 
-  /** Construit l'URL TMDB selon le type et le terme de recherche */
   private construireURL(terme: string, type: FiltresRecherche['type'], page: number): string {
     let endpoint: string;
 
     if (terme && terme.trim()) {
-      // Recherche par mot-clé
       if (type === 'films') endpoint = 'search/movie';
       else if (type === 'series') endpoint = 'search/tv';
       else endpoint = 'search/multi';
     } else {
-      // Pas de terme → liste populaire
       if (type === 'films') endpoint = 'movie/popular';
       else if (type === 'series') endpoint = 'tv/popular';
-      else endpoint = 'movie/popular'; // défaut
+      else endpoint = 'movie/popular';
     }
 
     let url = `${this.urlBase}/${endpoint}?api_key=${this.cleApi}&language=fr-FR&page=${page}`;

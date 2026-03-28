@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true">
-  <!-- EN COURS -->
   <div class="section-container">
     <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'en_cours', type: 'series' })">
       <h2>EN COURS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -24,7 +23,6 @@
     }
   </div>
 
-  <!-- À VOIR -->
   <div class="section-container">
     <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'a_voir', type: 'series' })">
       <h2>À VOIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -49,7 +47,6 @@
     }
   </div>
 
-  <!-- SUGGESTIONS -->
   <div class="section-container">
     <div class="section-header">
       <h2>SUGGESTIONS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -81,7 +78,6 @@
     }
   </div>
 
-  <!-- MES FAVORIS -->
   <div class="section-container">
     <div class="section-header" (click)="naviguerAvecFiltre({ favoris: 'favoris', type: 'series' })">
       <h2>MES FAVORIS <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -106,7 +102,6 @@
     }
   </div>
 
-  <!-- TERMINÉ -->
   <div class="section-container">
     <div class="section-header" (click)="naviguerAvecFiltre({ statut: 'termine', type: 'series' })">
       <h2>TERMINÉ <ion-icon name="chevron-forward-outline"></ion-icon></h2>
@@ -131,7 +126,6 @@
     }
   </div>
 
-  <!-- À VENIR -->
   <div class="section-container">
     <div class="section-header">
       <h2>À VENIR <ion-icon name="chevron-forward-outline"></ion-icon></h2>

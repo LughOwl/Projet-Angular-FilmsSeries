@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import {Component, OnInit, EventEmitter, Output, inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 import { Film } from '../modeles/film';
@@ -26,10 +26,10 @@ export class AjouterOeuvreComponent implements OnInit {
     { valeur: 'a_voir', label: 'À voir' }
   ];
 
-  constructor(
-    private fb: FormBuilder,
-    private stockageLocal: StockageOeuvreLocal
-  ) {}
+  private fb = inject(FormBuilder);
+  private stockageLocal = inject(StockageOeuvreLocal);
+
+  constructor() {}
 
   ngOnInit() {
     this.oeuvreForm = this.fb.group({

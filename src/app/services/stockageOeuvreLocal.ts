@@ -21,7 +21,6 @@ interface FilmStocke {
   release_date?: string;
 }
 
-// Structure d'une série stockée
 interface SerieStocke {
   id: number;
   title: string;
@@ -55,7 +54,6 @@ export class StockageOeuvreLocal {
     this.notifierChangement();
   }
 
-  // ─── ÉCRITURE ────────────────────────────────────────────────────────────────
 
   modifierFilm(film: Film, statut: string, estFavori: boolean, note: number = 0, heures: number = 0, minutes: number = 0) {
     const collection = this.lireCollection();
@@ -177,7 +175,6 @@ export class StockageOeuvreLocal {
     this.notifierChangement();
   }
 
-  // ─── LECTURE ─────────────────────────────────────────────────────────────────
 
   getFilmsParStatut(statut: 'en_cours' | 'termine' | 'a_voir'): Film[] {
     return this.lireCollection()
@@ -221,7 +218,6 @@ export class StockageOeuvreLocal {
       .map(item => new Serie(item));
   }
 
-  // ─── LECTURE POUR LA RECHERCHE ─────────────────────────────────────────────────
 
   rechercherEnLocal(terme: string, filtres: FiltresRecherche): (Film | Serie)[] {
     let resultats = this.lireCollection();
@@ -262,7 +258,6 @@ export class StockageOeuvreLocal {
     }
   }
 
-  // ─── PRIVÉ ───────────────────────────────────────────────────────────────────
 
   private lireCollection(): OeuvreStocke[] {
     const data = localStorage.getItem(this.STORAGE_KEY);

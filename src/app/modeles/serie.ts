@@ -9,11 +9,9 @@ export class Serie {
   private _lienBandeAnnonce!: string;
   private _favori!: boolean;
 
-  // Propriétés spécifiques aux séries
   private _saison!: number;
   private _episode!: number;
 
-  // Propriétés issues du stockage local
   private _statut: 'en_cours' | 'termine' | 'a_voir' = 'a_voir';
 
   constructor(obj: any) {
@@ -24,7 +22,6 @@ export class Serie {
     this._apercu = obj.overview;
     this._note = obj.vote_average || 0;
 
-    // Propriétés du stockage local
     this._statut = obj.statut || 'a_voir';
     this._lienBandeAnnonce = obj.lienBandeAnnonce;
     this._saison = obj.saison || 0;

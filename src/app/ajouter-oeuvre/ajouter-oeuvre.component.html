@@ -7,7 +7,6 @@
   <div class="form-scrollable">
     <form [formGroup]="oeuvreForm" class="form-main">
 
-      <!-- Type d'œuvre -->
       <div class="form-group">
         <label>Type d'œuvre <sup>*</sup></label>
         <div class="type-buttons">
@@ -30,13 +29,11 @@
         </div>
       </div>
 
-      <!-- Titre -->
       <div class="form-group">
         <label for="titre">Titre <sup>*</sup></label>
         <input id="titre" type="text" formControlName="titre" placeholder="Titre de l'œuvre" />
       </div>
 
-      <!-- Statut -->
       <div class="form-group">
         <label for="statut">Statut <sup>*</sup></label>
         <select id="statut" formControlName="statut">
@@ -46,25 +43,21 @@
         </select>
       </div>
 
-      <!-- Date de sortie -->
       <div class="form-group">
         <label for="dateSortie">Date de sortie <sup>*</sup></label>
         <input id="dateSortie" type="date" formControlName="dateSortie" />
       </div>
 
-      <!-- URL de l'image -->
       <div class="form-group">
         <label for="cheminAffiche">URL de l'affiche <sup>*</sup></label>
         <input id="cheminAffiche" type="text" formControlName="cheminAffiche" placeholder="https://..." />
       </div>
 
-      <!-- Note globale -->
       <div class="form-group">
         <label for="note">Note globale (0-100) <sup>*</sup></label>
         <input id="note" type="number" formControlName="note" min="0" max="100" step="1" />
       </div>
 
-      <!-- Champs spécifiques selon le type -->
       @if (typeOeuvre === 'film') {
         <div class="form-group">
           <label for="dureeTotale">Durée totale (minutes)</label>
@@ -83,7 +76,6 @@
         </div>
       }
 
-      <!-- Synopsis -->
       <div class="form-group">
         <label for="apercu">Synopsis</label>
         <textarea id="apercu" formControlName="apercu" rows="3" placeholder="Description de l'œuvre..."></textarea>
