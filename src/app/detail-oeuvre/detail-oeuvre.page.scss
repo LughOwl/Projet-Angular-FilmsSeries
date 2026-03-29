@@ -223,7 +223,9 @@ ion-footer {
 
   &.retour {
     background: var(--card-bg);
-    ion-icon { color: var(--text-color); }
+    ion-icon {
+      color: var(--text-color);
+    }
   }
 
   &.favori {
