@@ -1,10 +1,8 @@
-/* ---------- Page background ---------- */
 ion-content.film-detail-content {
   --background: var(--background-color);
   --color: var(--text-color);
 }
 
-/* ---------- Layout principal ---------- */
 .main-layout {
   display: flex;
   gap: 16px;
@@ -12,7 +10,6 @@ ion-content.film-detail-content {
   margin-bottom: 20px;
 }
 
-/* --- Colonne affiche --- */
 .poster-col {
   flex: 0 0 160px;
 }
@@ -32,7 +29,6 @@ ion-content.film-detail-content {
   }
 }
 
-/* --- Colonne infos --- */
 .info-col {
   flex: 1;
   min-width: 0;
@@ -61,7 +57,6 @@ h3 {
   letter-spacing: 0.08em;
 }
 
-/* Synopsis limité en hauteur dans la colonne droite */
 .synopsis-scrollable {
   max-height: 180px;
   overflow-y: auto;
@@ -88,12 +83,10 @@ h3 {
   }
 }
 
-/* ---------- Section basse ---------- */
 .bottom-section {
   padding-top: 8px;
 }
 
-/* Note + bande-annonce */
 .score-trailer {
   display: flex;
   align-items: center;
@@ -144,11 +137,10 @@ h3 {
 
   &:active {
     background: var(--main-color);
-    filter: brightness(0.9); //effet de foncé au toucher
+    filter: brightness(0.9);
   }
 }
 
-/* Lignes d'info (genres, réalisateur…) */
 .info-line {
   font-size: 0.82rem;
   color: var(--text-color-secondary);
@@ -165,7 +157,6 @@ h3 {
   margin: 14px 0;
 }
 
-/* ---------- Suivi ---------- */
 .tracking-info {
   display: flex;
   align-items: center;
@@ -198,7 +189,6 @@ h3 {
   }
 }
 
-/* ---------- Footer nav ---------- */
 ion-footer {
   --background: var(--background-color);
 }
@@ -254,7 +244,6 @@ ion-footer {
   }
 }
 
-/* ---------- Modal suivi ---------- */
 .suivi-modal {
   --background: var(--card-bg);
   --border-radius: 20px 20px 0 0;
@@ -271,7 +260,6 @@ ion-footer {
   padding: 8px 4px;
 }
 
-/* Étoiles de notation */
 .notation-etoiles {
   display: flex;
   justify-content: center;
@@ -293,7 +281,6 @@ ion-footer {
   }
 }
 
-/* Boutons statut */
 .statuts-container {
   display: flex;
   justify-content: center;
@@ -319,7 +306,6 @@ ion-footer {
   }
 }
 
-/* Titre progression */
 .progression-title {
   display: flex;
   align-items: center;
@@ -337,7 +323,6 @@ ion-footer {
   }
 }
 
-/* Inputs temps / saison-épisode */
 .temps-container {
   display: flex;
   justify-content: center;
@@ -371,7 +356,6 @@ ion-footer {
   }
 }
 
-/* Boutons actions */
 .actions-container {
   display: flex;
   gap: 12px;
@@ -405,13 +389,13 @@ ion-footer {
   }
 
   &.retour {
-    background: #6c6c6c;  /* gris moyen, visible dans les deux thèmes */
+    background: #6c6c6c;
     color: white;
     border: none;
     font-weight: 600;
 
     &:active {
-      background: #4a4a4a;  /* plus foncé au toucher */
+      background: #4a4a4a;
     }
   }
 }

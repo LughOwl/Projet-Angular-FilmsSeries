@@ -1,11 +1,11 @@
 ion-content {
-  --background: var(--background-color);  /* modifié */
-  color: var(--text-color);  /* modifié */
+  --background: var(--background-color);
+  color: var(--text-color);
 }
 
 ion-toolbar {
-  --background: var(--toolbar-bg);  /* modifié */
-  --color: var(--text-color);  /* modifié */
+  --background: var(--toolbar-bg);
+  --color: var(--text-color);
 }
 
 .section-container {
@@ -20,7 +20,7 @@ ion-toolbar {
   cursor: pointer;
 
   h2 {
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     font-weight: 800;
     text-transform: uppercase;
     display: flex;
@@ -40,11 +40,11 @@ ion-toolbar {
   align-items: center;
   justify-content: center;
   padding: 40px;
-  color: var(--text-color);  /* modifié */
+  color: var(--text-color);
 }
 
 .empty-state-card {
-  background: var(--empty-card-bg);  /* modifié */
+  background: var(--empty-card-bg);
   margin: 0 16px;
   border-radius: 12px;
   height: 180px;
@@ -53,14 +53,13 @@ ion-toolbar {
   justify-content: center;
 
   p {
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     font-weight: bold;
     text-align: center;
     padding: 20px;
   }
 }
 
-// Styles pour les sliders
 swiper-container {
   swiper-slide {
     width: 120px !important;
@@ -75,7 +74,7 @@ swiper-container {
         aspect-ratio: 2 / 3;
         object-fit: cover;
         border-radius: 8px;
-        background-color: var(--card-bg);  /* modifié */
+        background-color: var(--card-bg);
       }
 
       .poster-title {
@@ -84,13 +83,12 @@ swiper-container {
         overflow: hidden;
         text-overflow: ellipsis;
         width: 100%;
-        color: var(--text-color);  /* modifié */
+        color: var(--text-color);
       }
     }
   }
 }
 
-// Pour les très petits écrans
 @media (max-width: 480px) {
   swiper-container {
     swiper-slide {

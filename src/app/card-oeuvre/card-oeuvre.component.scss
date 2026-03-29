@@ -1,7 +1,6 @@
-/* card-oeuvre.component.scss */
 .movie-card {
   width: 100%;
-  min-width: 0; // Important pour éviter le débordement
+  min-width: 0;
   margin: 0;
   padding: 0;
   cursor: pointer;
@@ -20,7 +19,7 @@
   }
 
   .poster-title {
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     font-size: 0.8rem;
     font-weight: 500;
     margin: 8px 0 2px 0;
@@ -33,7 +32,6 @@
   }
 }
 
-// Pour les très petits écrans
 @media (max-width: 480px) {
   .movie-card {
     .poster-title {

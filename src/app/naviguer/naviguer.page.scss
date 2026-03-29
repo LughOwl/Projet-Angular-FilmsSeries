@@ -1,5 +1,5 @@
 ion-content {
-  --background: var(--background-color);  /* modifié */
+  --background: var(--background-color);
 }
 
 .search-bar-container {
@@ -58,7 +58,7 @@ ion-content {
 
 .filtres-actifs {
   padding: 8px 16px;
-  border-bottom: 1px solid var(--border-color);  /* modifié */
+  border-bottom: 1px solid var(--border-color);
   overflow-x: auto;
   white-space: nowrap;
 
@@ -84,8 +84,8 @@ ion-content {
 .resultats-count {
   padding: 16px;
   font-size: 14px;
-  color: var(--text-color);  /* modifié */
-  border-bottom: 1px solid var(--border-color);  /* modifié */
+  color: var(--text-color);
+  border-bottom: 1px solid var(--border-color);
 
   .limited-info {
     font-size: 12px;
@@ -100,7 +100,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  color: var(--text-color);  /* modifié */
+  color: var(--text-color);
 
   ion-spinner {
     margin-bottom: 16px;
@@ -108,7 +108,7 @@ ion-content {
 
   p {
     margin: 0;
-    color: var(--border-color);  /* modifié */
+    color: var(--border-color);
   }
 }
 
@@ -126,22 +126,22 @@ ion-content {
     max-width: 250px;
 
     &[disabled] {
-      --background: var(--card-bg);  /* modifié */
-      --color: var(--border-color);  /* modifié */
+      --background: var(--card-bg);
+      --color: var(--border-color);
     }
   }
 
   .load-info {
     margin: 12px 0 0;
     font-size: 12px;
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
   }
 }
 
 .end-results {
   text-align: center;
   padding: 30px 20px;
-  color: var(--text-color);  /* modifié */
+  color: var(--text-color);
 
   ion-icon {
     font-size: 32px;
@@ -162,11 +162,11 @@ ion-content {
   justify-content: center;
   padding: 60px 20px;
   text-align: center;
-  color: var(--text-color);  /* modifié */
+  color: var(--text-color);
 
   ion-icon {
     font-size: 64px;
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     margin-bottom: 20px;
   }
 
@@ -177,12 +177,11 @@ ion-content {
 
   p {
     margin: 0;
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     font-size: 14px;
   }
 }
 
-// Grille en deux colonnes avec largeur fixe
 .results-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -195,7 +194,7 @@ ion-content {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-width: 0; // Important pour éviter le débordement
+    min-width: 0;
     max-width: 100%;
 
     &:hover {
@@ -207,12 +206,12 @@ ion-content {
       aspect-ratio: 2 / 3;
       object-fit: cover;
       border-radius: 12px;
-      background-color: var(--card-bg);  /* modifié */
+      background-color: var(--card-bg);
       display: block;
     }
 
     .poster-title {
-      color: var(--text-color);  /* modifié */
+      color: var(--text-color);
       font-size: 14px;
       font-weight: 500;
       margin: 8px 0 2px 0;
@@ -224,7 +223,7 @@ ion-content {
     }
 
     .poster-year {
-      color: var(--text-color);  /* modifié */
+      color: var(--text-color);
       font-size: 12px;
       margin: 0;
       text-align: left;
@@ -233,7 +232,6 @@ ion-content {
   }
 }
 
-// Pour les très petits écrans
 @media (max-width: 480px) {
   .results-grid {
     gap: 12px;
@@ -250,18 +248,17 @@ ion-content {
   }
 }
 
-// Modal plein écran
 .filtres-modal {
-  --background: var(--background-color);  /* modifié */
+  --background: var(--background-color);
   --border-radius: 0;
 
   &::part(backdrop) {
-    background: var(--background-color);  /* modifié */
+    background: var(--background-color);
     opacity: 1;
   }
 
   .modal-content {
-    --background: var(--background-color);  /* modifié */
+    --background: var(--background-color);
     --padding-start: 0;
     --padding-end: 0;
     --padding-top: 0;
@@ -276,7 +273,7 @@ ion-content {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  color: var(--text-color);  /* modifié */
+  color: var(--text-color);
 
   ion-spinner {
     margin-bottom: 8px;
@@ -284,7 +281,7 @@ ion-content {
 
   p {
     margin: 0;
-    color: var(--text-color);  /* modifié */
+    color: var(--text-color);
     font-size: 12px;
   }
 }
