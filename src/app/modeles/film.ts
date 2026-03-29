@@ -47,10 +47,6 @@ export class Film {
     return this._dateSortie.split('-')[0];
   }
 
-  get dateSortieComplete(): string {
-    return this._dateSortie || 'Date inconnue';
-  }
-
   get cheminAffiche(): string {
     if (this._cheminAffiche && (this._cheminAffiche.startsWith('http://') || this._cheminAffiche.startsWith('https://'))) {
       return this._cheminAffiche;
@@ -58,7 +54,6 @@ export class Film {
     return 'https://image.tmdb.org/t/p/w185/' + this._cheminAffiche;
   }
 
-  // URL brute sans le préfixe TMDB (pour le stockage local)
   get urlImage(): string {
     return this._cheminAffiche;
   }
@@ -83,14 +78,28 @@ export class Film {
     this._type = valeur;
   }
 
-  public get lienBandeAnnonce(): string { return this._lienBandeAnnonce; }
-  public set lienBandeAnnonce(valeur: string) { this._lienBandeAnnonce = valeur; }
+  public get lienBandeAnnonce(): string {
+    return this._lienBandeAnnonce;
+  }
 
-  public get statut() { return this._statut; }
-  public set statut(valeur) { this._statut = valeur; }
+  public set lienBandeAnnonce(valeur: string) {
+    this._lienBandeAnnonce = valeur;
+  }
 
-  public get favori(): boolean { return this._favori; }
-  public set favori(valeur: boolean) { this._favori = valeur; }
+  public get statut() {
+    return this._statut;
+  }
+
+  public set statut(valeur) {
+    this._statut = valeur;
+  }
+
+  public get favori(): boolean {
+    return this._favori;
+  }
+  public set favori(valeur: boolean) {
+    this._favori = valeur;
+  }
 
   get estFavori(): boolean {
     const data = localStorage.getItem('mes_films_data');
@@ -100,9 +109,17 @@ export class Film {
     return local ? local.favori : false;
   }
 
-  public get heures(): number { return this._heures; }
-  public set heures(valeur: number) { this._heures = valeur; }
+  public get heures(): number {
+    return this._heures;
+  }
+  public set heures(valeur: number) {
+    this._heures = valeur;
+  }
 
-  public get minutes(): number { return this._minutes; }
-  public set minutes(valeur: number) { this._minutes = valeur; }
+  public get minutes(): number {
+    return this._minutes;
+  }
+  public set minutes(valeur: number) {
+    this._minutes = valeur;
+  }
 }

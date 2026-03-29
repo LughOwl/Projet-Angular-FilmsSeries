@@ -21,18 +21,15 @@ export class DetailOeuvrePage implements OnInit {
   statutActuel: string = 'non_vu';
   noteActuelle: number = 0;
 
-  // Pour les films
   heures: number = 0;
   minutes: number = 0;
   dureeFilmTotale: number = 0;
 
-  // Pour les séries
   saison: number = 0;
   episode: number = 0;
   saisonTotal: number = 0;
   episodeTotal: number = 0;
 
-  // Variables temporaires
   noteTemp: number = 0;
   statutTemp: string = 'non_vu';
   heuresTemp: number = 0;
@@ -40,12 +37,10 @@ export class DetailOeuvrePage implements OnInit {
   saisonTemp: number = 0;
   episodeTemp: number = 0;
 
-  // Détails supplémentaires (API)
   public genres: string = '';
   public realisateur: string = '';
   public acteurs: string = '';
 
-  // Propriété publique pour le template
   public estFilm: boolean = true;
 
   private router = inject(Router);

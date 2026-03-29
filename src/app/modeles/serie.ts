@@ -28,18 +28,21 @@ export class Serie {
     this._episode = obj.episode || 0;
   }
 
-  get id(): number { return this._id; }
+  get id(): number {
+    return this._id;
+  }
 
-  get titre(): string { return this._titre; }
-  set titre(valeur: string) { this._titre = valeur; }
+  get titre(): string {
+    return this._titre;
+  }
+
+  set titre(valeur: string) {
+    this._titre = valeur;
+  }
 
   get dateSortie(): string {
     if (!this._dateSortie) return 'Date inconnue';
     return this._dateSortie.split('-')[0];
-  }
-
-  get dateSortieComplete(): string {
-    return this._dateSortie || 'Date inconnue';
   }
 
   get cheminAffiche(): string {
@@ -69,14 +72,29 @@ export class Serie {
     return this._type;
   }
 
-  get lienBandeAnnonce(): string { return this._lienBandeAnnonce; }
-  set lienBandeAnnonce(valeur: string) { this._lienBandeAnnonce = valeur; }
+  get lienBandeAnnonce(): string {
+    return this._lienBandeAnnonce;
+  }
 
-  get statut() { return this._statut; }
-  set statut(valeur) { this._statut = valeur; }
+  set lienBandeAnnonce(valeur: string) {
+    this._lienBandeAnnonce = valeur;
+  }
 
-  get favori(): boolean { return this._favori; }
-  set favori(valeur: boolean) { this._favori = valeur; }
+  get statut() {
+    return this._statut;
+  }
+
+  set statut(valeur) {
+    this._statut = valeur;
+  }
+
+  get favori(): boolean {
+    return this._favori;
+  }
+
+  set favori(valeur: boolean) {
+    this._favori = valeur;
+  }
 
   get estFavori(): boolean {
     const data = localStorage.getItem('mes_films_data');
@@ -87,9 +105,19 @@ export class Serie {
     return local ? local.favori : false;
   }
 
-  get saison(): number { return this._saison; }
-  set saison(valeur: number) { this._saison = valeur; }
+  get saison(): number {
+    return this._saison;
+  }
 
-  get episode(): number { return this._episode; }
-  set episode(valeur: number) { this._episode = valeur; }
+  set saison(valeur: number) {
+    this._saison = valeur;
+  }
+
+  get episode(): number {
+    return this._episode;
+  }
+
+  set episode(valeur: number) {
+    this._episode = valeur;
+  }
 }

@@ -124,9 +124,6 @@ export class StockageOeuvreAPI {
     return this.httpClient.get<any>(url);
   }
 
-  // ─── TRI ─────────────────────────────────────────────────────────────────────
-
-  /** Trie une liste de films selon le critère choisi */
   trier(resultats: Film[], tri: FiltresRecherche['tri']): Film[] {
     const copie = [...resultats];
     switch (tri) {
@@ -138,7 +135,6 @@ export class StockageOeuvreAPI {
         return copie;
     }
   }
-
 
   private construireURL(terme: string, type: FiltresRecherche['type'], page: number): string {
     let endpoint: string;

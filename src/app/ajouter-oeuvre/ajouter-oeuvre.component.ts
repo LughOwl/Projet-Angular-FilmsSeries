@@ -40,20 +40,16 @@ export class AjouterOeuvreComponent implements OnInit {
       cheminAffiche: ['', [Validators.required]],
       apercu: [''],
       note: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
-      // Pour les films
       dureeTotale: [0],
-      // Pour les séries
       nbSaisonsTotal: [0],
       nbEpisodesTotal: [0]
     });
 
-    // Réagir au changement de type
     this.oeuvreForm.get('type')?.valueChanges.subscribe(type => {
       this.typeOeuvre = type;
       this.imageError = false;
     });
 
-    // Réinitialiser l'erreur d'image quand l'URL change
     this.oeuvreForm.get('cheminAffiche')?.valueChanges.subscribe(() => {
       this.imageError = false;
     });

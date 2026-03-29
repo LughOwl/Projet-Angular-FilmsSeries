@@ -7,14 +7,6 @@ import { Router } from '@angular/router';
 import { StockageOeuvreLocal } from "../services/stockageOeuvreLocal";
 import { CardOeuvreComponent } from "../card-oeuvre/card-oeuvre.component"
 
-export interface FilmUtilisateur {
-  film: Film;
-  statut: 'en_cours' | 'a_voir' | 'termine' | 'non_vu';
-  estFavori: boolean;
-  dateAjout: Date;
-  progression?: string;
-}
-
 @Component({
   selector: 'app-films',
   templateUrl: './films.page.html',

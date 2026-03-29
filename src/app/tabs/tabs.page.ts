@@ -27,13 +27,11 @@ export class TabsPage {
     this.appliquerTheme();
   }
 
-  // Change le mode (Sombre/Clair)
   setMode(isSombre: boolean) {
     this.modeSombre = isSombre;
     this.appliquerTheme();
   }
 
-  // Applique le thème à toute l'application
   appliquerTheme() {
     if (this.modeSombre) {
       this.renderer.removeClass(document.body, 'light-theme');
@@ -42,7 +40,6 @@ export class TabsPage {
     }
   }
 
-  // Change la couleur sélectionnée
   setCouleur(couleur: string) {
     this.couleurSelectionnee = couleur;
     document.documentElement.style.setProperty('--main-color', this.codesCouleurs[couleur])

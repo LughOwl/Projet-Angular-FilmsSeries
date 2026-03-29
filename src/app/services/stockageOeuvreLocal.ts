@@ -4,7 +4,6 @@ import { Film } from '../modeles/film';
 import { Serie } from '../modeles/serie';
 import { FiltresRecherche } from '../modeles/filtresRecherche';
 
-// Structure d'un film stocké
 interface FilmStocke {
   id: number;
   title: string;
@@ -205,19 +204,6 @@ export class StockageOeuvreLocal {
       .filter(item => item.statut === statut)
       .map(item => item.type === 'film' ? new Film(item) : new Serie(item));
   }
-
-  getTousFilms(): Film[] {
-    return this.lireCollection()
-      .filter(item => item.type === 'film')
-      .map(item => new Film(item));
-  }
-
-  getToutesSeries(): Serie[] {
-    return this.lireCollection()
-      .filter(item => item.type === 'serie')
-      .map(item => new Serie(item));
-  }
-
 
   rechercherEnLocal(terme: string, filtres: FiltresRecherche): (Film | Serie)[] {
     let resultats = this.lireCollection();

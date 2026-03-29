@@ -104,7 +104,6 @@ export class NaviguerPage implements OnInit {
     this.effectuerRecherche();
   }
 
-  // ─── RECHERCHE ───────────────────────────────────────────────────────────────
 
   onRechercher() {
     this.reinitialiserResultats();
@@ -215,31 +214,6 @@ export class NaviguerPage implements OnInit {
     };
   }
 
-  reinitialiserFiltres() {
-    this.filtresActifs = {
-      tri: 'popularite',
-      statut: 'tous',
-      type: 'tous',
-      favoris: 'tous'
-    };
-    this.filtresTemp = { ...this.filtresActifs };
-    this.mettreAJourFiltresAffichage();
-
-    // Réinitialiser l'URL
-    this.router.navigate(['.'], {
-      relativeTo: this.route,
-      queryParams: {
-        statut: null,
-        type: null,
-        favoris: null
-      },
-      queryParamsHandling: 'merge'
-    });
-
-    this.reinitialiserResultats();
-    this.effectuerRecherche();
-  }
-
   ouvrirAjouterOeuvre() {
     this.afficherAjoutOeuvre = true;
   }
@@ -250,7 +224,6 @@ export class NaviguerPage implements OnInit {
 
   validerAjoutOeuvre() {
     this.afficherAjoutOeuvre = false;
-    // Réinitialiser la recherche pour afficher la nouvelle œuvre
     this.reinitialiserResultats();
     this.effectuerRecherche();
   }

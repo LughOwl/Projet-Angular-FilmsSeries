@@ -89,7 +89,6 @@
 
     </form>
 
-    <!-- Aperçu - MAINTENANT EN DESSOUS -->
     @if (oeuvrePreview$ | async; as preview) {
       <div class="oeuvre-preview">
         <h3>Aperçu</h3>
@@ -155,7 +154,6 @@
     }
   </div>
 
-  <!-- BOUTONS FIXES EN BAS -->
   <div class="form-actions">
     <button (click)="valider()" [disabled]="oeuvreForm.invalid" class="valider-btn">
       <ion-icon name="checkmark-circle-outline"></ion-icon>
